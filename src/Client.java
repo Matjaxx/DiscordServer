@@ -3,6 +3,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Client {
     private Socket socket;
@@ -20,6 +24,8 @@ public class Client {
         try {
             // Se connecte au serveur
             socket = new Socket(host, port);
+            List<String> infoCustomers = new ArrayList<>();
+            CustomersMVC customer = new CustomersMVC();
 
             // Initialise les flux d'entrée/sortie
             out = new PrintWriter(socket.getOutputStream(), true);
@@ -30,8 +36,17 @@ public class Client {
             BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
             while ((userInput = stdIn.readLine()) != null) {
                 out.println(userInput);
-                if (userInput.equals("quit()")) {
+                if (userInput.equals("'quit()'")) {
                     break;
+                }
+                if (userInput.equals("connection()")) {
+                    customer.connection();
+                    infoCustomers = customer.getListCustomer();
+                    String convertListToString = "";
+                    for (int i = 0; i < customer.getListCustomer().size(); i++) {
+                         convertListToString += customer.getListCustomer().get(i)+" ";
+                    }
+                    out.println(convertListToString);
                 }
             }
 
