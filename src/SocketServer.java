@@ -59,7 +59,8 @@ public class SocketServer {
 
                 while ((inputLine = in.readLine()) != null) {
                     System.out.println("Received message from client: " + inputLine);
-
+                    out.println("Message received by server: " + inputLine);
+                    out.println("Hello, client!");
 
                     listOrder = separateWords(inputLine);
                     inputLine = listOrder.get(0);
