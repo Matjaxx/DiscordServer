@@ -5,9 +5,8 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Arrays;
-import java.util.Scanner;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 public class SocketServer {
     private ServerSocket serverSocket;
@@ -51,16 +50,16 @@ public class SocketServer {
             try {
                 CustomersDAO customersDAO = new CustomersDAO();
                 // Initialise les flux d'entrée/sortie
-                out = new PrintWriter(clientSocket.getOutputStream(), true);
+
                 in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                out = new PrintWriter(clientSocket.getOutputStream(), true);
                 List<String> listOrder = new ArrayList<String>();
                 // Boucle pour lire les messages du client
                 String inputLine;
 
                 while ((inputLine = in.readLine()) != null) {
                     System.out.println("Received message from client: " + inputLine);
-                    out.println("Message received by server: " + inputLine);
-                    out.println("Hello, client!");
+
 
                     listOrder = separateWords(inputLine);
                     inputLine = listOrder.get(0);
@@ -74,7 +73,7 @@ public class SocketServer {
                         System.out.println("test2");
                         customersDAO.ServerJBDCConnection(listOrder);
                         if (customersDAO.getVerifConnection()){
-                            System.out.println("");
+                            System.out.println("success");
                             out.println("success");
                         }
                         else {
@@ -82,6 +81,11 @@ public class SocketServer {
                         }
 
 
+                    }
+                    if (inputLine.equals("sendToClient")) {
+                        System.out.println("Enter the message to send to the client:");
+                        String messageToSend = new BufferedReader(new InputStreamReader(System.in)).readLine();
+                        out.println(messageToSend);
                     }
                     if (inputLine.equals("quit()")) {
                         break;

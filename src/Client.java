@@ -3,10 +3,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class Client {
     private Socket socket;
@@ -33,12 +31,7 @@ public class Client {
 
             // Boucle pour lire l'entrée utilisateur et l'envoyer au serveur
             String userInput;
-            //Boucle reponse serveur
-            String serverResponse;
-            while ((serverResponse = in.readLine()) != null) {
-                System.out.println("Server: " + serverResponse);
-                // Affichez le message dans votre interface utilisateur si vous avez une
-            }
+
             BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
             while ((userInput = stdIn.readLine()) != null) {
 
@@ -51,9 +44,15 @@ public class Client {
                     infoCustomers = customer.getListCustomer();
                     String convertListToString = "";
                     for (int i = 0; i < customer.getListCustomer().size(); i++) {
-                         convertListToString += customer.getListCustomer().get(i)+" ";
+                        convertListToString += customer.getListCustomer().get(i)+" ";
                     }
                     out.println(convertListToString);
+                }
+
+                // Attend et affiche la réponse du serveur
+                String serverResponse = in.readLine();
+                if (serverResponse != null) {
+                    System.out.println("Received message from server: " + serverResponse);
                 }
             }
 
