@@ -56,9 +56,11 @@ public class SocketServer {
                 List<String> listOrder = new ArrayList<String>();
                 // Boucle pour lire les messages du client
                 String inputLine;
+
                 while ((inputLine = in.readLine()) != null) {
                     System.out.println("Received message from client: " + inputLine);
                     out.println("Message received by server: " + inputLine);
+                    out.println("Hello, client!");
 
                     listOrder = separateWords(inputLine);
                     inputLine = listOrder.get(0);
@@ -67,6 +69,19 @@ public class SocketServer {
                         System.out.println("test");
                         out.println("le client recoit un message");
                         customersDAO.ServerJBDCConnection(listOrder);
+                    }
+                    if (inputLine.equals("connectionAccount")) {
+                        System.out.println("test2");
+                        customersDAO.ServerJBDCConnection(listOrder);
+                        if (customersDAO.getVerifConnection()){
+                            System.out.println("");
+                            out.println("success");
+                        }
+                        else {
+                            System.out.println("conenction failed : please retry");
+                        }
+
+
                     }
                     if (inputLine.equals("quit()")) {
                         break;

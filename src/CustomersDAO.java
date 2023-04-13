@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomersDAO {
+
+    private boolean verifConnection = false;
+    public boolean getVerifConnection() {
+        return verifConnection;
+    }
     public void ServerJBDCConnection(List<String> getListCustomer) throws ClassNotFoundException {
         Connection conn = null;
         Statement st =null;
@@ -16,9 +21,17 @@ public class CustomersDAO {
             String motDePasse = "EuaacEuaac2";
             conn = DriverManager.getConnection(url, utilisateur, motDePasse);
             System.out.println("Connexion réussite à la base de données");
+
+
             if (Objects.equals(getListCustomer.get(0), "createAccount")) {
                 addCustomer(conn,st,rs,getListCustomer);
             }
+            else if (Objects.equals(getListCustomer.get(0), "connectionAccount")) {
+                connectionCustomer(conn,st,rs,getListCustomer);
+            }
+
+
+
         } catch (SQLException e) {
             System.out.println("Erreur lors de la connexion à la base de données :" + e.getMessage());
         } catch (ClassNotFoundException e) {
@@ -35,7 +48,19 @@ public class CustomersDAO {
         }
     }
 
-    public void addCustomer(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
+    public void connectionCustomer(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
+        st = conn.createStatement();
+
+        String sql3 = "SELECT * FROM CUSTOMER WHERE PASSWORD = '" + getListCustomer.get(2) + "' AND USERNAME = '" + getListCustomer.get(1) + "'";
+        rs = st.executeQuery(sql3);
+
+        while (rs.next()) {
+            verifConnection = true;
+
+        }
+    }
+
+        public void addCustomer(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
         st = conn.createStatement();
         DatabaseMetaData dbmd = conn.getMetaData();
         rs = dbmd.getTables(null, null, "CUSTOMER", null);
@@ -46,10 +71,6 @@ public class CustomersDAO {
                     getListCustomer.get(4) + "', '" + getListCustomer.get(5) + "', '" + getListCustomer.get(6) + "', '" +
                     getListCustomer.get(7) + "', GETDATE())";
             st.executeUpdate(sql3);
-
-            String sql2 = "INSERT INTO CUSTOMER (ID, USERNAME, FIRST_NAME, LAST_NAME, EMAIL, PASSWORD, PERMISSION, Last_Connection) " +
-                    "VALUES (666, 'fritatos', 'DIEU', 'WHOLA LE VRAI', 'DIEU@example.com', 'mypassword', 'Admin', GETDATE())";
-            st.executeUpdate(sql2);
             displayCustomerInfo(conn, st, rs);
 
         } else {

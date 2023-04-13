@@ -33,6 +33,12 @@ public class Client {
 
             // Boucle pour lire l'entrée utilisateur et l'envoyer au serveur
             String userInput;
+            //Boucle reponse serveur
+            String serverResponse;
+            while ((serverResponse = in.readLine()) != null) {
+                System.out.println("Server: " + serverResponse);
+                // Affichez le message dans votre interface utilisateur si vous avez une
+            }
             BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
             while ((userInput = stdIn.readLine()) != null) {
 

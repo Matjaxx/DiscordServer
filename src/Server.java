@@ -15,16 +15,19 @@ public class Server {
             String utilisateur = "laure";
             String motDePasse = "EuaacEuaac2";
             conn = DriverManager.getConnection(url, utilisateur, motDePasse);
-            System.out.println("connexion réussite de la base de donné");
-            String sql = "SELECT * FROM CUSTOMER";
-
-            // Créer l'objet Statement
             st = conn.createStatement();
+            System.out.println("connexion réussite de la base de donné");
+            String sql3 = "SELECT * FROM CUSTOMER WHERE PASSWORD = 'mypassword' AND USERNAME = 'fritatos'";
 
-            // Exécuter la requête SQL
-            rs = st.executeQuery(sql);
+            rs = st.executeQuery(sql3);
+            while (rs.next()) {
+                System.out.println("HHHHHHHH");
 
-            // Parcourir les résultats et afficher les caractéristiques de chaque client
+
+            }
+
+
+            /*// Parcourir les résultats et afficher les caractéristiques de chaque client
             while (rs.next()) {
                 int id = rs.getInt("ID");
                 String username = rs.getString("USERNAME");
@@ -44,7 +47,7 @@ public class Server {
                 System.out.println("PERMISSION : " + permission);
                 System.out.println("Last_Connection : " + lastConnection);
                 System.out.println("------------------------------------------");
-            }
+            }*/
         } catch (SQLException e) {
             System.out.println("Erreur lors de la connexion a la base de données :" + e.getMessage());
         } catch (ClassNotFoundException e) {
