@@ -1,3 +1,5 @@
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +41,7 @@ public class CustomersMVC {
             listCustomer.add(UserCharacteristic);
             System.out.println("entrer votre mot de passe");
             UserCharacteristic = s.nextLine();
+            UserCharacteristic = hashingPassword(UserCharacteristic);
             listCustomer.add(UserCharacteristic);
             listCustomer.add("User");
 
@@ -55,6 +58,7 @@ public class CustomersMVC {
             listCustomer.add(UserCharacteristic2);
             System.out.println("entrer votre password");
             UserCharacteristic2 = s.nextLine();
+            UserCharacteristic2 = hashingPassword(UserCharacteristic2);
             listCustomer.add(UserCharacteristic2);
 
 
@@ -64,6 +68,25 @@ public class CustomersMVC {
         }
 
 
+    }
+
+
+    public String hashingPassword(String password)  {
+        String hashPassword = "";
+        try{
+            MessageDigest md = MessageDigest.getInstance("SHA-1");
+            byte[] passwordBytes = password.getBytes();
+            byte[] hash = md.digest(passwordBytes);
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < hash.length; i++) {
+                sb.append(Integer.toString((hash[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            hashPassword = sb.toString();
+        }
+        catch (NoSuchAlgorithmException noSuchAlgorithmException){
+            System.out.println("Erreur lors du hashage du mot de passe : " + password);
+        }
+        return hashPassword;
     }
 }
 
