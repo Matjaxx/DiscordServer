@@ -59,15 +59,13 @@ public class SocketServer {
 
                 while ((inputLine = in.readLine()) != null) {
                     System.out.println("Received message from client: " + inputLine);
-                    out.println("Message received by server: " + inputLine);
-                    out.println("Hello, client!");
+
 
                     listOrder = separateWords(inputLine);
                     inputLine = listOrder.get(0);
 
                     if (inputLine.equals("createAccount")) {
                         System.out.println("test");
-                        out.println("le client recoit un message");
                         customersDAO.ServerJBDCConnection(listOrder);
                     }
                     if (inputLine.equals("connectionAccount")) {
@@ -75,18 +73,12 @@ public class SocketServer {
                         customersDAO.ServerJBDCConnection(listOrder);
                         if (customersDAO.getVerifConnection()){
                             System.out.println("success");
-                            out.println("success");
+                            out.println(customersDAO.getAnswerServer());
                         }
                         else {
                             System.out.println("conenction failed : please retry");
+                            out.println("Connection failed: please retry.");
                         }
-
-
-                    }
-                    if (inputLine.equals("sendToClient")) {
-                        System.out.println("Enter the message to send to the client:");
-                        String messageToSend = new BufferedReader(new InputStreamReader(System.in)).readLine();
-                        out.println(messageToSend);
                     }
                     if (inputLine.equals("quit()")) {
                         break;
@@ -94,14 +86,16 @@ public class SocketServer {
                 }
 
                 // Ferme les flux et la socket
-                out.close();
-                in.close();
+
                 clientSocket.close();
                 System.out.println("Client disconnected");
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }

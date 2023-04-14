@@ -4,9 +4,12 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class Client {
+    private List<String> ServerContent = new ArrayList<String>();
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
@@ -16,6 +19,16 @@ public class Client {
     public Client(String host, int port) {
         this.host = host;
         this.port = port;
+    }
+
+    public static List<String> separateWords(String inputLine) {
+        String[] wordsArray = inputLine.split("\\s+");
+        List<String> wordsList = Arrays.asList(wordsArray);
+
+        for (int i = 0; i < wordsList.size(); i++) {
+            System.out.println(wordsList.get(i));
+        }
+        return wordsList;
     }
 
     public void execute() {
@@ -46,13 +59,20 @@ public class Client {
                     for (int i = 0; i < customer.getListCustomer().size(); i++) {
                         convertListToString += customer.getListCustomer().get(i)+" ";
                     }
+
                     out.println(convertListToString);
+
                 }
 
                 // Attend et affiche la réponse du serveur
                 String serverResponse = in.readLine();
                 if (serverResponse != null) {
                     System.out.println("Received message from server: " + serverResponse);
+                    ServerContent = separateWords(serverResponse);
+                    if (Objects.equals(ServerContent.get(1), "connected")) {
+                        customer.setInfoCustomer(ServerContent);
+                        customer.displayInfoCustomer();
+                    }
                 }
             }
 

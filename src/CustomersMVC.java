@@ -3,11 +3,40 @@ import java.util.ArrayList;
 import java.util.List;
 public class CustomersMVC {
     //creer un getter de la cette list
+
+
     private List<String> listCustomer = new ArrayList<String>();
     private Controller controller = new Controller();
+    private String Username;
+    private String Password;
+    private String Email;
+    private String FirstName;
+    private String LastName;
+    private String permission;
+
+
 
     public List<String> getListCustomer() {
         return listCustomer;
+    }
+
+    public void setInfoCustomer(List<String> infoCustomer) {
+        System.out.println("setInfoCustomer");
+        Username = infoCustomer.get(2);
+        FirstName = infoCustomer.get(3);
+        LastName = infoCustomer.get(4);
+        Password = infoCustomer.get(5);
+        Email = infoCustomer.get(6);
+        permission = infoCustomer.get(7);
+    }
+    //creer une methode qui affiche dans la console tout les private string
+    public void displayInfoCustomer(){
+        System.out.println("Username : " + Username);
+        System.out.println("First name : " + FirstName);
+        System.out.println("Last name : " + LastName);
+        System.out.println("Email : " + Email);
+        System.out.println("Password : " + Password);
+        System.out.println("Permission : " + permission);
     }
     public void connection(){
         int a;

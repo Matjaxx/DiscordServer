@@ -6,6 +6,12 @@ import java.util.List;
 
 public class CustomersDAO {
 
+    private String AnswerServer;
+
+    public String getAnswerServer() {
+        return AnswerServer;
+    }
+
     private boolean verifConnection = false;
     public boolean getVerifConnection() {
         return verifConnection;
@@ -56,7 +62,12 @@ public class CustomersDAO {
 
         while (rs.next()) {
             verifConnection = true;
+        }
+        String sql4 = "SELECT * FROM CUSTOMER WHERE USERNAME = '" + getListCustomer.get(1) + "'";
+        rs = st.executeQuery(sql4);
+        while (rs.next()) {
 
+            AnswerServer = " " + "connected" + " " + rs.getString("USERNAME") + " "+ rs.getString("FIRST_NAME") + " " + rs.getString("LAST_NAME")+ " " + rs.getString("EMAIL") + " " + rs.getString("PERMISSION") + " " + rs.getString("Last_Connection");
         }
     }
 
