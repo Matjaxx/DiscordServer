@@ -67,7 +67,7 @@ public class CustomersDAO {
         rs = st.executeQuery(sql4);
         while (rs.next()) {
 
-            AnswerServer = " " + "connected" + " " + rs.getString("USERNAME") + " "+ rs.getString("FIRST_NAME") + " " + rs.getString("LAST_NAME")+ " " + rs.getString("EMAIL") + " " + rs.getString("PERMISSION") + " " + rs.getString("Last_Connection");
+            AnswerServer = " " + "connected" + " " + rs.getString("USERNAME") + " "+ rs.getString("FIRST_NAME") + " " + rs.getString("LAST_NAME")+ " " + rs.getString("EMAIL") + " " + rs.getString("PERMISSION") + " " + rs.getString("PASSWORD");
         }
     }
 
