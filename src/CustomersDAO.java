@@ -39,6 +39,9 @@ public class CustomersDAO {
             else if (Objects.equals(getListCustomer.get(0), "requestFriendship")) {
                 addFriend(conn,st,rs,getListCustomer);
             }
+            else if (Objects.equals(getListCustomer.get(0), "requestlist")){
+                FriendRequests(conn,st,rs,getListCustomer);
+            }
 
 
 
@@ -117,6 +120,15 @@ public class CustomersDAO {
         }
 
 
+    }
+    public void FriendRequests(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
+        st = conn.createStatement();
+        AnswerServer ="friendRequest" + " " ;
+        String sql3 = "SELECT * FROM FRIENDREQUESTS WHERE USERNAMEFRIENDREQUESTED = '" + getListCustomer.get(1) + "'";
+        rs = st.executeQuery(sql3);
+        while (rs.next()) {
+            AnswerServer = AnswerServer + rs.getString("USERNAMEFRIENDREQUEST");
+        }
     }
 
         public void addCustomer(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {

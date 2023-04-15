@@ -51,7 +51,7 @@ public class Client {
                 if (userInput.equals("'quit()'")) {
                     break;
                 }
-                if (userInput.equals("connection()")) {
+                else if (userInput.equals("connection()")) {
                     customer.connection();
                     infoCustomers = customer.getListCustomer();
                     String convertListToString = "";
@@ -62,9 +62,20 @@ public class Client {
                     out.println(convertListToString);
 
                 }
-                if (userInput.equals("requestfriendship()") && customer.getIsConnected()) {
+                else if (userInput.equals("requestfriendship()") && customer.getIsConnected()) {
                     String message = customer.requestFrienship();
                     out.println(message);
+                }
+                else if (userInput.equals("UpdateRequestFriend()") && customer.getIsConnected()) {
+                    String message = customer.getUsername();
+                    out.println("requestlist "+ message);
+                }
+                else if (userInput.equals("friendManager()") && customer.getIsConnected()){
+                    String message = customer.setInfoFriendRequest();
+                    out.println(message);
+                }
+                else{
+                    System.out.println("commande not found");
                 }
 
                 // Attend et affiche la réponse du serveur
@@ -76,7 +87,17 @@ public class Client {
                         customer.setInfoCustomer(ServerContent);
                         customer.displayInfoCustomer();
                     }
+                    if (Objects.equals(ServerContent.get(0), "friendRequest")) {
+                        customer.setInfoFriendlist(ServerContent);
+                        customer.displayInfoCustomer();
+                    }
+                    if (Objects.equals(ServerContent.get(0), "requestlist")) {
+                        customer.setInfoCustomer(ServerContent);
+                        customer.displayInfoCustomer();
+                    }
+
                 }
+
             }
 
             // Ferme les flux et la socket

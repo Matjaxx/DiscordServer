@@ -18,11 +18,15 @@ public class Server {
             st = conn.createStatement();
             System.out.println("connexion réussite de la base de donné");
             //supprime la table SQL FRIENDREQUESTS
-            String sql1 = "SELECT * FROM CUSTOMER";
 
-            rs = st.executeQuery(sql1);
+            String sql = "CREATE TABLE FRIENDLIST " +
+                    "(FRIEND1 VARCHAR(50), " +
+                    " FRIEND2 VARCHAR(50))";
+            rs = st.executeQuery(sql);
+            st.executeUpdate(sql);
+
             // Parcourir les résultats et afficher les caractéristiques de chaque client
-            while (rs.next()) {
+            /*while (rs.next()) {
                 int id = rs.getInt("ID");
                 String username = rs.getString("USERNAME");
                 String firstName = rs.getString("FIRST_NAME");
@@ -41,6 +45,13 @@ public class Server {
                 System.out.println("PERMISSION : " + permission);
                 System.out.println("Last_Connection : " + lastConnection);
                 System.out.println("------------------------------------------");
+            }*/
+            while (rs.next()) {
+                String username = rs.getString("USERNAMEFRIENDREQUEST");
+                String firstName = rs.getString("USERNAMEFRIENDREQUESTED");
+
+                System.out.println("USERNAMEFRIENDREQUEST : " + username);
+                System.out.println("USERNAMEFRIENDREQUESTED : " + firstName);
             }
         } catch (SQLException e) {
             System.out.println("Erreur lors de la connexion a la base de données :" + e.getMessage());

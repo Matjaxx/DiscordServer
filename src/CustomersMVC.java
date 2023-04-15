@@ -8,6 +8,9 @@ public class CustomersMVC {
 
 
     private List<String> listCustomer = new ArrayList<String>();
+
+    private List<String> friendRequest = new ArrayList<String>();
+
     private Controller controller = new Controller();
     private String Username;
     private String Password;
@@ -27,6 +30,10 @@ public class CustomersMVC {
     public boolean getIsConnected() {
         return isConnected;
     }
+    //creer un getter pour username
+    public String getUsername() {
+        return Username;
+    }
 
     public void setInfoCustomer(List<String> infoCustomer) {
         System.out.println("setInfoCustomer");
@@ -37,6 +44,45 @@ public class CustomersMVC {
         Password = infoCustomer.get(5);
         Email = infoCustomer.get(6);
         permission = infoCustomer.get(7);
+    }
+
+    public void setInfoFriendlist(List<String> AnswerServerFriendlist) {
+        System.out.println("setFriendrequestInfo");
+        friendRequest.clear();
+        for (int i = 0; i < AnswerServerFriendlist.size(); i++) {
+            friendRequest.add(AnswerServerFriendlist.get(i));
+        }
+
+    }
+
+    public String setInfoFriendRequest() {
+        for (int i = 0; i < friendRequest.size(); i++) {
+            System.out.println(friendRequest.get(i)+" want to be your friend!");
+        }
+        Scanner s = new Scanner(System.in);
+
+        System.out.println("If you want to deny the friend request press -->0");
+        System.out.println("If you want to accept the friend request press -->1");
+        System.out.println("You can do it later by pressing -->2");
+
+        int a = s.nextInt();
+
+        if (a==1){
+            System.out.println("type the name of the person you want to accept");
+            String answer = s.nextLine();
+            return "acceptfriendrequest" + " " +answer;
+        }
+        else if(a==0) {
+            System.out.println("type the name of the person you want to deny");
+            String answer = s.nextLine();
+            return "denyfriendrequest" + " " +answer;
+        }
+        else if(a==2){
+            return "cancel";
+        }
+        else{
+            return "cancel";
+        }
     }
     //creer une methode qui affiche dans la console tout les private string
     public void displayInfoCustomer(){

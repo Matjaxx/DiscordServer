@@ -82,6 +82,11 @@ public class SocketServer {
                     }
                     else if (inputLine.equals("requestFriendship")) {
                         customersDAO.ServerJBDCConnection(listOrder);
+                        out.println("Friendship request sent");
+                    }
+                    else if (inputLine.equals("requestlist")) {
+                        customersDAO.ServerJBDCConnection(listOrder);
+                        out.println(customersDAO.getAnswerServer());
                     }
                     else if (inputLine.equals("quit()")) {
                         break;
