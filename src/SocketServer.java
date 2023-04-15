@@ -53,22 +53,22 @@ public class SocketServer {
 
                 in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 out = new PrintWriter(clientSocket.getOutputStream(), true);
-                List<String> listOrder = new ArrayList<String>();
+
                 // Boucle pour lire les messages du client
                 String inputLine;
 
                 while ((inputLine = in.readLine()) != null) {
                     System.out.println("Received message from client: " + inputLine);
-
-
+                    List<String> listOrder = new ArrayList<String>();
                     listOrder = separateWords(inputLine);
                     inputLine = listOrder.get(0);
+
 
                     if (inputLine.equals("createAccount")) {
                         System.out.println("test");
                         customersDAO.ServerJBDCConnection(listOrder);
                     }
-                    if (inputLine.equals("connectionAccount")) {
+                    else if (inputLine.equals("connectionAccount")) {
                         System.out.println("test2");
                         customersDAO.ServerJBDCConnection(listOrder);
                         if (customersDAO.getVerifConnection()){
@@ -80,8 +80,14 @@ public class SocketServer {
                             out.println("Connection failed: please retry.");
                         }
                     }
-                    if (inputLine.equals("quit()")) {
+                    else if (inputLine.equals("requestFriendship")) {
+                        customersDAO.ServerJBDCConnection(listOrder);
+                    }
+                    else if (inputLine.equals("quit()")) {
                         break;
+                    }
+                    else {
+                        out.println("Command not found");
                     }
                 }
 

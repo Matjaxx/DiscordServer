@@ -17,17 +17,11 @@ public class Server {
             conn = DriverManager.getConnection(url, utilisateur, motDePasse);
             st = conn.createStatement();
             System.out.println("connexion réussite de la base de donné");
-            String sql3 = "SELECT * FROM CUSTOMER WHERE PASSWORD = 'mypassword' AND USERNAME = 'fritatos'";
+            //supprime la table SQL FRIENDREQUESTS
+            String sql1 = "SELECT * FROM CUSTOMER";
 
-            rs = st.executeQuery(sql3);
-            while (rs.next()) {
-                System.out.println("HHHHHHHH");
-
-
-            }
-
-
-            /*// Parcourir les résultats et afficher les caractéristiques de chaque client
+            rs = st.executeQuery(sql1);
+            // Parcourir les résultats et afficher les caractéristiques de chaque client
             while (rs.next()) {
                 int id = rs.getInt("ID");
                 String username = rs.getString("USERNAME");
@@ -47,7 +41,7 @@ public class Server {
                 System.out.println("PERMISSION : " + permission);
                 System.out.println("Last_Connection : " + lastConnection);
                 System.out.println("------------------------------------------");
-            }*/
+            }
         } catch (SQLException e) {
             System.out.println("Erreur lors de la connexion a la base de données :" + e.getMessage());
         } catch (ClassNotFoundException e) {

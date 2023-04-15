@@ -16,14 +16,21 @@ public class CustomersMVC {
     private String LastName;
     private String permission;
 
+    boolean isConnected = false;
+
 
 
     public List<String> getListCustomer() {
         return listCustomer;
     }
+    //creer un getter pour isConnected
+    public boolean getIsConnected() {
+        return isConnected;
+    }
 
     public void setInfoCustomer(List<String> infoCustomer) {
         System.out.println("setInfoCustomer");
+        isConnected = true;
         Username = infoCustomer.get(2);
         FirstName = infoCustomer.get(3);
         LastName = infoCustomer.get(4);
@@ -117,5 +124,15 @@ public class CustomersMVC {
         }
         return hashPassword;
     }
+
+    public String requestFrienship(){
+        String request = "requestFriendship" + " " + Username + " ";
+        Scanner s = new Scanner(System.in);
+        System.out.println("entrer le pseudo de la personne que vous voulez ajouter");
+        request += s.nextLine();
+        return request;
+    }
 }
+
+
 

@@ -48,7 +48,6 @@ public class Client {
             BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
             while ((userInput = stdIn.readLine()) != null) {
 
-                out.println(userInput);
                 if (userInput.equals("'quit()'")) {
                     break;
                 }
@@ -62,6 +61,10 @@ public class Client {
 
                     out.println(convertListToString);
 
+                }
+                if (userInput.equals("requestfriendship()") && customer.getIsConnected()) {
+                    String message = customer.requestFrienship();
+                    out.println(message);
                 }
 
                 // Attend et affiche la réponse du serveur

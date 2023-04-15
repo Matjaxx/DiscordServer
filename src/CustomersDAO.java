@@ -13,6 +13,7 @@ public class CustomersDAO {
     }
 
     private boolean verifConnection = false;
+    private boolean verifFriend = false;
     public boolean getVerifConnection() {
         return verifConnection;
     }
@@ -34,6 +35,9 @@ public class CustomersDAO {
             }
             else if (Objects.equals(getListCustomer.get(0), "connectionAccount")) {
                 connectionCustomer(conn,st,rs,getListCustomer);
+            }
+            else if (Objects.equals(getListCustomer.get(0), "requestFriendship")) {
+                addFriend(conn,st,rs,getListCustomer);
             }
 
 
@@ -69,6 +73,50 @@ public class CustomersDAO {
 
             AnswerServer = " " + "connected" + " " + rs.getString("USERNAME") + " "+ rs.getString("FIRST_NAME") + " " + rs.getString("LAST_NAME")+ " " + rs.getString("EMAIL") + " " + rs.getString("PERMISSION") + " " + rs.getString("PASSWORD");
         }
+    }
+    public void addFriend(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
+
+        st = conn.createStatement();
+        String sql2 = "SELECT * FROM CUSTOMER WHERE USERNAME = '" + getListCustomer.get(2) + "'";
+        rs = st.executeQuery(sql2);
+        while (rs.next()) {
+            verifFriend = true;
+        }
+        DatabaseMetaData dbmd = conn.getMetaData();
+        rs = dbmd.getTables(null, null, "FRIENDREQUESTS", null);
+        if (rs.next() && verifFriend) {
+            if (verifFriend) {
+                System.out.println("La table FRIENDREQUEST existe dans la base de données.");
+                String sql3 = "INSERT INTO FRIENDREQUESTS (USERNAMEFRIENDREQUEST, USERNAMEFRIENDREQUESTED) " +
+                        "VALUES ('" + getListCustomer.get(1) + "', '" + getListCustomer.get(2) + "')";
+                st.executeUpdate(sql3);
+                System.out.println("friend request has been sent");
+                verifFriend = false;
+            }
+            else {
+                System.out.println("friend doesn't exist");
+            }
+
+
+        } else {
+            System.out.println("La table FRIENDREQUEST n'existe pas dans la base de données.");
+            String sql = "CREATE TABLE FRIENDREQUESTS " +
+                    "(USERNAMEFRIENDREQUEST VARCHAR(50), " +
+                    " USERNAMEFRIENDREQUESTED VARCHAR(50))";
+            st.executeUpdate(sql);
+            System.out.println("Table FRIENDREQUEST created successfully...");
+            if (verifFriend) {
+                String sql3 = "INSERT INTO FRIENDREQUESTS (USERNAMEFRIENDREQUEST, USERNAMEFRIENDREQUESTED) " +
+                        "VALUES ('" + getListCustomer.get(1) + "', '" + getListCustomer.get(2) + "')";
+                st.executeUpdate(sql3);
+                verifFriend = false;
+            }
+            else {
+                System.out.println("friend doesn't exist");
+            }
+        }
+
+
     }
 
         public void addCustomer(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
