@@ -10,6 +10,7 @@ public class CustomersMVC {
     private List<String> listCustomer = new ArrayList<String>();
 
     private List<String> friendRequest = new ArrayList<String>();
+    private List<String> friends = new ArrayList<String>();
 
     private Controller controller = new Controller();
     private String Username;
@@ -38,19 +39,26 @@ public class CustomersMVC {
     public void setInfoCustomer(List<String> infoCustomer) {
         System.out.println("setInfoCustomer");
         isConnected = true;
-        Username = infoCustomer.get(2);
-        FirstName = infoCustomer.get(3);
-        LastName = infoCustomer.get(4);
-        Password = infoCustomer.get(5);
-        Email = infoCustomer.get(6);
-        permission = infoCustomer.get(7);
+        Username = infoCustomer.get(1);
+        FirstName = infoCustomer.get(2);
+        LastName = infoCustomer.get(3);
+        Password = infoCustomer.get(4);
+        Email = infoCustomer.get(5);
+        permission = infoCustomer.get(6);
     }
 
     public void setInfoFriendlist(List<String> AnswerServerFriendlist) {
         System.out.println("setFriendrequestInfo");
         friendRequest.clear();
-        for (int i = 0; i < AnswerServerFriendlist.size(); i++) {
+        for (int i = 1; i < AnswerServerFriendlist.size(); i++) {
             friendRequest.add(AnswerServerFriendlist.get(i));
+        }
+    }
+    public void setInfoFriend(List<String> AnswerServerFriendlist) {
+        System.out.println("setFriendListInfo");
+        friends.clear();
+        for (int i = 1; i < AnswerServerFriendlist.size(); i++) {
+            friends.add(AnswerServerFriendlist.get(i));
         }
 
     }
@@ -60,7 +68,8 @@ public class CustomersMVC {
             System.out.println(friendRequest.get(i)+" want to be your friend!");
         }
         Scanner s = new Scanner(System.in);
-
+        Scanner l = new Scanner(System.in);
+        String answer;
         System.out.println("If you want to deny the friend request press -->0");
         System.out.println("If you want to accept the friend request press -->1");
         System.out.println("You can do it later by pressing -->2");
@@ -69,13 +78,15 @@ public class CustomersMVC {
 
         if (a==1){
             System.out.println("type the name of the person you want to accept");
-            String answer = s.nextLine();
-            return "acceptfriendrequest" + " " +answer;
+            answer= l.nextLine();
+            System.out.println(answer);
+            return "acceptfriendrequest" + " " +answer+ " " +Username;
         }
         else if(a==0) {
             System.out.println("type the name of the person you want to deny");
-            String answer = s.nextLine();
-            return "denyfriendrequest" + " " +answer;
+            answer = l.nextLine();
+            System.out.println(answer);
+            return "denyfriendrequest" + " " +answer+ " " +Username;
         }
         else if(a==2){
             return "cancel";
@@ -92,6 +103,12 @@ public class CustomersMVC {
         System.out.println("Email : " + Email);
         System.out.println("Password : " + Password);
         System.out.println("Permission : " + permission);
+    }
+    public void seeMyFriends(){
+        for (int i = 0; i < friends.size(); i++) {
+            System.out.println("your friends are :");
+            System.out.println(friends.get(i));
+        }
     }
     public void connection(){
         int a;

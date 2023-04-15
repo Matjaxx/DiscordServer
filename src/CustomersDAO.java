@@ -42,6 +42,17 @@ public class CustomersDAO {
             else if (Objects.equals(getListCustomer.get(0), "requestlist")){
                 FriendRequests(conn,st,rs,getListCustomer);
             }
+            else if (Objects.equals(getListCustomer.get(0), "friendlist")){
+                FriendUpdate(conn,st,rs,getListCustomer);
+            }
+            else if (Objects.equals(getListCustomer.get(0), "denyfriendrequest")){
+                FriendRequestsDenier(conn,st,rs,getListCustomer);
+            }
+            else if (Objects.equals(getListCustomer.get(0), "acceptfriendrequest")){
+                FriendRequestAccepter(conn,st,rs,getListCustomer);
+                String trade = getListCustomer.get(1);
+                FriendRequestsDenier(conn,st,rs,getListCustomer);
+            }
 
 
 
@@ -74,7 +85,7 @@ public class CustomersDAO {
         rs = st.executeQuery(sql4);
         while (rs.next()) {
 
-            AnswerServer = " " + "connected" + " " + rs.getString("USERNAME") + " "+ rs.getString("FIRST_NAME") + " " + rs.getString("LAST_NAME")+ " " + rs.getString("EMAIL") + " " + rs.getString("PERMISSION") + " " + rs.getString("PASSWORD");
+            AnswerServer = "connected" + " " + rs.getString("USERNAME") + " "+ rs.getString("FIRST_NAME") + " " + rs.getString("LAST_NAME")+ " " + rs.getString("EMAIL") + " " + rs.getString("PERMISSION") + " " + rs.getString("PASSWORD");
         }
     }
     public void addFriend(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
@@ -127,8 +138,43 @@ public class CustomersDAO {
         String sql3 = "SELECT * FROM FRIENDREQUESTS WHERE USERNAMEFRIENDREQUESTED = '" + getListCustomer.get(1) + "'";
         rs = st.executeQuery(sql3);
         while (rs.next()) {
-            AnswerServer = AnswerServer + rs.getString("USERNAMEFRIENDREQUEST");
+            AnswerServer = AnswerServer + rs.getString("USERNAMEFRIENDREQUEST")+ " ";
         }
+    }
+    public void FriendUpdate(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
+        st = conn.createStatement();
+        //creer un list de string
+        List<String> friends = new ArrayList<String>();
+
+        AnswerServer ="friendListUpdate" + " " ;
+        String sql3 = "SELECT * FROM FRIENDLIST WHERE FRIEND1 = '" + getListCustomer.get(1) + "'";
+        rs = st.executeQuery(sql3);
+        while (rs.next()) {
+            AnswerServer = AnswerServer + rs.getString("FRIEND1") + " ";
+        }
+        String sql4 = "SELECT * FROM FRIENDLIST WHERE FRIEND2 = '" + getListCustomer.get(1) + "'";
+        rs = st.executeQuery(sql4);
+        while (rs.next()) {
+            AnswerServer = AnswerServer + rs.getString("FRIEND1") + " ";
+        }
+    }
+    public void FriendRequestsDenier(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
+        st = conn.createStatement();
+
+        String sql3 = "DELETE FROM FRIENDREQUESTS WHERE USERNAMEFRIENDREQUEST = '" + getListCustomer.get(1) + "' AND USERNAMEFRIENDREQUESTED = '" + getListCustomer.get(2) + "'";
+        st.executeUpdate(sql3);
+    }
+    public void FriendRequestAccepter(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
+        st = conn.createStatement();
+        System.out.println(getListCustomer.get(1));
+        System.out.println(getListCustomer.get(2));
+        String sql3 = "INSERT INTO FRIENDLIST (FRIEND1, FRIEND2) " +
+                "VALUES ('" + getListCustomer.get(1) + "', '" + getListCustomer.get(2) + "')";
+        st.executeUpdate(sql3);
+        String a= getListCustomer.get(1);
+        String b= getListCustomer.get(2);
+
+        AnswerServer ="friendListUpdate" + a + " " + b;
     }
 
         public void addCustomer(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {

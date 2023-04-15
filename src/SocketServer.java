@@ -88,6 +88,18 @@ public class SocketServer {
                         customersDAO.ServerJBDCConnection(listOrder);
                         out.println(customersDAO.getAnswerServer());
                     }
+                    else if (inputLine.equals("friendlist")) {
+                        customersDAO.ServerJBDCConnection(listOrder);
+                        out.println(customersDAO.getAnswerServer());
+                    }
+                    else if (inputLine.equals("denyfriendrequest")) {
+                        customersDAO.ServerJBDCConnection(listOrder);
+                        out.println("Friendship request has been denied");
+                    }
+                    else if (inputLine.equals("acceptfriendrequest")) {
+                        customersDAO.ServerJBDCConnection(listOrder);
+                        out.println("Friendship request has been accepted");
+                    }
                     else if (inputLine.equals("quit()")) {
                         break;
                     }

@@ -66,9 +66,17 @@ public class Client {
                     String message = customer.requestFrienship();
                     out.println(message);
                 }
+                else if (userInput.equals("seemyfriends()") && customer.getIsConnected()) {
+                    customer.seeMyFriends();
+                    out.println("bipboop");
+                }
                 else if (userInput.equals("UpdateRequestFriend()") && customer.getIsConnected()) {
                     String message = customer.getUsername();
                     out.println("requestlist "+ message);
+                }
+                else if (userInput.equals("UpdateFriendList()") && customer.getIsConnected()) {
+                    String message = customer.getUsername();
+                    out.println("friendlist "+ message);
                 }
                 else if (userInput.equals("friendManager()") && customer.getIsConnected()){
                     String message = customer.setInfoFriendRequest();
@@ -83,7 +91,7 @@ public class Client {
                 if (serverResponse != null) {
                     System.out.println("Received message from server: " + serverResponse);
                     ServerContent = separateWords(serverResponse);
-                    if (Objects.equals(ServerContent.get(1), "connected")) {
+                    if (Objects.equals(ServerContent.get(0), "connected")) {
                         customer.setInfoCustomer(ServerContent);
                         customer.displayInfoCustomer();
                     }
@@ -94,6 +102,10 @@ public class Client {
                     if (Objects.equals(ServerContent.get(0), "requestlist")) {
                         customer.setInfoCustomer(ServerContent);
                         customer.displayInfoCustomer();
+                    }
+                    if (Objects.equals(ServerContent.get(0), "friendListUpdate")) {
+                        customer.setInfoFriend(ServerContent);
+                        System.out.println("friendListUpdated");
                     }
 
                 }
