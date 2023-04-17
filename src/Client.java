@@ -82,6 +82,10 @@ public class Client {
                     String message = customer.setInfoFriendRequest();
                     out.println(message);
                 }
+                else if (userInput.equals("Writte message") && customer.getIsConnected()){
+                    String message = customer.Conversation();
+                    out.println(message);
+                }
                 else{
                     System.out.println("commande not found");
                 }
@@ -106,6 +110,10 @@ public class Client {
                     if (Objects.equals(ServerContent.get(0), "friendListUpdate")) {
                         customer.setInfoFriend(ServerContent);
                         System.out.println("friendListUpdated");
+                    }
+                    if (Objects.equals(ServerContent.get(0), "conversation")) {
+                        String ForServ = customer.YourConv(ServerContent);
+                        out.println(ForServ);
                     }
 
                 }

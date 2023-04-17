@@ -1,13 +1,12 @@
 import java.sql.*;
-
-
+import java.util.Date;
+import java.text.SimpleDateFormat;
 public class Server {
-
 
     public void ServerConnection() throws ClassNotFoundException {
         Connection conn = null;
-        Statement st =null;
-        ResultSet rs =null;
+        Statement st = null;
+        ResultSet rs = null;
 
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -16,58 +15,76 @@ public class Server {
             String motDePasse = "EuaacEuaac2";
             conn = DriverManager.getConnection(url, utilisateur, motDePasse);
             st = conn.createStatement();
-            System.out.println("connexion réussite de la base de donné");
-            //supprime la table SQL FRIENDREQUESTS
-            String sql3 = "SELECT* FROM FRIENDLIST ";
-           rs =  st.executeQuery(sql3);
+            System.out.println("Connexion réussie à la base de données.");
+
+            String sql4 = "DELETE FROM MESSAGES";
+            st.executeUpdate(sql4);
+            System.out.println("Tous les messages ont été supprimés de la table MESSAGES.");
 
 
-           /* String sql1 = "SELECT * FROM FRIENDREQUESTS";
-
-            rs = st.executeQuery(sql1);*/
 
 
-            // Parcourir les résultats et afficher les caractéristiques de chaque client
-            /*while (rs.next()) {
-                int id = rs.getInt("ID");
-                String username = rs.getString("USERNAME");
-                String firstName = rs.getString("FIRST_NAME");
-                String lastName = rs.getString("LAST_NAME");
-                String email = rs.getString("EMAIL");
-                String password = rs.getString("PASSWORD");
-                String permission = rs.getString("PERMISSION");
-                Timestamp lastConnection = rs.getTimestamp("Last_Connection");
 
-                System.out.println("ID : " + id);
-                System.out.println("USERNAME : " + username);
-                System.out.println("FIRST_NAME : " + firstName);
-                System.out.println("LAST_NAME : " + lastName);
-                System.out.println("EMAIL : " + email);
-                System.out.println("PASSWORD : " + password);
-                System.out.println("PERMISSION : " + permission);
-                System.out.println("Last_Connection : " + lastConnection);
-                System.out.println("------------------------------------------");
-            }*/
-            while (rs.next()) {
-                String FRIEND1 = rs.getString("FRIEND1");
-                String FRIEND2 = rs.getString("FRIEND2");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String formattedDate = dateFormat.format(new Date());
+            System.out.println("Date formatée : " + formattedDate);
 
-                System.out.println("FRIEND1 : " + FRIEND1);
-                System.out.println("FRIEND2 : " + FRIEND2);
+            // Insert a message into the MESSAGES table
+            String sql3 = "INSERT INTO MESSAGES (USERNAME, USERNAME2, CONTENT,TIMES) " +
+                    "VALUES ('JEREMIE', 'MATHIS', 'test?','" + formattedDate + "')";
+            st.executeUpdate(sql3);
+            System.out.println("Message inséré dans la table MESSAGES.");
+
+            // Retrieve all messages from the MESSAGES table and print them
+            String sql = "SELECT USERNAME, USERNAME2, CONTENT,TIMES FROM MESSAGES";
+            rs = st.executeQuery(sql);
+            ResultSetMetaData metadata = rs.getMetaData();
+            int columnCount = metadata.getColumnCount();
+            for (int i = 1; i <= columnCount; i++) {
+                String columnName = metadata.getColumnName(i);
+                System.out.println(columnName);
             }
+            while (rs.next()) {
+                String sender = rs.getString("USERNAME");
+                String recipient = rs.getString("USERNAME2");
+                String content = rs.getString("CONTENT");
+                String date = rs.getString("TIMES");
+                System.out.println(sender + " to " + recipient + ": " + content + " (" + date + ")");
+            }
+
+            String sql8 = "DELETE FROM FRIENDLIST";
+            st.executeUpdate(sql8);
+            System.out.println("Tous les messages ont été supprimés de la table MESSAGES.");
+
+            // Retrieve all messages from the MESSAGES table and print them
+            String sql6 = "SELECT FRIEND1, FRIEND2 FROM FRIENDLIST";
+            rs = st.executeQuery(sql6);
+
+            while (rs.next()) {
+                String sender = rs.getString("FRIEND1");
+                String recipient = rs.getString("FRIEND2");
+                System.out.println(sender + " with " + recipient + " are friends.");
+            }
+
+            // Retrieve all friend requests from the FRIENDREQUESTS table and print them
+            /*String sql1 = "SELECT * FROM FRIENDREQUESTS";
+            rs = st.executeQuery(sql1);
+            while (rs.next()) {
+                String friend1 = rs.getString("FRIEND1");
+                String friend2 = rs.getString("FRIEND2");
+                System.out.println(friend1 + " and " + friend2 + " are friends.");
+            }*/
+
         } catch (SQLException e) {
-            System.out.println("Erreur lors de la connexion a la base de données :" + e.getMessage());
-        } catch (ClassNotFoundException e) {
-            System.out.println("Erreur lors du changement du driver JDBC:" + e.getMessage());
+            System.out.println("Erreur lors de la connexion à la base de données : " + e.getMessage());
         } finally {
             try {
                 if (conn != null) {
                     conn.close();
                 }
             } catch (SQLException e) {
-                System.out.println("Erreur lors de la fermeture de la connexion :" + e.getMessage());
+                System.out.println("Erreur lors de la fermeture de la connexion : " + e.getMessage());
             }
-
         }
     }
 }

@@ -19,7 +19,6 @@ public class CustomersMVC {
     private String FirstName;
     private String LastName;
     private String permission;
-
     boolean isConnected = false;
 
 
@@ -61,6 +60,33 @@ public class CustomersMVC {
             friends.add(AnswerServerFriendlist.get(i));
         }
 
+    }
+    public String YourConv(List<String> AnswerServerFriendlist) {
+        AnswerServerFriendlist.remove(0);
+        String reciever = AnswerServerFriendlist.get(1);
+        AnswerServerFriendlist.remove(1);
+        Scanner s = new Scanner(System.in);
+        for (int i = 0; i < AnswerServerFriendlist.size(); i++) {
+            if (AnswerServerFriendlist.get(i).equals(Username)) {
+                System.out.println(AnswerServerFriendlist.get(i+2) +"  Me: " +AnswerServerFriendlist.get(i+3)  );
+                i+=4;
+            }
+            else{
+                System.out.println(AnswerServerFriendlist.get(i+2) +"                "+reciever+": " +AnswerServerFriendlist.get(i+3)  );
+                i+=4;
+            }
+        }
+        System.out.println("Type your message");
+        String message = s.nextLine();
+        return "SendM"+" "+ reciever + " " + Username + " " + message;
+    }
+
+    public String Conversation() {
+        Scanner s = new Scanner(System.in);
+        String Receiver;
+        System.out.println("Type the name of the person you want to talk to");
+        Receiver = s.nextLine();
+        return "conversation" + " " + Username + " " + Receiver;
     }
 
     public String setInfoFriendRequest() {

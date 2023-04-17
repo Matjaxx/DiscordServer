@@ -100,6 +100,18 @@ public class SocketServer {
                         customersDAO.ServerJBDCConnection(listOrder);
                         out.println("Friendship request has been accepted");
                     }
+                    else if (inputLine.equals("conversation")) {
+                        customersDAO.ServerJBDCConnection(listOrder);
+                        out.println(customersDAO.getAnswerServer());
+                    }
+                    else if (inputLine.equals("SendMessage")) {
+                        customersDAO.ServerJBDCConnection(listOrder);
+                        out.println(customersDAO.getAnswerServer());
+                    }
+                    else if (inputLine.equals("SendM")) {
+                        customersDAO.ServerJBDCConnection(listOrder);
+                        out.println("Message sent");
+                    }
                     else if (inputLine.equals("quit()")) {
                         break;
                     }

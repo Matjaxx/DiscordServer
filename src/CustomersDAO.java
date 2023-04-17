@@ -3,6 +3,8 @@ import java.util.Objects;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 public class CustomersDAO {
 
@@ -48,6 +50,12 @@ public class CustomersDAO {
             else if (Objects.equals(getListCustomer.get(0), "denyfriendrequest")){
                 FriendRequestsDenier(conn,st,rs,getListCustomer);
             }
+            else if (Objects.equals(getListCustomer.get(0), "conversation")){
+                Conversation(conn,st,rs,getListCustomer);
+            }
+            else if (Objects.equals(getListCustomer.get(0), "SendM")){
+                AddMessage(conn,st,rs,getListCustomer);
+            }
             else if (Objects.equals(getListCustomer.get(0), "acceptfriendrequest")){
                 FriendRequestAccepter(conn,st,rs,getListCustomer);
                 String trade = getListCustomer.get(1);
@@ -88,6 +96,7 @@ public class CustomersDAO {
             AnswerServer = "connected" + " " + rs.getString("USERNAME") + " "+ rs.getString("FIRST_NAME") + " " + rs.getString("LAST_NAME")+ " " + rs.getString("EMAIL") + " " + rs.getString("PERMISSION") + " " + rs.getString("PASSWORD");
         }
     }
+
     public void addFriend(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
 
         st = conn.createStatement();
@@ -150,13 +159,53 @@ public class CustomersDAO {
         String sql3 = "SELECT * FROM FRIENDLIST WHERE FRIEND1 = '" + getListCustomer.get(1) + "'";
         rs = st.executeQuery(sql3);
         while (rs.next()) {
-            AnswerServer = AnswerServer + rs.getString("FRIEND1") + " ";
+            AnswerServer = AnswerServer + rs.getString("FRIEND2") + " ";
         }
         String sql4 = "SELECT * FROM FRIENDLIST WHERE FRIEND2 = '" + getListCustomer.get(1) + "'";
         rs = st.executeQuery(sql4);
         while (rs.next()) {
             AnswerServer = AnswerServer + rs.getString("FRIEND1") + " ";
         }
+    }
+    public void Conversation(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
+        st = conn.createStatement();
+
+
+        AnswerServer ="Conversation" + " " + getListCustomer.get(1) + " " ;
+        String sql = "SELECT * FROM MESSAGES WHERE (USERNAME = '" + getListCustomer.get(1) + "' AND USERNAME2 = '" + getListCustomer.get(2) + "') OR (USERNAME = '" + getListCustomer.get(2) + "' AND USERNAME2 = '" + getListCustomer.get(1) + "') ORDER BY DATEMESSAGE ASC;";
+        rs = st.executeQuery(sql);
+        while (rs.next()) {
+            String sender = rs.getString("USERNAME");
+            String recipient = rs.getString("USERNAME2");
+            String content = rs.getString("CONTENT");
+            String date = rs.getString("DATEMESSAGE");
+            System.out.println(date + " - " + sender + " to " + recipient + ": " + content);
+            AnswerServer = AnswerServer + sender + " " + recipient + " " + date + " " + content + " ";
+        }
+
+    }
+    public void AddMessage(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
+        st = conn.createStatement();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String formattedDate = dateFormat.format(new Date());
+
+        String sql3 = "INSERT INTO MESSAGES (USERNAME, USERNAME2, CONTENT,TIMES)" +
+        "VALUES (getListCustomer.get(1), getListCustomer.get(2), getListCustomer.get(3),'" + formattedDate + "')";
+        st.executeUpdate(sql3);
+
+        AnswerServer ="Conversation" + " " + getListCustomer.get(1) + " " ;
+        String sql = "SELECT * FROM MESSAGES WHERE (USERNAME = '" + getListCustomer.get(1) + "' AND USERNAME2 = '" + getListCustomer.get(2) + "') OR (USERNAME = '" + getListCustomer.get(2) + "' AND USERNAME2 = '" + getListCustomer.get(1) + "') ORDER BY DATEMESSAGE ASC;";
+        rs = st.executeQuery(sql);
+        while (rs.next()) {
+            String sender = rs.getString("USERNAME");
+            String recipient = rs.getString("USERNAME2");
+            String content = rs.getString("CONTENT");
+            String date = rs.getString("TIMES");
+            System.out.println(date + " - " + sender + " to " + recipient + ": " + content);
+            AnswerServer = AnswerServer + sender + " " + recipient + " " + date + " " + content + " ";
+        }
+
     }
     public void FriendRequestsDenier(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
         st = conn.createStatement();
