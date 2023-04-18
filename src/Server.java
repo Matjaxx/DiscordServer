@@ -18,9 +18,8 @@ public class Server {
             System.out.println("Connexion réussie à la base de données.");
 
             String sql4 = "DELETE FROM MESSAGES";
-            st.executeUpdate(sql4);
+            st.executeQuery(sql4);
             System.out.println("Tous les messages ont été supprimés de la table MESSAGES.");
-
 
 
 

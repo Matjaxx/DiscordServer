@@ -237,14 +237,14 @@ public class CustomersDAO {
 
     public void banUserRequest(Connection conn, Statement st,ResultSet rs, List<String> getListCustomer)throws ClassNotFoundException, SQLException{
         st = conn.createStatement();
-        String sql3 = "UPDATE Customer SET PERMISSION = 'BAN' WHERE USERNAME = getListCustomer.get(1)";
+        String sql3 = "UPDATE Customer SET PERMISSION = 'BAN' WHERE USERNAME = '" + getListCustomer.get(1) + "'";
         st.executeUpdate(sql3);
     }
 
     public void freeUserRequest(Connection conn, Statement st,ResultSet rs, List<String> getListCustomer)throws ClassNotFoundException, SQLException{
         st = conn.createStatement();
         System.out.println(getListCustomer.get(1));
-        String sql3 = "UPDATE Customer SET PERMISSION = 'FREE' WHERE USERNAME = getListCustomer.get(1)";
+        String sql3 = "UPDATE Customer SET PERMISSION = 'FREE' WHERE USERNAME = '" + getListCustomer.get(1) + "'";
         st.executeUpdate(sql3);    }
 
 
