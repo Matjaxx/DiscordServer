@@ -121,6 +121,35 @@ public class CustomersMVC {
             return "cancel";
         }
     }
+
+
+    public String tryToBanUser() {
+        Scanner s = new Scanner(System.in);
+        Scanner l = new Scanner(System.in);
+        String answer;
+        System.out.println("If you want to ban someone -->0");
+        System.out.println("If you want to free someone -->1");
+
+
+        int a = s.nextInt();
+
+        if (a==1){
+            System.out.println("type the name of the person you want to free");
+            answer= l.nextLine();
+            System.out.println(answer);
+            return "freeUser" + " " +answer+ " " +Username;
+        }
+        else if(a==0) {
+            System.out.println("type the name of the person you want to ban");
+            answer = l.nextLine();
+            System.out.println(answer);
+            return "banUser" + " " +answer+ " " +Username;
+        }
+        else{
+            return "cancel";
+        }
+    }
+
     //creer une methode qui affiche dans la console tout les private string
     public void displayInfoCustomer(){
         System.out.println("Username : " + Username);
@@ -221,6 +250,23 @@ public class CustomersMVC {
         request += s.nextLine();
         return request;
     }
+
+    public String banUser(){
+        String request = "banUser" + " " + Username + " ";
+        Scanner s = new Scanner(System.in);
+        System.out.println("entrer le pseudo de la personne que vous voulez bannir");
+        request += s.nextLine();
+        return request;
+    }
+
+    public String freeUser(){
+        String request = "freeUser" + " " + Username + " ";
+        Scanner s = new Scanner(System.in);
+        System.out.println("entrer le pseudo de la personne que vous voulez débannir");
+        request += s.nextLine();
+        return request;
+    }
+
 }
 
 

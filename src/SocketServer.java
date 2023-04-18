@@ -12,7 +12,7 @@ public class SocketServer {
     private ServerSocket serverSocket;
 
     public SocketServer() throws IOException {
-        serverSocket = new ServerSocket(1234);
+        serverSocket = new ServerSocket(1233);
     }
 
     public void execute() throws IOException {
@@ -111,6 +111,14 @@ public class SocketServer {
                     else if (inputLine.equals("SendM")) {
                         customersDAO.ServerJBDCConnection(listOrder);
                         out.println("Message sent");
+                    }
+                    else if (inputLine.equals("banUser")) {
+                        customersDAO.ServerJBDCConnection(listOrder);
+                        out.println("You are going to ban someone");
+                    }
+                    else if (inputLine.equals("freeUser")) {
+                        customersDAO.ServerJBDCConnection(listOrder);
+                        out.println("You are going to free someone");
                     }
                     else if (inputLine.equals("quit()")) {
                         break;
