@@ -61,7 +61,14 @@ public class CustomersDAO {
                 String trade = getListCustomer.get(1);
                 FriendRequestsDenier(conn,st,rs,getListCustomer);
             }
-
+            else if (Objects.equals(getListCustomer.get(0), "banUser")){
+                banUserRequest(conn,st,rs,getListCustomer);
+                System.out.println("c good");
+            }
+            else if (Objects.equals(getListCustomer.get(0), "freeUser")){
+                freeUserRequest(conn,st,rs,getListCustomer);
+                System.out.println("c good");
+            }
 
 
         } catch (SQLException e) {
@@ -213,6 +220,7 @@ public class CustomersDAO {
         String sql3 = "DELETE FROM FRIENDREQUESTS WHERE USERNAMEFRIENDREQUEST = '" + getListCustomer.get(1) + "' AND USERNAMEFRIENDREQUESTED = '" + getListCustomer.get(2) + "'";
         st.executeUpdate(sql3);
     }
+
     public void FriendRequestAccepter(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
         st = conn.createStatement();
         System.out.println(getListCustomer.get(1));
@@ -226,7 +234,21 @@ public class CustomersDAO {
         AnswerServer ="friendListUpdate" + a + " " + b;
     }
 
-        public void addCustomer(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
+
+    public void banUserRequest(Connection conn, Statement st,ResultSet rs, List<String> getListCustomer)throws ClassNotFoundException, SQLException{
+        st = conn.createStatement();
+        String sql3 = "UPDATE Customer SET PERMISSION = 'BAN' WHERE USERNAME = getListCustomer.get(1)";
+        st.executeUpdate(sql3);
+    }
+
+    public void freeUserRequest(Connection conn, Statement st,ResultSet rs, List<String> getListCustomer)throws ClassNotFoundException, SQLException{
+        st = conn.createStatement();
+        System.out.println(getListCustomer.get(1));
+        String sql3 = "UPDATE Customer SET PERMISSION = 'FREE' WHERE USERNAME = getListCustomer.get(1)";
+        st.executeUpdate(sql3);    }
+
+
+    public void addCustomer(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
         st = conn.createStatement();
         DatabaseMetaData dbmd = conn.getMetaData();
         rs = dbmd.getTables(null, null, "CUSTOMER", null);

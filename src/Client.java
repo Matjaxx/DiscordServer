@@ -273,8 +273,20 @@ public class Client extends JFrame {
                     String message = customer.getUsername();
                     out.println("friendlist "+ message);
                 }
+                else if (userInput.equals("UpdateFriendList()") && customer.getIsConnected()) {
+                    String message = customer.getUsername();
+                    out.println("friendlist "+ message);
+                }
                 else if (userInput.equals("friendManager()") && customer.getIsConnected()){
                     String message = customer.setInfoFriendRequest();
+                    out.println(message);
+                }
+                else if (userInput.equals("banUser()") && customer.getIsConnected()){
+                    String message = customer.tryToBanUser();
+                    out.println(message);
+                }
+                else if (userInput.equals("freeUser()") && customer.getIsConnected()){
+                    String message = customer.tryToBanUser();
                     out.println(message);
                 }
                 else if (userInput.equals("Writte message") && customer.getIsConnected()){
@@ -309,6 +321,14 @@ public class Client extends JFrame {
                     if (Objects.equals(ServerContent.get(0), "conversation")) {
                         String ForServ = customer.YourConv(ServerContent);
                         out.println(ForServ);
+                    }
+                    if (Objects.equals(ServerContent.get(0), "banUser")) {
+                        customer.setInfoFriend(ServerContent);
+                        System.out.println("banUser");
+                    }
+                    if (Objects.equals(ServerContent.get(0), "freeUser")) {
+                        customer.setInfoFriend(ServerContent);
+                        System.out.println("freeUser");
                     }
 
                 }
