@@ -131,6 +131,53 @@ public class Client extends JFrame {
                         convertListToString += customer.getListCustomer().get(i)+" ";
                     }
                     out.println(convertListToString);
+                    String serverResponse = null;
+                    try {
+                        serverResponse = in.readLine();
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    if (serverResponse != null) {
+                        System.out.println("Received message from server: " + serverResponse);
+                        ServerContent = separateWords(serverResponse);
+                        if (Objects.equals(ServerContent.get(0), "connected")) {
+                            customer.setInfoCustomer(ServerContent);
+                            customer.displayInfoCustomer();
+                        }
+                        if (Objects.equals(ServerContent.get(0), "friendRequest")) {
+                            customer.setInfoFriendlist(ServerContent);
+                            customer.displayInfoCustomer();
+                        }
+                        if (Objects.equals(ServerContent.get(0), "requestlist")) {
+                            customer.setInfoCustomer(ServerContent);
+                            customer.displayInfoCustomer();
+                        }
+                        if (Objects.equals(ServerContent.get(0), "friendListUpdate")) {
+                            customer.setInfoFriend(ServerContent);
+                            System.out.println("friendListUpdated");
+                        }
+                        if (Objects.equals(ServerContent.get(0), "conversation")) {
+                            String ForServ = customer.YourConv(ServerContent);
+                            out.println(ForServ);
+                        }
+                        if (Objects.equals(ServerContent.get(0), "banUser")) {
+                            customer.setInfoFriend(ServerContent);
+                            System.out.println("banUser");
+                        }
+                        if (Objects.equals(ServerContent.get(0), "freeUser")) {
+                            customer.setInfoFriend(ServerContent);
+                            System.out.println("freeUser");
+                        }
+                        if (Objects.equals(ServerContent.get(0), "beOnline")) {
+                            customer.setInfoFriend(ServerContent);
+                            System.out.println("beOnline");
+                        }
+                        if (Objects.equals(ServerContent.get(0), "beDisconnect")) {
+                            customer.setInfoFriend(ServerContent);
+                            System.out.println("beDisconnect");
+                        }
+
+                    }
                 }
             }
             );
@@ -302,11 +349,12 @@ public class Client extends JFrame {
                     out.println("seeMyFriendsOnline" + message);
                 }
                 else if (userInput.equals("Writte message") && customer.getIsConnected()){
-                    String message = customer.tryToBeDisconnect();
+                    String message = customer.Conversation();;
                     out.println(message);
                 }
                 else{
                     System.out.println("commande not found");
+                    out.println("commande not found");
                 }
 
                 // Attend et affiche la réponse du serveur
@@ -330,7 +378,7 @@ public class Client extends JFrame {
                         customer.setInfoFriend(ServerContent);
                         System.out.println("friendListUpdated");
                     }
-                    if (Objects.equals(ServerContent.get(0), "conversation")) {
+                    if (Objects.equals(ServerContent.get(0), "Conversation")) {
                         String ForServ = customer.YourConv(ServerContent);
                         out.println(ForServ);
                     }

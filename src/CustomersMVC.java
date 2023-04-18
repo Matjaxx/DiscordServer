@@ -61,18 +61,58 @@ public class CustomersMVC {
 
     }
     public String YourConv(List<String> AnswerServerFriendlist) {
-        AnswerServerFriendlist.remove(0);
-        String reciever = AnswerServerFriendlist.get(1);
-        AnswerServerFriendlist.remove(1);
+        System.out.println("-------------------");
+
+        List<String> newFriendList = new ArrayList<String>(AnswerServerFriendlist);
+        newFriendList.remove(0);
+
+        for (int i = 0; i < newFriendList.size(); i++) {
+            System.out.println("-------------------");
+            System.out.println(newFriendList.get(i));
+        }
+
+
+        String reciever = newFriendList.get(1);
+        if (!newFriendList.get(0).equals(Username)) {
+            reciever = newFriendList.get(0);
+        }
+        if (!newFriendList.get(1).equals(Username)) {
+            reciever = newFriendList.get(0);
+        }
+
         Scanner s = new Scanner(System.in);
-        for (int i = 0; i < AnswerServerFriendlist.size(); i++) {
-            if (AnswerServerFriendlist.get(i).equals(Username)) {
-                System.out.println(AnswerServerFriendlist.get(i+2) +"  Me: " +AnswerServerFriendlist.get(i+3)  );
-                i+=4;
+        /*for (int i = 0; i < newFriendList.size(); i++) {
+            if (newFriendList.get(i).equals(Username)) {
+                System.out.println(newFriendList.get(i));
+                System.out.println(newFriendList.get(i+1) + " " + newFriendList.get(i+2)+"  Me: " + newFriendList.get(i+3)  );
+                i+=3;
             }
             else{
-                System.out.println(AnswerServerFriendlist.get(i+2) +"                "+reciever+": " +AnswerServerFriendlist.get(i+3)  );
-                i+=4;
+                System.out.println(newFriendList.get(i));
+                System.out.println(newFriendList.get(i+1)+ newFriendList.get(i+2) +"    "+  newFriendList.get(i+3)+ "                :"+reciever+" "   );
+                i+=3;
+            }
+        }*/
+        int k = 0;
+        while(k != newFriendList.size() / 5){
+            if (newFriendList.get(0).equals(Username)) {
+
+                System.out.println(newFriendList.get(3) + " " + newFriendList.get(2)+"  Me: " + newFriendList.get(4)  );
+                newFriendList.remove(0);
+                newFriendList.remove(0);
+                newFriendList.remove(0);
+                newFriendList.remove(0);
+                newFriendList.remove(0);
+
+            }
+            else{
+
+                System.out.println(newFriendList.get(3)+ newFriendList.get(2) +"    "+  newFriendList.get(4)+ "                :"+newFriendList.get(0)+" "   );
+                newFriendList.remove(0);
+                newFriendList.remove(0);
+                newFriendList.remove(0);
+                newFriendList.remove(0);
+                newFriendList.remove(0);
             }
         }
         System.out.println("Type your message");
@@ -85,6 +125,7 @@ public class CustomersMVC {
         String Receiver;
         System.out.println("Type the name of the person you want to talk to");
         Receiver = s.nextLine();
+        System.out.println("testLine");
         return "conversation" + " " + Username + " " + Receiver;
     }
 

@@ -187,29 +187,29 @@ public class CustomersDAO {
         st = conn.createStatement();
 
 
-        AnswerServer ="Conversation" + " " + getListCustomer.get(1) + " " ;
+        AnswerServer ="Conversation" + " " ;
         String sql = "SELECT * FROM MESSAGES WHERE (USERNAME = '" + getListCustomer.get(1) + "' AND USERNAME2 = '" + getListCustomer.get(2) + "') OR (USERNAME = '" + getListCustomer.get(2) + "' AND USERNAME2 = '" + getListCustomer.get(1) + "') ORDER BY DATEMESSAGE ASC;";
         rs = st.executeQuery(sql);
         while (rs.next()) {
             String sender = rs.getString("USERNAME");
             String recipient = rs.getString("USERNAME2");
             String content = rs.getString("CONTENT");
-            String date = rs.getString("DATEMESSAGE");
+            String date = rs.getString("TIMES");
             System.out.println(date + " - " + sender + " to " + recipient + ": " + content);
             AnswerServer = AnswerServer + sender + " " + recipient + " " + date + " " + content + " ";
         }
-
     }
     public void AddMessage(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
         st = conn.createStatement();
+        System.out.println("fritatos is here");
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String formattedDate = dateFormat.format(new Date());
 
         String sql3 = "INSERT INTO MESSAGES (USERNAME, USERNAME2, CONTENT,TIMES)" +
-        "VALUES (getListCustomer.get(1), getListCustomer.get(2), getListCustomer.get(3),'" + formattedDate + "')";
+                "VALUES ('"+getListCustomer.get(2)+"','" + getListCustomer.get(1) + "', '"+getListCustomer.get(3)+"','" + formattedDate + "')";
         st.executeUpdate(sql3);
-
+        System.out.println("fritatos is here2");
         AnswerServer ="Conversation" + " " + getListCustomer.get(1) + " " ;
         String sql = "SELECT * FROM MESSAGES WHERE (USERNAME = '" + getListCustomer.get(1) + "' AND USERNAME2 = '" + getListCustomer.get(2) + "') OR (USERNAME = '" + getListCustomer.get(2) + "' AND USERNAME2 = '" + getListCustomer.get(1) + "') ORDER BY DATEMESSAGE ASC;";
         rs = st.executeQuery(sql);
@@ -220,6 +220,7 @@ public class CustomersDAO {
             String date = rs.getString("TIMES");
             System.out.println(date + " - " + sender + " to " + recipient + ": " + content);
             AnswerServer = AnswerServer + sender + " " + recipient + " " + date + " " + content + " ";
+            System.out.println(AnswerServer+"le serveur envoie ca");
         }
 
     }
