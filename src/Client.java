@@ -290,11 +290,11 @@ public class Client extends JFrame {
                     out.println(message);
                 }
                 else if (userInput.equals("beOnline()") && customer.getIsConnected()){
-                    String message = customer.tryToBanUser();
+                    String message = customer.tryToBeOnline();
                     out.println(message);
                 }
                 else if (userInput.equals("beDisconnect()()") && customer.getIsConnected()){
-                    String message = customer.tryToBeOnline();
+                    String message = customer.tryToBeDisconnect();
                     out.println(message);
                 }
                 else if (userInput.equals("Writte message") && customer.getIsConnected()){

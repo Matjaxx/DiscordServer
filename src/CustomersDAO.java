@@ -255,11 +255,15 @@ public class CustomersDAO {
         st = conn.createStatement();
         String sql3 = "UPDATE Customer SET STATE = 'ONLINE' WHERE USERNAME = '" + getListCustomer.get(1) + "'";
         st.executeUpdate(sql3);
+        sql3 = "UPDATE Customer SET Last_Connection = GETDATE() WHERE USERNAME = '" + getListCustomer.get(1) + "'";
+        st.executeUpdate(sql3);
     }
 
     public void beDisconnectRequest(Connection conn, Statement st,ResultSet rs, List<String> getListCustomer)throws ClassNotFoundException, SQLException{
         st = conn.createStatement();
         String sql3 = "UPDATE Customer SET STATE = 'DISCONNECT' WHERE USERNAME = '" + getListCustomer.get(1) + "'";
+        st.executeUpdate(sql3);
+        sql3 = "UPDATE Customer SET Last_Connection = GETDATE() WHERE USERNAME = '" + getListCustomer.get(1) + "'";
         st.executeUpdate(sql3);
     }
 

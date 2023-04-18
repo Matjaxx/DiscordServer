@@ -17,6 +17,16 @@ public class Server {
             st = conn.createStatement();
             System.out.println("Connexion réussie à la base de données.");
 
+            String sql10 = "SELECT * FROM Customer";
+            rs = st.executeQuery(sql10);
+
+            while (rs.next()){
+                String USERNAME = rs.getString("USERNAME");
+                String Last_Connection = rs.getString("Last_Connection");
+
+                System.out.println(USERNAME + " to " + Last_Connection);
+            }
+
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String formattedDate = dateFormat.format(new Date());
