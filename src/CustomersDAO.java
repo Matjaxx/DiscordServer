@@ -1,3 +1,4 @@
+import java.io.PrintWriter;
 import java.sql.*;
 import java.util.Objects;
 import java.util.Scanner;
@@ -9,6 +10,7 @@ import java.text.SimpleDateFormat;
 public class CustomersDAO {
 
     private String AnswerServer;
+
 
     public String getAnswerServer() {
         return AnswerServer;
@@ -72,6 +74,9 @@ public class CustomersDAO {
             }
             else if (Objects.equals(getListCustomer.get(0), "beDisconnect")){
                 beDisconnectRequest(conn,st,rs,getListCustomer);
+            }
+            else if (Objects.equals(getListCustomer.get(0), "seeMyFriendsOnline")){
+                seeMyFriendsOnlineDAO(conn,st,rs,getListCustomer);
             }
 
 
@@ -335,6 +340,24 @@ public class CustomersDAO {
     }
     public void updateCustomer(CustomersMVC customer) {
         // TODO
+    }
+
+
+    public void seeMyFriendsOnlineDAO(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer)throws  SQLException{
+        st = conn.createStatement();
+
+        String sql;
+        String result = "";
+        for (int i = 1; i < getListCustomer.size(); i++) {
+            sql = "SELECT  Last_Connection FROM Customer WHERE USERNAME = '" + getListCustomer.get(i) + "'";
+            rs = st.executeQuery(sql);
+            while (rs.next()){
+                String Last_Connection = rs.getString("Last_Connection");
+                System.out.println(getListCustomer.get(i) + " : " + Last_Connection);
+                result += getListCustomer.get(i) + " : " + Last_Connection + "\n";
+            }
+        }
+        AnswerServer = result;
     }
 
 }

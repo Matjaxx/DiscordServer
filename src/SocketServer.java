@@ -12,7 +12,7 @@ public class SocketServer {
     private ServerSocket serverSocket;
 
     public SocketServer() throws IOException {
-        serverSocket = new ServerSocket(1200);
+        serverSocket = new ServerSocket(1299);
     }
 
     public void execute() throws IOException {
@@ -127,6 +127,10 @@ public class SocketServer {
                     else if (inputLine.equals("beDisconnect")) {
                         customersDAO.ServerJBDCConnection(listOrder);
                         out.println("You are going to be disconnect");
+                    }
+                    else if (inputLine.equals("seeMyFriendsOnline")) {
+                        customersDAO.ServerJBDCConnection(listOrder);
+                        out.println(customersDAO.getAnswerServer());
                     }
                     else if (inputLine.equals("quit()")) {
                         break;

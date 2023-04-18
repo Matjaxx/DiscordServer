@@ -316,6 +316,15 @@ public class CustomersMVC {
         return request;
     }
 
+    public String seeMyFriendsOnline(){
+        String stringFriends =  "";
+        for (String friend:friends) {
+            stringFriends +=  " " + friend;
+        }
+        System.out.println(stringFriends);
+        return stringFriends;
+    }
+
 }
 
 
