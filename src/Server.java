@@ -17,12 +17,6 @@ public class Server {
             st = conn.createStatement();
             System.out.println("Connexion réussie à la base de données.");
 
-            String sql4 = "DELETE FROM MESSAGES";
-            st.executeQuery(sql4);
-            System.out.println("Tous les messages ont été supprimés de la table MESSAGES.");
-
-
-
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String formattedDate = dateFormat.format(new Date());
@@ -59,6 +53,7 @@ public class Server {
             String sql6 = "SELECT FRIEND1, FRIEND2 FROM FRIENDLIST";
             rs = st.executeQuery(sql6);
 
+            
             while (rs.next()) {
                 String sender = rs.getString("FRIEND1");
                 String recipient = rs.getString("FRIEND2");

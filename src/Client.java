@@ -289,8 +289,16 @@ public class Client extends JFrame {
                     String message = customer.tryToBanUser();
                     out.println(message);
                 }
+                else if (userInput.equals("beOnline()") && customer.getIsConnected()){
+                    String message = customer.tryToBanUser();
+                    out.println(message);
+                }
+                else if (userInput.equals("beDisconnect()()") && customer.getIsConnected()){
+                    String message = customer.tryToBeOnline();
+                    out.println(message);
+                }
                 else if (userInput.equals("Writte message") && customer.getIsConnected()){
-                    String message = customer.Conversation();
+                    String message = customer.tryToBeDisconnect();
                     out.println(message);
                 }
                 else{
@@ -329,6 +337,14 @@ public class Client extends JFrame {
                     if (Objects.equals(ServerContent.get(0), "freeUser")) {
                         customer.setInfoFriend(ServerContent);
                         System.out.println("freeUser");
+                    }
+                    if (Objects.equals(ServerContent.get(0), "beOnline")) {
+                        customer.setInfoFriend(ServerContent);
+                        System.out.println("beOnline");
+                    }
+                    if (Objects.equals(ServerContent.get(0), "beDisconnect")) {
+                        customer.setInfoFriend(ServerContent);
+                        System.out.println("beDisconnect");
                     }
 
                 }

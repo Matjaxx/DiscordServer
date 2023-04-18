@@ -149,6 +149,14 @@ public class CustomersMVC {
         }
     }
 
+    public String tryToBeOnline() {
+        return "beOnline" + " " + Username;
+    }
+
+    public String tryToBeDisconnect() {
+        return "beDisconnect" + " " + Username;
+    }
+
     //creer une methode qui affiche dans la console tout les private string
     public void displayInfoCustomer(){
         System.out.println("Username : " + Username);

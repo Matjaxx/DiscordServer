@@ -63,11 +63,15 @@ public class CustomersDAO {
             }
             else if (Objects.equals(getListCustomer.get(0), "banUser")){
                 banUserRequest(conn,st,rs,getListCustomer);
-                System.out.println("c good");
             }
             else if (Objects.equals(getListCustomer.get(0), "freeUser")){
                 freeUserRequest(conn,st,rs,getListCustomer);
-                System.out.println("c good");
+            }
+            else if (Objects.equals(getListCustomer.get(0), "beOnline")){
+                beOnlineRequest(conn,st,rs,getListCustomer);
+            }
+            else if (Objects.equals(getListCustomer.get(0), "beDisconnect")){
+                beDisconnectRequest(conn,st,rs,getListCustomer);
             }
 
 
@@ -243,9 +247,21 @@ public class CustomersDAO {
 
     public void freeUserRequest(Connection conn, Statement st,ResultSet rs, List<String> getListCustomer)throws ClassNotFoundException, SQLException{
         st = conn.createStatement();
-        System.out.println(getListCustomer.get(1));
         String sql3 = "UPDATE Customer SET PERMISSION = 'FREE' WHERE USERNAME = '" + getListCustomer.get(1) + "'";
-        st.executeUpdate(sql3);    }
+        st.executeUpdate(sql3);
+    }
+
+    public void beOnlineRequest(Connection conn, Statement st,ResultSet rs, List<String> getListCustomer)throws ClassNotFoundException, SQLException{
+        st = conn.createStatement();
+        String sql3 = "UPDATE Customer SET STATE = 'ONLINE' WHERE USERNAME = '" + getListCustomer.get(1) + "'";
+        st.executeUpdate(sql3);
+    }
+
+    public void beDisconnectRequest(Connection conn, Statement st,ResultSet rs, List<String> getListCustomer)throws ClassNotFoundException, SQLException{
+        st = conn.createStatement();
+        String sql3 = "UPDATE Customer SET STATE = 'DISCONNECT' WHERE USERNAME = '" + getListCustomer.get(1) + "'";
+        st.executeUpdate(sql3);
+    }
 
 
     public void addCustomer(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
