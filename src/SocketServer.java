@@ -120,6 +120,14 @@ public class SocketServer {
                         customersDAO.ServerJBDCConnection(listOrder);
                         out.println("You are going to free someone");
                     }
+                    else if (inputLine.equals("beOnline")) {
+                        customersDAO.ServerJBDCConnection(listOrder);
+                        out.println("You are going to be online");
+                    }
+                    else if (inputLine.equals("beDisconnect")) {
+                        customersDAO.ServerJBDCConnection(listOrder);
+                        out.println("You are going to be disconnect");
+                    }
                     else if (inputLine.equals("quit()")) {
                         break;
                     }
