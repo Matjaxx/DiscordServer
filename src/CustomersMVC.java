@@ -6,7 +6,6 @@ import java.util.List;
 public class CustomersMVC {
     //creer un getter de la cette list
 
-
     private List<String> listCustomer = new ArrayList<String>();
 
     private List<String> friendRequest = new ArrayList<String>();
@@ -136,21 +135,64 @@ public class CustomersMVC {
             System.out.println(friends.get(i));
         }
     }
+    public void connectionGraphique(int a, String pseudo, String password, String nom, String mail, String prenom, String id){
+        //creer ue list de string
+
+        if (a==2){
+            listCustomer.add("createAccount");
+            String UserCharacteristic;
+            UserCharacteristic = id;
+            listCustomer.add(UserCharacteristic);
+            UserCharacteristic = pseudo;
+            listCustomer.add(UserCharacteristic);
+            UserCharacteristic = prenom;
+            listCustomer.add(UserCharacteristic);
+            UserCharacteristic = nom;
+            listCustomer.add(UserCharacteristic);
+            UserCharacteristic = mail;
+            listCustomer.add(UserCharacteristic);
+            UserCharacteristic = password;
+            UserCharacteristic = hashingPassword(UserCharacteristic);
+            listCustomer.add(UserCharacteristic);
+            listCustomer.add("User");
+
+            for (int i = 0; i < listCustomer.size(); i++) {
+                System.out.println(listCustomer.get(i));
+            }
+
+        }
+        if (a==1) {
+            listCustomer.add("connectionAccount");
+            String UserCharacteristic2 = pseudo;
+            listCustomer.add(UserCharacteristic2);
+            UserCharacteristic2 = password;
+            UserCharacteristic2 = hashingPassword(UserCharacteristic2);
+            listCustomer.add(UserCharacteristic2);
+
+            for (int i = 0; i < listCustomer.size(); i++) {
+                System.out.println(listCustomer.get(i));
+            }
+        }
+
+
+    }
+
     public void connection(){
+
         int a;
         Scanner s = new Scanner(System.in);
         //creer ue list de string
-
 
         System.out.println("If you want to connect to the apps press -->1");
         System.out.println("If you want to create an account the apps press -->2");
         a =s.nextInt();
         System.out.println(a);
+
         if (a==2){
             listCustomer.add("createAccount");
             System.out.println("entrer votre ID");
             String UserCharacteristic = s.nextLine();
-            UserCharacteristic = s.nextLine();
+            UserCharacteristic = "1";
             listCustomer.add(UserCharacteristic);
             System.out.println("entrer votre pseudo");
             UserCharacteristic = s.nextLine();
@@ -185,7 +227,6 @@ public class CustomersMVC {
             UserCharacteristic2 = s.nextLine();
             UserCharacteristic2 = hashingPassword(UserCharacteristic2);
             listCustomer.add(UserCharacteristic2);
-
 
             for (int i = 0; i < listCustomer.size(); i++) {
                 System.out.println(listCustomer.get(i));
