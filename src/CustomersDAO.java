@@ -215,18 +215,20 @@ public class CustomersDAO {
             System.out.println(getListCustomer.get(i) + " " + i);
         }
         if (getListCustomer.size() == 4) {
-            String sql3 = "INSERT INTO MESSAGES (USERNAME, USERNAME2, CONTENT,TIMES)" +
-                    "VALUES ('" + getListCustomer.get(2) + "','" + getListCustomer.get(1) + "','" + getListCustomer.get(3) + "','" + formattedDate + "')";
+            String sql3 = "INSERT INTO MESSAGES (USERNAME, USERNAME2, CONTENT, TIMES, ORDRE) " +
+                    "VALUES ('" + getListCustomer.get(2) + "','" + getListCustomer.get(1) + "','" + getListCustomer.get(3) + "','" + formattedDate + "',(SELECT COALESCE(MAX(ORDRE), 0) + 1 FROM MESSAGES))";
+
             st.executeUpdate(sql3);
         }
         else{
-            String sql3 = "INSERT INTO MESSAGES (USERNAME, USERNAME2, CONTENT,TIMES)" +
-                    "VALUES ('" + getListCustomer.get(1) + "','" + speakingTo + "','" + getListCustomer.get(2) + "','" + formattedDate + "')";
+            String sql3 = "INSERT INTO MESSAGES (USERNAME, USERNAME2, CONTENT, TIMES, ORDRE) " +
+                    "VALUES ('" + getListCustomer.get(1) + "','" + speakingTo + "','" + getListCustomer.get(2) + "','" + formattedDate + "',(SELECT COALESCE(MAX(ORDRE), 0) + 1 FROM MESSAGES))";
+
             st.executeUpdate(sql3);
         }
         System.out.println("fritatos is here2");
         AnswerServer ="Conversation" + " " + getListCustomer.get(1) + " " ;
-        String sql = "SELECT * FROM MESSAGES WHERE (USERNAME = '" + getListCustomer.get(1) + "' AND USERNAME2 = '"+speakingTo+"') OR (USERNAME = '"+speakingTo+"' AND USERNAME2 = '" + getListCustomer.get(1) + "') ORDER BY TIMES ASC;";
+        String sql = "SELECT * FROM MESSAGES WHERE (USERNAME = '" + getListCustomer.get(1) + "' AND USERNAME2 = '"+speakingTo+"') OR (USERNAME = '"+speakingTo+"' AND USERNAME2 = '" + getListCustomer.get(1) + "') ORDER BY ORDRE ASC;";
         rs = st.executeQuery(sql);
         while (rs.next()) {
             String sender = rs.getString("USERNAME");

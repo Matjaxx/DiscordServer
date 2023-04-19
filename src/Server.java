@@ -32,14 +32,21 @@ public class Server {
             String formattedDate = dateFormat.format(new Date());
             System.out.println("Date formatée : " + formattedDate);
 
+
+
+            String sql11 = "DELETE FROM MESSAGES;";
+            st.executeUpdate(sql11);
+            System.out.println("Table MESSAGES supprimée.");
+
+
             // Insert a message into the MESSAGES table
-            /*String sql3 = "INSERT INTO MESSAGES (USERNAME, USERNAME2, CONTENT,TIMES) " +
-                    "VALUES ('JEREMIE', 'MATHIS', 'test?','" + formattedDate + "')";
+            String sql3 = "INSERT INTO MESSAGES (USERNAME, USERNAME2, CONTENT,TIMES,ORDRE) " +
+                    "VALUES ('JEREMIE', 'MATHIS', 'test?','" + formattedDate + "',(SELECT COALESCE(MAX(ORDRE), 0) + 1 FROM MESSAGES))";
             st.executeUpdate(sql3);
-            System.out.println("Message inséré dans la table MESSAGES.");*/
+            System.out.println("Message inséré dans la table MESSAGES.");
 
             // Retrieve all messages from the MESSAGES table and print them
-            String sql = "SELECT USERNAME, USERNAME2, CONTENT,TIMES FROM MESSAGES";
+            String sql = "SELECT USERNAME, USERNAME2, CONTENT,TIMES,ORDRE FROM MESSAGES";
             rs = st.executeQuery(sql);
             ResultSetMetaData metadata = rs.getMetaData();
             int columnCount = metadata.getColumnCount();
@@ -52,23 +59,11 @@ public class Server {
                 String recipient = rs.getString("USERNAME2");
                 String content = rs.getString("CONTENT");
                 String date = rs.getString("TIMES");
-                System.out.println(sender + " to " + recipient + ": " + content + " (" + date + ")");
+                String ORDRE = rs.getString("ORDRE");
+                System.out.println(sender + " to " + recipient + ": " + content + " (" + date + ")"+  "///" +ORDRE);
             }
 
-            String sql8 = "DELETE FROM FRIENDLIST";
-            st.executeUpdate(sql8);
-            System.out.println("Tous les messages ont été supprimés de la table MESSAGES.");
 
-            // Retrieve all messages from the MESSAGES table and print them
-            String sql6 = "SELECT FRIEND1, FRIEND2 FROM FRIENDLIST";
-            rs = st.executeQuery(sql6);
-
-            
-            while (rs.next()) {
-                String sender = rs.getString("FRIEND1");
-                String recipient = rs.getString("FRIEND2");
-                System.out.println(sender + " with " + recipient + " are friends.");
-            }
 
             // Retrieve all friend requests from the FRIENDREQUESTS table and print them
             /*String sql1 = "SELECT * FROM FRIENDREQUESTS";

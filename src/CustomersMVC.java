@@ -78,7 +78,7 @@ public class CustomersMVC {
                 reciever = newFriendList.get(0);
             }
             if (!newFriendList.get(1).equals(Username)) {
-                reciever = newFriendList.get(0);
+                reciever = newFriendList.get(1);
             }
         }
 
