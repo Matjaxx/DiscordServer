@@ -34,7 +34,10 @@ public class Server {
 
 
 
-            String sql11 = "DELETE FROM MESSAGES;";
+            String sql9 = "SELECT ID, USER_ID, FIRST_NAME,TYPELOG,TIMELOG FROM MESSAGES";
+            System.out.println("bipboop");
+            rs = st.executeQuery(sql9);
+            /*String sql11 = "DELETE FROM MESSAGES;";
             st.executeUpdate(sql11);
             System.out.println("Table MESSAGES supprimée.");
 
@@ -43,7 +46,7 @@ public class Server {
             String sql3 = "INSERT INTO MESSAGES (USERNAME, USERNAME2, CONTENT,TIMES,ORDRE) " +
                     "VALUES ('JEREMIE', 'MATHIS', 'test?','" + formattedDate + "',(SELECT COALESCE(MAX(ORDRE), 0) + 1 FROM MESSAGES))";
             st.executeUpdate(sql3);
-            System.out.println("Message inséré dans la table MESSAGES.");
+            System.out.println("Message inséré dans la table MESSAGES.");*/
 
             // Retrieve all messages from the MESSAGES table and print them
             String sql = "SELECT USERNAME, USERNAME2, CONTENT,TIMES,ORDRE FROM MESSAGES";

@@ -99,7 +99,7 @@ public class CustomersMVC {
         if (newFriendList.size() != 0) {
             while (k != newFriendList.size() / 5) {
                 if (newFriendList.get(0).equals(Username)) {
-
+                    newFriendList.set(4, newFriendList.get(4).replace("_", " "));
                     System.out.println(newFriendList.get(3) + " " + newFriendList.get(2) + "  Me: " + newFriendList.get(4));
                     newFriendList.remove(0);
                     newFriendList.remove(0);
@@ -108,7 +108,7 @@ public class CustomersMVC {
                     newFriendList.remove(0);
 
                 } else {
-
+                    newFriendList.set(4, newFriendList.get(4).replace("_", " "));
                     System.out.println(newFriendList.get(3) + " " + newFriendList.get(2) + "               " + newFriendList.get(4) + "                :" + newFriendList.get(0) + " ");
                     newFriendList.remove(0);
                     newFriendList.remove(0);
@@ -120,7 +120,9 @@ public class CustomersMVC {
         }
         System.out.println("Type your message");
         String message = s.nextLine();
-        return "SendM"+" "+ reciever + " " + Username + " " + message;
+        message = message.replaceAll(" ", "_");
+        System.out.println("testLine " + message);
+        return "SendM " + reciever + " " + Username + " " + message;
     }
 
     public String Conversation() {
