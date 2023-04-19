@@ -11,6 +11,11 @@ public class CustomersDAO {
 
     private String AnswerServer;
 
+     private String speakingTo = "";
+    public String Conv(){
+        return  speakingTo;
+    }
+
 
     public String getAnswerServer() {
         return AnswerServer;
@@ -186,8 +191,9 @@ public class CustomersDAO {
     public void Conversation(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
         st = conn.createStatement();
 
-
+        speakingTo = getListCustomer.get(2);
         AnswerServer ="Conversation" + " " ;
+
         String sql = "SELECT * FROM MESSAGES WHERE (USERNAME = '" + getListCustomer.get(1) + "' AND USERNAME2 = '" + getListCustomer.get(2) + "') OR (USERNAME = '" + getListCustomer.get(2) + "' AND USERNAME2 = '" + getListCustomer.get(1) + "') ORDER BY DATEMESSAGE ASC;";
         rs = st.executeQuery(sql);
         while (rs.next()) {
@@ -205,13 +211,22 @@ public class CustomersDAO {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String formattedDate = dateFormat.format(new Date());
-
-        String sql3 = "INSERT INTO MESSAGES (USERNAME, USERNAME2, CONTENT,TIMES)" +
-                "VALUES ('"+getListCustomer.get(2)+"','" + getListCustomer.get(1) + "', '"+getListCustomer.get(3)+"','" + formattedDate + "')";
-        st.executeUpdate(sql3);
+        for (int i = 0; i < getListCustomer.size(); i++) {
+            System.out.println(getListCustomer.get(i) + " " + i);
+        }
+        if (getListCustomer.size() == 4) {
+            String sql3 = "INSERT INTO MESSAGES (USERNAME, USERNAME2, CONTENT,TIMES)" +
+                    "VALUES ('" + getListCustomer.get(2) + "','" + getListCustomer.get(1) + "','" + getListCustomer.get(3) + "','" + formattedDate + "')";
+            st.executeUpdate(sql3);
+        }
+        else{
+            String sql3 = "INSERT INTO MESSAGES (USERNAME, USERNAME2, CONTENT,TIMES)" +
+                    "VALUES ('" + getListCustomer.get(1) + "','" + speakingTo + "','" + getListCustomer.get(2) + "','" + formattedDate + "')";
+            st.executeUpdate(sql3);
+        }
         System.out.println("fritatos is here2");
         AnswerServer ="Conversation" + " " + getListCustomer.get(1) + " " ;
-        String sql = "SELECT * FROM MESSAGES WHERE (USERNAME = '" + getListCustomer.get(1) + "' AND USERNAME2 = '" + getListCustomer.get(2) + "') OR (USERNAME = '" + getListCustomer.get(2) + "' AND USERNAME2 = '" + getListCustomer.get(1) + "') ORDER BY DATEMESSAGE ASC;";
+        String sql = "SELECT * FROM MESSAGES WHERE (USERNAME = '" + getListCustomer.get(1) + "' AND USERNAME2 = '"+speakingTo+"') OR (USERNAME = '"+speakingTo+"' AND USERNAME2 = '" + getListCustomer.get(1) + "') ORDER BY TIMES ASC;";
         rs = st.executeQuery(sql);
         while (rs.next()) {
             String sender = rs.getString("USERNAME");

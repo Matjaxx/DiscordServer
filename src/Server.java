@@ -33,10 +33,10 @@ public class Server {
             System.out.println("Date formatée : " + formattedDate);
 
             // Insert a message into the MESSAGES table
-            String sql3 = "INSERT INTO MESSAGES (USERNAME, USERNAME2, CONTENT,TIMES) " +
+            /*String sql3 = "INSERT INTO MESSAGES (USERNAME, USERNAME2, CONTENT,TIMES) " +
                     "VALUES ('JEREMIE', 'MATHIS', 'test?','" + formattedDate + "')";
             st.executeUpdate(sql3);
-            System.out.println("Message inséré dans la table MESSAGES.");
+            System.out.println("Message inséré dans la table MESSAGES.");*/
 
             // Retrieve all messages from the MESSAGES table and print them
             String sql = "SELECT USERNAME, USERNAME2, CONTENT,TIMES FROM MESSAGES";

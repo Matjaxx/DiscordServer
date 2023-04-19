@@ -320,10 +320,6 @@ public class Client extends JFrame {
                     String message = customer.getUsername();
                     out.println("friendlist "+ message);
                 }
-                else if (userInput.equals("UpdateFriendList()") && customer.getIsConnected()) {
-                    String message = customer.getUsername();
-                    out.println("friendlist "+ message);
-                }
                 else if (userInput.equals("friendManager()") && customer.getIsConnected()){
                     String message = customer.setInfoFriendRequest();
                     out.println(message);

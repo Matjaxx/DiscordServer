@@ -70,14 +70,16 @@ public class CustomersMVC {
             System.out.println("-------------------");
             System.out.println(newFriendList.get(i));
         }
+        String reciever="";
 
-
-        String reciever = newFriendList.get(1);
-        if (!newFriendList.get(0).equals(Username)) {
-            reciever = newFriendList.get(0);
-        }
-        if (!newFriendList.get(1).equals(Username)) {
-            reciever = newFriendList.get(0);
+        if (newFriendList.size() != 0) {
+            reciever = newFriendList.get(1);
+            if (!newFriendList.get(0).equals(Username)) {
+                reciever = newFriendList.get(0);
+            }
+            if (!newFriendList.get(1).equals(Username)) {
+                reciever = newFriendList.get(0);
+            }
         }
 
         Scanner s = new Scanner(System.in);
@@ -94,25 +96,26 @@ public class CustomersMVC {
             }
         }*/
         int k = 0;
-        while(k != newFriendList.size() / 5){
-            if (newFriendList.get(0).equals(Username)) {
+        if (newFriendList.size() != 0) {
+            while (k != newFriendList.size() / 5) {
+                if (newFriendList.get(0).equals(Username)) {
 
-                System.out.println(newFriendList.get(3) + " " + newFriendList.get(2)+"  Me: " + newFriendList.get(4)  );
-                newFriendList.remove(0);
-                newFriendList.remove(0);
-                newFriendList.remove(0);
-                newFriendList.remove(0);
-                newFriendList.remove(0);
+                    System.out.println(newFriendList.get(3) + " " + newFriendList.get(2) + "  Me: " + newFriendList.get(4));
+                    newFriendList.remove(0);
+                    newFriendList.remove(0);
+                    newFriendList.remove(0);
+                    newFriendList.remove(0);
+                    newFriendList.remove(0);
 
-            }
-            else{
+                } else {
 
-                System.out.println(newFriendList.get(3)+ newFriendList.get(2) +"    "+  newFriendList.get(4)+ "                :"+newFriendList.get(0)+" "   );
-                newFriendList.remove(0);
-                newFriendList.remove(0);
-                newFriendList.remove(0);
-                newFriendList.remove(0);
-                newFriendList.remove(0);
+                    System.out.println(newFriendList.get(3) + " " + newFriendList.get(2) + "               " + newFriendList.get(4) + "                :" + newFriendList.get(0) + " ");
+                    newFriendList.remove(0);
+                    newFriendList.remove(0);
+                    newFriendList.remove(0);
+                    newFriendList.remove(0);
+                    newFriendList.remove(0);
+                }
             }
         }
         System.out.println("Type your message");

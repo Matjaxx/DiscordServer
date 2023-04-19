@@ -110,7 +110,8 @@ public class SocketServer {
                     }
                     else if (inputLine.equals("SendM")) {
                         customersDAO.ServerJBDCConnection(listOrder);
-                        out.println("Message sent");
+                        out.flush();
+                        //out.println("Message sent");
                     }
                     else if (inputLine.equals("banUser")) {
                         customersDAO.ServerJBDCConnection(listOrder);
