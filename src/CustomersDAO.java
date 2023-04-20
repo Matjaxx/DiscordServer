@@ -393,10 +393,10 @@ public class CustomersDAO {
         rs = dbmd.getTables(null, null, "CUSTOMER", null);
         if (rs.next()) {
             System.out.println("La table CUSTOMER existe dans la base de données.");
-            String sql3 = "INSERT INTO CUSTOMER (ID, USERNAME, FIRST_NAME, LAST_NAME, EMAIL, PASSWORD, PERMISSION, Last_Connection) " +
+            String sql3 = "INSERT INTO CUSTOMER (ID, USERNAME, FIRST_NAME, LAST_NAME, EMAIL, PASSWORD, PERMISSION, Last_Connection,USERLVL) " +
                     "VALUES ('" + getListCustomer.get(1) + "', '" + getListCustomer.get(2) + "', '" + getListCustomer.get(3) + "', '" +
                     getListCustomer.get(4) + "', '" + getListCustomer.get(5) + "', '" + getListCustomer.get(6) + "', '" +
-                    getListCustomer.get(7) + "', GETDATE())";
+                    getListCustomer.get(7) + "', GETDATE(), '"+ getListCustomer.get(8) +"')";
             st.executeUpdate(sql3);
             displayCustomerInfo(conn, st, rs);
 
@@ -414,10 +414,10 @@ public class CustomersDAO {
             st.executeUpdate(sql);
             System.out.println("Table CUSTOMER created successfully...");
 
-            String sql3 = "INSERT INTO CUSTOMER (ID, USERNAME, FIRST_NAME, LAST_NAME, EMAIL, PASSWORD, PERMISSION, Last_Connection) " +
+            String sql3 = "INSERT INTO CUSTOMER (ID, USERNAME, FIRST_NAME, LAST_NAME, EMAIL, PASSWORD, PERMISSION, Last_Connection,USERLVL) " +
                     "VALUES ('" + getListCustomer.get(1) + "', '" + getListCustomer.get(2) + "', '" + getListCustomer.get(3) + "', '" +
                     getListCustomer.get(4) + "', '" + getListCustomer.get(5) + "', '" + getListCustomer.get(6) + "', '" +
-                    getListCustomer.get(7) + "', GETDATE())";
+                    getListCustomer.get(7) + "', GETDATE(), + getListCustomer.get(8) +)";
             st.executeUpdate(sql3);
             displayCustomerInfo(conn,st,rs);
 
