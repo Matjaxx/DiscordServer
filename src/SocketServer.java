@@ -75,7 +75,11 @@ public class SocketServer {
                             System.out.println("success");
                             out.println(customersDAO.getAnswerServer());
                         }
-                        else {
+                        else if (customersDAO.getBanned()){
+                            System.out.println("You have been banned from the server");
+                            out.println("banned");
+                        }
+                        else{
                             System.out.println("conenction failed : please retry");
                             out.println("Connection failed: please retry.");
                         }

@@ -18,7 +18,9 @@ public class CustomersMVC {
     private String FirstName;
     private String LastName;
     private String permission;
+    private String userLVL;
     boolean isConnected = false;
+    boolean isBanned = false;
 
 
 
@@ -35,14 +37,22 @@ public class CustomersMVC {
     }
 
     public void setInfoCustomer(List<String> infoCustomer) {
-        System.out.println("setInfoCustomer");
-        isConnected = true;
-        Username = infoCustomer.get(1);
-        FirstName = infoCustomer.get(2);
-        LastName = infoCustomer.get(3);
-        Password = infoCustomer.get(4);
-        Email = infoCustomer.get(5);
-        permission = infoCustomer.get(6);
+        if (infoCustomer.get(0).equals("Banned")) {
+            isBanned = true;
+            System.out.println("You are Banned from the server");
+        }else{
+            System.out.println("setInfoCustomer");
+            isConnected = true;
+            Username = infoCustomer.get(1);
+            FirstName = infoCustomer.get(2);
+            LastName = infoCustomer.get(3);
+            Password = infoCustomer.get(6);
+            Email = infoCustomer.get(4);
+            permission = infoCustomer.get(5);
+            userLVL = infoCustomer.get(7);
+
+        }
+
     }
 
     public void setInfoFriendlist(List<String> AnswerServerFriendlist) {

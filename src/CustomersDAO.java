@@ -22,6 +22,12 @@ public class CustomersDAO {
     }
 
     private boolean verifConnection = false;
+
+    private boolean banned = false;
+    //creer un getter pour banned
+    public boolean getBanned() {
+        return banned;
+    }
     private boolean verifFriend = false;
     public boolean getVerifConnection() {
         return verifConnection;
@@ -108,13 +114,20 @@ public class CustomersDAO {
         rs = st.executeQuery(sql3);
 
         while (rs.next()) {
+            if (rs.getString("PERMISSION").equals("BAN"))
+                banned = true;
+            else if (rs.getString("PERMISSION").equals("Free"))
             verifConnection = true;
         }
         String sql4 = "SELECT * FROM CUSTOMER WHERE USERNAME = '" + getListCustomer.get(1) + "'";
         rs = st.executeQuery(sql4);
         while (rs.next()) {
-
-            AnswerServer = "connected" + " " + rs.getString("USERNAME") + " "+ rs.getString("FIRST_NAME") + " " + rs.getString("LAST_NAME")+ " " + rs.getString("EMAIL") + " " + rs.getString("PERMISSION") + " " + rs.getString("PASSWORD");
+            if (!banned) {
+                AnswerServer = "connected" + " " + rs.getString("USERNAME") + " " + rs.getString("FIRST_NAME") + " " + rs.getString("LAST_NAME") + " " + rs.getString("EMAIL") + " " + rs.getString("PERMISSION") + " " + rs.getString("PASSWORD")+ " " + rs.getString("USERLVL");
+            }
+            else {
+                AnswerServer = "banned";
+            }
         }
         sql3 = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
         String IDString = "";
