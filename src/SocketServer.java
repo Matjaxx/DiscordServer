@@ -133,6 +133,10 @@ public class SocketServer {
                         customersDAO.ServerJBDCConnection(listOrder);
                         out.println(customersDAO.getAnswerServer());
                     }
+                    else if (inputLine.equals("seeEveryLog")) {
+                        customersDAO.ServerJBDCConnection(listOrder);
+                        out.println(customersDAO.getAnswerServer());
+                    }
                     else if (inputLine.equals("quit()")) {
                         break;
                     }
