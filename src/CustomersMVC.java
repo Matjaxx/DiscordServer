@@ -363,7 +363,7 @@ public class CustomersMVC {
     }
 
     public String seeMyFriendsOnline(){
-        String stringFriends =  "";
+        String stringFriends =  " " + Username;
         for (String friend:friends) {
             stringFriends +=  " " + friend;
         }

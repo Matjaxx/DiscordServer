@@ -116,6 +116,14 @@ public class CustomersDAO {
 
             AnswerServer = "connected" + " " + rs.getString("USERNAME") + " "+ rs.getString("FIRST_NAME") + " " + rs.getString("LAST_NAME")+ " " + rs.getString("EMAIL") + " " + rs.getString("PERMISSION") + " " + rs.getString("PASSWORD");
         }
+        sql3 = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
+        String IDString = "";
+        rs = st.executeQuery(sql3);
+        while (rs.next()){
+            IDString = rs.getString("ID");
+        }
+        int ID = Integer.parseInt(IDString);
+        newLogDAO(conn,st,rs,"connectionCustomer ",ID);
     }
 
     public void addFriend(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
@@ -159,8 +167,14 @@ public class CustomersDAO {
                 System.out.println("friend doesn't exist");
             }
         }
-
-
+        String sql3 = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
+        String IDString = "";
+        rs = st.executeQuery(sql3);
+        while (rs.next()){
+            IDString = rs.getString("ID");
+        }
+        int ID = Integer.parseInt(IDString);
+        newLogDAO(conn,st,rs,"addFriend " + getListCustomer.get(2),ID);
     }
     public void FriendRequests(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
         st = conn.createStatement();
@@ -170,6 +184,14 @@ public class CustomersDAO {
         while (rs.next()) {
             AnswerServer = AnswerServer + rs.getString("USERNAMEFRIENDREQUEST")+ " ";
         }
+        sql3 = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
+        String IDString = "";
+        rs = st.executeQuery(sql3);
+        while (rs.next()){
+            IDString = rs.getString("ID");
+        }
+        int ID = Integer.parseInt(IDString);
+        newLogDAO(conn,st,rs,"FriendRequests",ID);
     }
     public void FriendUpdate(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
         st = conn.createStatement();
@@ -187,6 +209,15 @@ public class CustomersDAO {
         while (rs.next()) {
             AnswerServer = AnswerServer + rs.getString("FRIEND1") + " ";
         }
+        sql3 = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
+        String IDString = "";
+        rs = st.executeQuery(sql3);
+        while (rs.next()){
+            IDString = rs.getString("ID");
+        }
+
+        int ID = Integer.parseInt(IDString);
+        newLogDAO(conn,st,rs,"FriendUpdate",ID);
     }
     public void Conversation(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
         st = conn.createStatement();
@@ -239,6 +270,15 @@ public class CustomersDAO {
             AnswerServer = AnswerServer + sender + " " + recipient + " " + date + " " + content + " ";
             System.out.println(AnswerServer+"le serveur envoie ca");
         }
+        sql = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
+        String IDString = "";
+        rs = st.executeQuery(sql);
+        while (rs.next()){
+            IDString = rs.getString("ID");
+        }
+
+        int ID = Integer.parseInt(IDString);
+        newLogDAO(conn,st,rs,"AddMessage " + getListCustomer.get(2),ID);
 
     }
     public void FriendRequestsDenier(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
@@ -246,6 +286,15 @@ public class CustomersDAO {
 
         String sql3 = "DELETE FROM FRIENDREQUESTS WHERE USERNAMEFRIENDREQUEST = '" + getListCustomer.get(1) + "' AND USERNAMEFRIENDREQUESTED = '" + getListCustomer.get(2) + "'";
         st.executeUpdate(sql3);
+        sql3 = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
+        String IDString = "";
+        rs = st.executeQuery(sql3);
+        while (rs.next()){
+            IDString = rs.getString("ID");
+        }
+
+        int ID = Integer.parseInt(IDString);
+        newLogDAO(conn,st,rs,"FriendRequestsDenier " + getListCustomer.get(2),ID);
     }
 
     public void FriendRequestAccepter(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
@@ -257,8 +306,16 @@ public class CustomersDAO {
         st.executeUpdate(sql3);
         String a= getListCustomer.get(1);
         String b= getListCustomer.get(2);
-
         AnswerServer ="friendListUpdate" + a + " " + b;
+        sql3 = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
+        String IDString = "";
+        rs = st.executeQuery(sql3);
+        while (rs.next()){
+            IDString = rs.getString("ID");
+        }
+
+        int ID = Integer.parseInt(IDString);
+        newLogDAO(conn,st,rs,"FriendRequestAccepter " + getListCustomer.get(2),ID);
     }
 
 
@@ -266,12 +323,30 @@ public class CustomersDAO {
         st = conn.createStatement();
         String sql3 = "UPDATE Customer SET PERMISSION = 'BAN' WHERE USERNAME = '" + getListCustomer.get(1) + "'";
         st.executeUpdate(sql3);
+        sql3 = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
+        String IDString = "";
+        rs = st.executeQuery(sql3);
+        while (rs.next()){
+            IDString = rs.getString("ID");
+        }
+
+        int ID = Integer.parseInt(IDString);
+        newLogDAO(conn,st,rs,"banUserRequest",ID);
     }
 
     public void freeUserRequest(Connection conn, Statement st,ResultSet rs, List<String> getListCustomer)throws ClassNotFoundException, SQLException{
         st = conn.createStatement();
         String sql3 = "UPDATE Customer SET PERMISSION = 'FREE' WHERE USERNAME = '" + getListCustomer.get(1) + "'";
         st.executeUpdate(sql3);
+        sql3 = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
+        String IDString = "";
+        rs = st.executeQuery(sql3);
+        while (rs.next()){
+            IDString = rs.getString("ID");
+        }
+
+        int ID = Integer.parseInt(IDString);
+        newLogDAO(conn,st,rs,"freeUserRequest",ID);
     }
 
     public void beOnlineRequest(Connection conn, Statement st,ResultSet rs, List<String> getListCustomer)throws ClassNotFoundException, SQLException{
@@ -342,6 +417,16 @@ public class CustomersDAO {
                     getListCustomer.get(7) + "', GETDATE())";
             st.executeUpdate(sql3);
             displayCustomerInfo(conn,st,rs);
+
+            sql = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
+            String IDString = "";
+            rs = st.executeQuery(sql);
+            while (rs.next()){
+                IDString = rs.getString("ID");
+            }
+
+            int ID = Integer.parseInt(IDString);
+            newLogDAO(conn,st,rs,"addCustomer",ID);
         }
     }
 
@@ -384,7 +469,7 @@ public class CustomersDAO {
 
         String sql;
         String result = "";
-        for (int i = 1; i < getListCustomer.size(); i++) {
+        for (int i = 2; i < getListCustomer.size(); i++) {
             sql = "SELECT  Last_Connection FROM Customer WHERE USERNAME = '" + getListCustomer.get(i) + "'";
             rs = st.executeQuery(sql);
             while (rs.next()){
@@ -394,6 +479,15 @@ public class CustomersDAO {
             }
         }
         AnswerServer = result;
+        sql = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
+        String IDString = "";
+        rs = st.executeQuery(sql);
+        while (rs.next()){
+            IDString = rs.getString("ID");
+        }
+
+        int ID = Integer.parseInt(IDString);
+        newLogDAO(conn,st,rs,"seeMyFriendsOnlineDAO",ID);
     }
 
 
@@ -406,7 +500,6 @@ public class CustomersDAO {
         while (rs.next()){
             String ID = rs.getString("ID");
             newID = Integer.parseInt(ID);
-            System.out.println(ID);
         }
         newID++;
 
