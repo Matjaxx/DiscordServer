@@ -89,6 +89,9 @@ public class CustomersDAO {
             else if (Objects.equals(getListCustomer.get(0), "seeMyFriendsOnline")){
                 seeMyFriendsOnlineDAO(conn,st,rs,getListCustomer);
             }
+            else if (Objects.equals(getListCustomer.get(0), "seeEveryLog")){
+                seeEveryLog(conn,st,rs);
+            }
 
 
         } catch (SQLException e) {
@@ -136,7 +139,7 @@ public class CustomersDAO {
             IDString = rs.getString("ID");
         }
         int ID = Integer.parseInt(IDString);
-        newLogDAO(conn,st,rs,"connectionCustomer ",ID);
+        newLogDAO(conn,st,rs,"connectionCustomer",ID);
     }
 
     public void addFriend(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
@@ -488,7 +491,7 @@ public class CustomersDAO {
             while (rs.next()){
                 String Last_Connection = rs.getString("Last_Connection");
                 System.out.println(getListCustomer.get(i) + " : " + Last_Connection);
-                result += getListCustomer.get(i) + " : " + Last_Connection + "\n";
+                result += getListCustomer.get(i) + ":" + Last_Connection + " ";
             }
         }
         AnswerServer = result;
@@ -521,4 +524,21 @@ public class CustomersDAO {
         st.executeUpdate(sql);
     }
 
+
+
+    public void seeEveryLog(Connection conn, Statement st, ResultSet rs)throws SQLException{
+        st = conn.createStatement();
+        String sql = "SELECT * FROM LOGS";
+        rs = st.executeQuery(sql);
+        String result ="";
+        while (rs.next()){
+            String ID = rs.getString("ID");
+            String USER_ID = rs.getString("USER_ID");
+            String TYPELOG = rs.getString("TYPELOG");
+            String TIMELOG = rs.getString("TIMELOG");
+
+            result += "ID:" + ID + ";USER_ID:" + USER_ID+ ";TYPELOG:" + TYPELOG+ ";TIMELOG:"+ TIMELOG + " ";
+        }
+        AnswerServer = result;
+    }
 }
