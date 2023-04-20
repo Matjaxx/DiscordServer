@@ -36,6 +36,19 @@ public class Server {
 
             String sql9 = "SELECT ID, USER_ID, FIRST_NAME,TYPELOG,TIMELOG FROM MESSAGES";
             System.out.println("bipboop");
+
+
+            String sql = "SELECT * FROM LOGS";
+            rs = st.executeQuery(sql);
+
+            while (rs.next()){
+                String ID = rs.getString("ID");
+                String USER_ID = rs.getString("USER_ID");
+                String TYPELOG = rs.getString("TYPELOG");
+                String TIMELOG = rs.getString("TIMELOG");
+
+                System.out.println(ID + " : " + USER_ID+ " : "+TYPELOG+ " : "+ TIMELOG);
+            }
             rs = st.executeQuery(sql9);
             /*String sql11 = "DELETE FROM MESSAGES;";
             st.executeUpdate(sql11);
@@ -49,8 +62,8 @@ public class Server {
             System.out.println("Message inséré dans la table MESSAGES.");*/
 
             // Retrieve all messages from the MESSAGES table and print them
-            String sql = "SELECT USERNAME, USERNAME2, CONTENT,TIMES,ORDRE FROM MESSAGES";
-            rs = st.executeQuery(sql);
+            String sql1 = "SELECT USERNAME, USERNAME2, CONTENT,TIMES,ORDRE FROM MESSAGES";
+            rs = st.executeQuery(sql1);
             ResultSetMetaData metadata = rs.getMetaData();
             int columnCount = metadata.getColumnCount();
             for (int i = 1; i <= columnCount; i++) {

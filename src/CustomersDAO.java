@@ -280,6 +280,15 @@ public class CustomersDAO {
         st.executeUpdate(sql3);
         sql3 = "UPDATE Customer SET Last_Connection = GETDATE() WHERE USERNAME = '" + getListCustomer.get(1) + "'";
         st.executeUpdate(sql3);
+        sql3 = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
+        String IDString = "";
+        rs = st.executeQuery(sql3);
+        while (rs.next()){
+            IDString = rs.getString("ID");
+        }
+
+        int ID = Integer.parseInt(IDString);
+        newLogDAO(conn,st,rs,"beOnlineRequest",ID);
     }
 
     public void beDisconnectRequest(Connection conn, Statement st,ResultSet rs, List<String> getListCustomer)throws ClassNotFoundException, SQLException{
@@ -288,6 +297,15 @@ public class CustomersDAO {
         st.executeUpdate(sql3);
         sql3 = "UPDATE Customer SET Last_Connection = GETDATE() WHERE USERNAME = '" + getListCustomer.get(1) + "'";
         st.executeUpdate(sql3);
+        sql3 = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
+        String IDString = "";
+        rs = st.executeQuery(sql3);
+        while (rs.next()){
+            IDString = rs.getString("ID");
+        }
+
+        int ID = Integer.parseInt(IDString);
+        newLogDAO(conn,st,rs,"beDisconnectRequest",ID);
     }
 
 
@@ -376,6 +394,25 @@ public class CustomersDAO {
             }
         }
         AnswerServer = result;
+    }
+
+
+    public void newLogDAO(Connection conn, Statement st, ResultSet rs, String nameFonction,int UserID)throws  SQLException{
+        st = conn.createStatement();
+
+        int newID = 0;
+        String sql = "SELECT ID FROM LOGS";
+        rs = st.executeQuery(sql);
+        while (rs.next()){
+            String ID = rs.getString("ID");
+            newID = Integer.parseInt(ID);
+            System.out.println(ID);
+        }
+        newID++;
+
+        System.out.println(newID);
+        sql = " INSERT INTO LOGS (ID, USER_ID, TYPELOG, TIMELOG) VALUES ('" + newID + "', '" + UserID + "','" + nameFonction + "', GETDATE())";
+        st.executeUpdate(sql);
     }
 
 }
