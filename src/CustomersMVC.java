@@ -237,6 +237,7 @@ public class CustomersMVC {
             UserCharacteristic = password;
             UserCharacteristic = hashingPassword(UserCharacteristic);
             listCustomer.add(UserCharacteristic);
+            listCustomer.add("Free");
             listCustomer.add("User");
 
             for (int i = 0; i < listCustomer.size(); i++) {
@@ -293,6 +294,7 @@ public class CustomersMVC {
             UserCharacteristic = s.nextLine();
             UserCharacteristic = hashingPassword(UserCharacteristic);
             listCustomer.add(UserCharacteristic);
+            listCustomer.add("Free");
             listCustomer.add("User");
 
             for (int i = 0; i < listCustomer.size(); i++) {

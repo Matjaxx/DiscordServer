@@ -17,15 +17,20 @@ public class Server {
             st = conn.createStatement();
             System.out.println("Connexion réussie à la base de données.");
 
-            String sql10 = "SELECT * FROM Customer";
+            String sql10 = "SELECT * FROM CUSTOMER";
             rs = st.executeQuery(sql10);
 
             while (rs.next()){
                 String USERNAME = rs.getString("USERNAME");
-                String Last_Connection = rs.getString("Last_Connection");
+                String ID = rs.getString("ID");
+                String PERMISSION = rs.getString("PERMISSION");
+                String USERLVL = rs.getString("USERLVL");
 
-                System.out.println(USERNAME + " to " + Last_Connection);
+                System.out.println(USERNAME + " " + ID+ " " + PERMISSION+ " " + USERLVL);
             }
+            /*String query = "ALTER TABLE CUSTOMER ADD USERLVL VARCHAR(255)";
+            st.executeUpdate(query);
+            System.out.println("Table CUSTOMER modifiée.");*/
 
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
