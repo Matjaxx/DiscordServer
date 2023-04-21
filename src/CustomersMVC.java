@@ -28,6 +28,15 @@ public class CustomersMVC {
     public boolean getIsConnected() {
         return isConnected;
     }
+    public List<String> getListRequest() {
+        return friendRequest;
+    }
+    public List<String> getListFriends() {
+        return friends;
+    }
+    public boolean getIsBanned() {
+        return isBanned;
+    }
     //creer un getter pour username
     public String getUsername() {
         return Username;
@@ -352,6 +361,12 @@ public class CustomersMVC {
         Scanner s = new Scanner(System.in);
         System.out.println("entrer le pseudo de la personne que vous voulez ajouter");
         request += s.nextLine();
+        return request;
+    }
+
+    public String requestFrienshipGraphic(String name){
+        String request = "requestFriendship" + " " + Username + " ";
+        request += name;
         return request;
     }
 

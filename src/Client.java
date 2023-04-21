@@ -37,6 +37,8 @@ public class Client extends JFrame {
     private int y2 = 152;
     private int a1 = 400;
     private int a2 = 420;
+    private int b = 100;
+    private int b1 = 40;
     private boolean iconConnected = true;
     private int connexion = 0;
 
@@ -135,7 +137,7 @@ public class Client extends JFrame {
                     pseudoTextt = pseudoInput.getText();
                     passwordTextt = new String(passwordInput.getPassword());
 
-                    if(!pseudoTextt.equals("domi")){
+                    if(customer.getIsBanned()){
                         JDialog dialog = new JDialog(homePage,"BAN",true);
                         dialog.setLayout(new BorderLayout());
                         dialog.setPreferredSize(new Dimension(250,250));
@@ -152,7 +154,6 @@ public class Client extends JFrame {
                         messagePage.dispose();
                         homePage.setVisible(true);
                     }
-
                     else{
                     customer.connectionGraphique(1, pseudoTextt,passwordTextt,null,null,null, null);
                     String convertListToString = "";
@@ -307,10 +308,35 @@ public class Client extends JFrame {
                                 panelListFriend.setBounds(60,0,340,700);
                                 JLabel labelListFriend = new JLabel("List of your friends");
                                 labelListFriend.setBounds(10,10,340,30);
-                                for(int i=0; i<2; i++){
-
-                                }
                                 panelListFriend.add(labelListFriend);
+
+                                String message = customer.getUsername();
+                                out.println("friendlist "+ message);
+                                String serverResponse = null;
+                                try {
+                                    serverResponse = in.readLine();
+                                } catch (IOException ex) {
+                                    throw new RuntimeException(ex);
+                                }
+                                if (serverResponse != null) {
+                                    System.out.println("Received message from server: " + serverResponse);
+                                    ServerContent = separateWords(serverResponse);
+                                    if (Objects.equals(ServerContent.get(0), "friendListUpdate")) {
+                                        customer.setInfoFriend(ServerContent);
+                                        System.out.println("friendListUpdated");
+                                    }
+                                }
+
+                                for(int i=0; i<customer.getListFriends().size(); i++){
+                                    JLabel labelFriend1 = new JLabel(customer.getListFriends().get(i));
+                                    labelFriend1.setBounds(20,b,200,30);
+                                    labelFriend1.setFont(new Font("Serif", Font.BOLD,30));
+                                    panelListFriend.add(labelFriend1);
+                                    panelListFriend.revalidate();
+                                    panelListFriend.repaint();
+                                    panelListFriend.add(panel1);
+                                    b += 70;
+                                }
 
                                 JPanel panelRequest = new JPanel();
                                 panelRequest.setLayout(null);
@@ -319,6 +345,37 @@ public class Client extends JFrame {
                                 JLabel labelRequest = new JLabel("Request");
                                 labelRequest.setBounds(10,10,600,30);
                                 panelRequest.add(labelRequest);
+
+                                String message1 = customer.getUsername();
+                                out.println("requestlist "+ message1);
+
+                                String serverResponse1 = null;
+                                try {
+                                    serverResponse1 = in.readLine();
+                                } catch (IOException ex) {
+                                    throw new RuntimeException(ex);
+                                }
+                                if (serverResponse1 != null) {
+                                    System.out.println("Received message from server: " + serverResponse1);
+                                    ServerContent = separateWords(serverResponse1);
+                                    if (Objects.equals(ServerContent.get(0), "friendRequest")) {
+                                        customer.setInfoFriendlist(ServerContent);
+                                        customer.displayInfoCustomer();
+                                    }
+                                }
+
+                                for(int i=0; i<customer.getListRequest().size();i++){
+                                    JLabel labelFriend = new JLabel(customer.getListRequest().get(i));
+                                    labelFriend.setBounds(20,b1,200,30);
+                                    labelFriend.setFont(new Font("Serif", Font.BOLD,30));
+                                    panelRequest.add(labelFriend);
+                                    panelRequest.add(panelListFriend);
+                                    panelRequest.revalidate();
+                                    panelRequest.repaint();
+                                    panelRequest.add(panel1);
+                                    b1 += 70;
+                                }
+
 
                                 JPanel panelAdd = new JPanel();
                                 panelAdd.setLayout(null);
@@ -336,8 +393,10 @@ public class Client extends JFrame {
 
                                 buttonAdd.addActionListener(new ActionListener() {
                                     public void actionPerformed(ActionEvent e) {
-                                        String nameFriend = textAdd.getText();
-                                        JLabel labelFriend = new JLabel(nameFriend);
+                                        String message3 = textAdd.getText();
+                                        String message2 = customer.requestFrienshipGraphic(message3);
+                                        out.println(message2);
+                                        JLabel labelFriend = new JLabel(message2);
                                         labelFriend.setBounds(410,a1,100,30);
                                         labelFriend.setFont(new Font("Serif", Font.BOLD,30));
                                         JLabel labelAttente = new JLabel("En attente de réponse");
