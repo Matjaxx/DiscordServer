@@ -10,8 +10,6 @@ public class CustomersMVC {
 
     private List<String> friendRequest = new ArrayList<String>();
     private List<String> friends = new ArrayList<String>();
-
-    private Controller controller = new Controller();
     private String Username;
     private String Password;
     private String Email;
@@ -21,7 +19,6 @@ public class CustomersMVC {
     private String userLVL;
     boolean isConnected = false;
     boolean isBanned = false;
-
 
 
     public List<String> getListCustomer() {

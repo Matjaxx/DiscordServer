@@ -12,7 +12,7 @@ public class SocketServer {
     private ServerSocket serverSocket;
 
     public SocketServer() throws IOException {
-        serverSocket = new ServerSocket(1298);
+        serverSocket = new ServerSocket(1234);
     }
 
     public void execute() throws IOException {
