@@ -627,6 +627,7 @@ public class CustomersDAO {
     }
 
     public List<Integer> countLog(Connection conn, Statement st, ResultSet rs)throws SQLException{
+        st = conn.createStatement();
         String sql = "SELECT * FROM LOGS";
         rs = st.executeQuery(sql);
         List<Integer> nbLog = new ArrayList<>();
@@ -636,6 +637,9 @@ public class CustomersDAO {
         int freeUserRequest = 0;
         int seeMyFriendsOnlineDAO = 0;
         int FriendUpdate = 0;
+        int beDisconnectRequest = 0;
+        int beOnlineRequest = 0;
+
 
         while (rs.next()){
             String TYPELOG = rs.getString("TYPELOG");
@@ -658,6 +662,12 @@ public class CustomersDAO {
                 case "freeUserRequest":
                     freeUserRequest++;
                     break;
+                case "beDisconnectRequest":
+                    beDisconnectRequest++;
+                    break;
+                case "beOnlineRequest":
+                    beOnlineRequest++;
+                    break;
             }
         }
         nbLog.add(connectionCustomer);
@@ -666,12 +676,18 @@ public class CustomersDAO {
         nbLog.add(seeMyFriendsOnlineDAO);
         nbLog.add(banUserRequest);
         nbLog.add(freeUserRequest);
+        nbLog.add(beDisconnectRequest);
+        nbLog.add(beOnlineRequest);
+
+
 
         return nbLog;
     }
 
 
     public List<String> getFriendsFromMessages(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer)throws SQLException{
+        st = conn.createStatement();
+
         String sql = "SELECT USERNAME FROM MESSAGES WHERE USERNAME2 = '" + getListCustomer.get(1)+ "'";
         rs = st.executeQuery(sql);
         List<String> friendsConv = new ArrayList<>();
@@ -690,5 +706,90 @@ public class CustomersDAO {
             }
         }
         return friendsConv;
+    }
+
+    public List<String> listBan(Connection conn, Statement st, ResultSet rs) throws SQLException{
+        st = conn.createStatement();
+        List<String> listBan = new ArrayList<>();
+        String sql = "SELECT USERNAME FROM Customer WHERE PERMISSION = 'BAN'";
+        rs = st.executeQuery(sql);
+        while (rs.next()){
+            String USERNAME = rs.getString("USERNAME");
+            listBan.add(USERNAME);
+        }
+        return listBan;
+    }
+
+    public List<String> listOnline(Connection conn, Statement st, ResultSet rs) throws SQLException{
+        st = conn.createStatement();
+        List<String> listOnline = new ArrayList<>();
+        String sql = "SELECT USERNAME FROM Customer WHERE STATE = 'ONLINE'";
+        rs = st.executeQuery(sql);
+        while (rs.next()){
+            String USERNAME = rs.getString("USERNAME");
+            listOnline.add(USERNAME);
+        }
+        return listOnline;
+    }
+
+    public List<String> listDisconnect(Connection conn, Statement st, ResultSet rs) throws SQLException{
+        st = conn.createStatement();
+        List<String> listDisconnect = new ArrayList<>();
+        String sql = "SELECT USERNAME FROM Customer WHERE STATE = 'DISCONNECT'";
+        rs = st.executeQuery(sql);
+        while (rs.next()){
+            String USERNAME = rs.getString("USERNAME");
+            listDisconnect.add(USERNAME);
+        }
+        return listDisconnect;
+    }
+
+    public List<String> listAway(Connection conn, Statement st, ResultSet rs) throws SQLException{
+        st = conn.createStatement();
+        List<String> listAway = new ArrayList<>();
+        String sql = "SELECT USERNAME FROM Customer WHERE STATE = 'AWAY'";
+        rs = st.executeQuery(sql);
+        while (rs.next()){
+            String USERNAME = rs.getString("USERNAME");
+            listAway.add(USERNAME);
+        }
+        return listAway;
+    }
+
+    public List<String> listUser(Connection conn, Statement st, ResultSet rs) throws SQLException{
+        st = conn.createStatement();
+        List<String> listUser = new ArrayList<>();
+        String sql = "SELECT USERNAME FROM Customer WHERE USERLVL = 'USER'";
+        rs = st.executeQuery(sql);
+        while (rs.next()){
+            String USERNAME = rs.getString("USERNAME");
+            listUser.add(USERNAME);
+        }
+        return listUser;
+    }
+
+
+    public List<String> listModo(Connection conn, Statement st, ResultSet rs) throws SQLException{
+        st = conn.createStatement();
+        List<String> listModo = new ArrayList<>();
+        String sql = "SELECT USERNAME FROM Customer WHERE USERLVL = 'MODO'";
+        rs = st.executeQuery(sql);
+        while (rs.next()){
+            String USERNAME = rs.getString("USERNAME");
+            listModo.add(USERNAME);
+        }
+        return listModo;
+    }
+
+    public List<String> listAdmin(Connection conn, Statement st, ResultSet rs) throws SQLException{
+        st = conn.createStatement();
+        List<String> listAdmin = new ArrayList<>();
+        String sql = "SELECT USERNAME FROM Customer WHERE USERLVL = 'ADMIN'";
+        rs = st.executeQuery(sql);
+        while (rs.next()){
+            String USERNAME = rs.getString("USERNAME");
+            listAdmin.add(USERNAME);
+        }
+        return listAdmin;
     }
 }
