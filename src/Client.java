@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,12 +25,20 @@ public class Client extends JFrame {
     public JFrame homePage = new JFrame();
     public JFrame createAccountPage = new JFrame();
     public JFrame messagePage = new JFrame();
+    public JFrame friendPage = new JFrame();
+    public JFrame statPage = new JFrame();
     private String pseudoTextt;
     private String passwordTextt;
     private String nameText;
     private String firstNameText;
     private String mailText;
     private String idText;
+    private int y = 120;
+    private int y2 = 152;
+    private int a1 = 400;
+    private int a2 = 420;
+    private boolean iconConnected = true;
+    private int connexion = 0;
 
     public Client(String host, int port) {
         this.host = host;
@@ -125,12 +135,362 @@ public class Client extends JFrame {
                     pseudoTextt = pseudoInput.getText();
                     passwordTextt = new String(passwordInput.getPassword());
 
+                    if(!pseudoTextt.equals("domi")){
+                        JDialog dialog = new JDialog(homePage,"BAN",true);
+                        dialog.setLayout(new BorderLayout());
+                        dialog.setPreferredSize(new Dimension(250,250));
+                        ImageIcon iconBan = new ImageIcon("Images/banni.png");
+                        JLabel ban = new JLabel(iconBan);
+                        ban.setBorder(BorderFactory.createEmptyBorder(0,0,20,0));
+                        JLabel banLabel = new JLabel("  You are banned !");
+                        banLabel.setFont(new Font("Serif", Font.BOLD,30));
+                        dialog.add(ban,BorderLayout.SOUTH);
+                        dialog.add(banLabel,BorderLayout.CENTER);
+                        dialog.pack();
+                        dialog.setLocationRelativeTo(homePage);
+                        dialog.setVisible(true);
+                        messagePage.dispose();
+                        homePage.setVisible(true);
+                    }
+
+                    else{
                     customer.connectionGraphique(1, pseudoTextt,passwordTextt,null,null,null, null);
                     String convertListToString = "";
                     for (int i = 0; i < customer.getListCustomer().size(); i++) {
                         convertListToString += customer.getListCustomer().get(i)+" ";
                     }
                     out.println(convertListToString);
+
+                        homePage.dispose();
+                        messagePage.setTitle("Your account");
+                        messagePage.setSize(1000,700);
+
+                        JPanel panel1 = new JPanel();
+                        panel1.setLayout(null);
+                        panel1.setBackground(Color.lightGray);
+                        panel1.setBounds(0,0,60,700);
+
+                        JPanel panel2 = new JPanel();
+                        panel2.setLayout(null);
+                        panel2.setBackground(Color.getHSBColor(0.1f,0.2f,0.9f));
+                        panel2.setBounds(60,0,340,700);
+
+                        JPanel panel3 = new JPanel();
+                        panel3.setLayout(null);
+                        panel3.setBackground(Color.getHSBColor(0.6f,0.3f,1f));
+                        panel3.setBounds(400,0,600,700);
+
+                        JPanel panel4 = new JPanel();
+
+                        JButton statutButton = new JButton();
+                        JLabel label = new JLabel(pseudoTextt);
+                        label.setFont(new Font("Serif", Font.BOLD,30));
+                        label.setBounds(65,30,150,30);
+
+                        JLabel labelConnect = new JLabel();
+                        labelConnect.setText("Connected");
+                        labelConnect.setFont(new Font("Serif", Font.ITALIC,15));
+                        labelConnect.setBounds(65,62,100,15);
+
+                        JButton messageButton = new JButton();
+                        JButton friendButton = new JButton();
+                        JButton statButton = new JButton();
+                        JButton decoButton = new JButton();
+                        JButton newMessButton = new JButton();
+                        JTextField messageText = new JTextField();
+                        messageText.setBounds(70,630,490,35);
+                        JButton statutFriend = new JButton();
+                        JButton sendButton = new JButton();
+                        JButton pictureButton = new JButton();
+                        JButton microButton = new JButton();
+
+                        JLabel labelFriend = new JLabel("FRIEND");
+                        labelFriend.setFont(new Font("Serif", Font.BOLD,30));
+                        labelFriend.setBounds(65,30,150,30);
+
+                        JTextArea messageArea = new JTextArea();
+                        messageArea.setBackground(Color.getHSBColor(0.6f,0.3f,1f));
+                        messageArea.setBounds(10,80,580,550);
+                        messageArea.setEditable(false);
+                        messageArea.setLineWrap(true);
+                        //messageArea.setMargin(new Insets(5,5,5,5));
+
+                        //JScrollPane scrollPane = new JScrollPane(messageArea);
+                        //scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+                        statutButton.setIcon(new ImageIcon("Images/profilConnected.png"));
+                        statutButton.setBounds(15,25,40,40);
+                        statutButton.setContentAreaFilled(false);
+                        statutButton.setBorderPainted(false);
+                        statutButton.setFocusPainted(false);
+
+                        statutFriend.setIcon(new ImageIcon("Images/profil.png"));
+                        statutFriend.setBounds(15,25,40,40);
+                        statutFriend.setContentAreaFilled(false);
+                        statutFriend.setBorderPainted(false);
+                        statutFriend.setFocusPainted(false);
+
+                        messageButton.setIcon(new ImageIcon("Images/discuter.png"));
+                        messageButton.setBounds(15,25,30,30);
+                        messageButton.setContentAreaFilled(false);
+                        messageButton.setBorderPainted(false);
+                        messageButton.setFocusPainted(false);
+
+                        friendButton.setIcon(new ImageIcon("Images/friend.png"));
+                        friendButton.setBounds(15,70,30,30);
+                        friendButton.setContentAreaFilled(false);
+                        friendButton.setBorderPainted(false);
+                        friendButton.setFocusPainted(false);
+
+                        statButton.setIcon(new ImageIcon("Images/stat.png"));
+                        statButton.setBounds(15,115,30,30);
+                        statButton.setContentAreaFilled(false);
+                        statButton.setBorderPainted(false);
+                        statButton.setFocusPainted(false);
+
+                        decoButton.setIcon(new ImageIcon("Images/deco.png"));
+                        decoButton.setBounds(15,620,30,30);
+                        decoButton.setContentAreaFilled(false);
+                        decoButton.setBorderPainted(false);
+                        decoButton.setFocusPainted(false);
+
+                        newMessButton.setIcon(new ImageIcon("Images/new.png"));
+                        newMessButton.setBounds(290,30,30,30);
+                        newMessButton.setContentAreaFilled(false);
+                        newMessButton.setBorderPainted(false);
+                        newMessButton.setFocusPainted(false);
+
+                        sendButton.setIcon(new ImageIcon("Images/send.png"));
+                        sendButton.setBounds(565,637,20,20);
+                        sendButton.setContentAreaFilled(false);
+                        sendButton.setBorderPainted(false);
+                        sendButton.setFocusPainted(false);
+
+                        pictureButton.setIcon(new ImageIcon("Images/picture.png"));
+                        pictureButton.setBounds(10,637,20,20);
+                        pictureButton.setContentAreaFilled(false);
+                        pictureButton.setBorderPainted(false);
+                        pictureButton.setFocusPainted(false);
+
+                        microButton.setIcon(new ImageIcon("Images/micro.png"));
+                        microButton.setBounds(40,637,20,20);
+                        microButton.setContentAreaFilled(false);
+                        microButton.setBorderPainted(false);
+                        microButton.setFocusPainted(false);
+
+                        panel1.add(messageButton);
+                        panel1.add(friendButton);
+                        panel1.add(statButton);
+                        panel1.add(decoButton);
+
+                        panel2.add(statutButton);
+                        panel2.add(label);
+                        panel2.add(labelConnect);
+                        panel2.add(newMessButton);
+
+                        panel3.add(messageText);
+                        panel3.add(statutFriend);
+                        panel3.add(sendButton);
+                        panel3.add(microButton);
+                        panel3.add(labelFriend);
+                        panel3.add(pictureButton);
+                        panel3.add(messageArea);
+
+                        friendButton.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                friendPage.setTitle("Your friends");
+                                friendPage.setSize(1000,700);
+
+                                JPanel panelListFriend = new JPanel();
+                                panelListFriend.setLayout(null);
+                                panelListFriend.setBackground(Color.getHSBColor(0.1f,0.2f,0.9f));
+                                panelListFriend.setBounds(60,0,340,700);
+                                JLabel labelListFriend = new JLabel("List of your friends");
+                                labelListFriend.setBounds(10,10,340,30);
+                                for(int i=0; i<2; i++){
+
+                                }
+                                panelListFriend.add(labelListFriend);
+
+                                JPanel panelRequest = new JPanel();
+                                panelRequest.setLayout(null);
+                                panelRequest.setBackground(Color.getHSBColor(0.6f,0.3f,1f));
+                                panelRequest.setBounds(400,0,600,350);
+                                JLabel labelRequest = new JLabel("Request");
+                                labelRequest.setBounds(10,10,600,30);
+                                panelRequest.add(labelRequest);
+
+                                JPanel panelAdd = new JPanel();
+                                panelAdd.setLayout(null);
+                                panelAdd.setBackground(Color.getHSBColor(0.4f,0.3f,1f));
+                                panelAdd.setBounds(400,350,600,350);
+                                JLabel labelAdd = new JLabel("Add a friend : ");
+                                labelAdd.setBounds(410,360,100,30);
+                                JTextField textAdd = new JTextField(50);
+                                textAdd.setBounds(500,360,420,30);
+                                JButton buttonAdd = new JButton("ADD");
+                                buttonAdd.setBounds(930,360,60,30);
+                                panelAdd.add(buttonAdd);
+                                panelAdd.add(textAdd);
+                                panelAdd.add(labelAdd);
+
+                                buttonAdd.addActionListener(new ActionListener() {
+                                    public void actionPerformed(ActionEvent e) {
+                                        String nameFriend = textAdd.getText();
+                                        JLabel labelFriend = new JLabel(nameFriend);
+                                        labelFriend.setBounds(410,a1,100,30);
+                                        labelFriend.setFont(new Font("Serif", Font.BOLD,30));
+                                        JLabel labelAttente = new JLabel("En attente de réponse");
+                                        labelAttente.setFont(new Font("Serif", Font.ITALIC,15));
+                                        labelAttente.setBounds(510,a2,150,15);
+                                        panelAdd.add(labelFriend);
+                                        panelAdd.add(labelAttente);
+                                        panelAdd.revalidate();
+                                        panelAdd.repaint();
+                                        panelAdd.add(panelListFriend);
+                                        panelAdd.add(panelRequest);
+                                        panelAdd.add(panel1);
+                                        a1 += 70;
+                                        a2 += 70;
+                                    }
+                                });
+
+                                friendPage.add(panel1);
+                                friendPage.add(panelListFriend);
+                                friendPage.add(panelRequest);
+                                friendPage.add(panelAdd);
+                                friendPage.setVisible(true);
+                                friendPage.setLocationRelativeTo(null);
+                                friendPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                                messagePage.dispose();
+                                statPage.dispose();
+                            }
+                        });
+
+                        messageButton.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                friendPage.dispose();
+                                statPage.dispose();
+                                messagePage.add(panel1);
+                                messagePage.add(panel2);
+                                messagePage.add(panel3);
+                                messagePage.add(panel4);
+                                messagePage.setVisible(true);
+                            }
+                        });
+
+                        statButton.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                statPage.setTitle("Your friends");
+                                statPage.setSize(1000,700);
+                                JPanel panelStat = new JPanel();
+                                panelStat.setLayout(null);
+                                panelStat.setBackground(Color.getHSBColor(0.6f,0.3f,1f));
+                                panelStat.setBounds(60,0,940,700);
+                                statPage.add(panel1);
+                                statPage.add(panelStat);
+                                statPage.setVisible(true);
+                                statPage.setLocationRelativeTo(null);
+                                statPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                                friendPage.dispose();
+                                messagePage.dispose();
+                            }
+                        });
+
+                        decoButton.addActionListener(new ActionListener() {
+                                                         public void actionPerformed(ActionEvent a) {
+                                                             messagePage.dispose();
+                                                             homePage.setVisible(true);
+                                                         }
+                                                     }
+                        );
+
+                        sendButton.addActionListener(new ActionListener() {
+                                                         public void actionPerformed(ActionEvent a) {
+                                                             String message = messageText.getText();
+                                                             LocalDateTime now = LocalDateTime.now();
+                                                             String timestamp = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                                                             messageArea.append(timestamp + pseudoTextt + message + "\n");
+                                                             messageText.setText("");
+                                                         }
+                                                     }
+                        );
+
+                        statutButton.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                if (connexion==0){
+                                    labelConnect.setText("Disconnect");
+                                    statutButton.setIcon(new ImageIcon("Images/profilDisconnected.png"));
+                                    connexion=1;
+                                }
+                                else if(connexion==1){
+                                    labelConnect.setText("Away");
+                                    statutButton.setIcon(new ImageIcon("Images/profilConnected.png"));
+                                    connexion=2;
+                                }else{
+                                    labelConnect.setText("Connected");
+                                    statutButton.setIcon(new ImageIcon("Images/profilConnected.png"));
+                                    connexion=0;
+                                }
+
+                            }
+                        });
+
+                        newMessButton.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                JDialog dialog = new JDialog(messagePage,"Name of a friend:",true);
+                                dialog.setLayout(new BorderLayout());
+                                dialog.setPreferredSize(new Dimension(200,80));
+                                JTextField textField = new JTextField();
+                                textField.setPreferredSize(new Dimension(200,50));
+                                JButton buttonOK = new JButton("OK");
+                                dialog.add(textField,BorderLayout.CENTER);
+                                dialog.add(buttonOK,BorderLayout.SOUTH);
+                                buttonOK.addActionListener(new ActionListener() {
+                                    public void actionPerformed(ActionEvent e) {
+                                        String text = textField.getText();
+                                        dialog.dispose();
+                                        JButton buttonTest = new JButton();
+                                        buttonTest.setIcon(new ImageIcon("Images/profil.png"));
+                                        buttonTest.setBounds(15,y,40,40);
+                                        buttonTest.setContentAreaFilled(false);
+                                        buttonTest.setBorderPainted(false);
+                                        buttonTest.setFocusPainted(false);
+                                        JLabel labelTest = new JLabel(text);
+                                        labelTest.setFont(new Font("Serif", Font.BOLD,30));
+                                        labelTest.setBounds(65,y,150,30);
+                                        JLabel labelConnectTest = new JLabel("Connexion");
+                                        labelConnectTest.setFont(new Font("Serif", Font.ITALIC,15));
+                                        labelConnectTest.setBounds(65,y2,100,15);
+                                        panel2.add(buttonTest);
+                                        panel2.add(labelTest);
+                                        panel2.add(labelConnectTest);
+                                        panel2.revalidate();
+                                        panel2.repaint();
+                                        y += 70;
+                                        y2 += 70;
+                                    }
+                                });
+                                dialog.pack();
+                                dialog.setLocationRelativeTo(messagePage);
+                                dialog.setVisible(true);
+                            }
+                        });
+
+                        messagePage.add(panel1);
+                        messagePage.add(panel2);
+                        messagePage.add(panel3);
+                        messagePage.add(panel4);
+                        messagePage.setLocationRelativeTo(null);
+                        messagePage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        messagePage.setVisible(true);
+
+
+
+
+
+
+
                     String serverResponse = null;
                     try {
                         serverResponse = in.readLine();
@@ -176,7 +536,7 @@ public class Client extends JFrame {
                             customer.setInfoFriend(ServerContent);
                             System.out.println("beDisconnect");
                         }
-
+                    }
                     }
                 }
             }
@@ -418,8 +778,10 @@ public class Client extends JFrame {
             out.close();
             in.close();
             socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException e){
+                e.printStackTrace();
+
         }
     }
+
 }
