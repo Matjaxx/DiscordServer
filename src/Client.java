@@ -320,10 +320,6 @@ public class Client extends JFrame {
                     String message = customer.getUsername();
                     out.println("friendlist "+ message);
                 }
-                else if (userInput.equals("UpdateFriendList()") && customer.getIsConnected()) {
-                    String message = customer.getUsername();
-                    out.println("friendlist "+ message);
-                }
                 else if (userInput.equals("friendManager()") && customer.getIsConnected()){
                     String message = customer.setInfoFriendRequest();
                     out.println(message);
@@ -348,10 +344,13 @@ public class Client extends JFrame {
                     String message = customer.seeMyFriendsOnline();
                     out.println("seeMyFriendsOnline" + message);
                 }
+                else if (userInput.equals("seeEveryLog()") && customer.getIsConnected()){
+                    out.println("seeEveryLog");
+                }
                 else if (userInput.equals("Writte message") && customer.getIsConnected()){
                     String message = customer.Conversation();;
                     out.println(message);
-                }
+                }//seeEveryLog
                 else{
                     System.out.println("commande not found");
                     out.println("commande not found");
@@ -363,6 +362,10 @@ public class Client extends JFrame {
                     System.out.println("Received message from server: " + serverResponse);
                     ServerContent = separateWords(serverResponse);
                     if (Objects.equals(ServerContent.get(0), "connected")) {
+                        customer.setInfoCustomer(ServerContent);
+                        customer.displayInfoCustomer();
+                    }
+                    if (Objects.equals(ServerContent.get(0), "banned")) {
                         customer.setInfoCustomer(ServerContent);
                         customer.displayInfoCustomer();
                     }
@@ -402,7 +405,10 @@ public class Client extends JFrame {
                         customer.setInfoFriend(ServerContent);
                         System.out.println("seeMyFriendsOnline");
                     }
-
+                    if (Objects.equals(ServerContent.get(0), "seeEveryLog")) {
+                        customer.setInfoFriend(ServerContent);
+                        System.out.println("seeEveryLog");
+                    }
                 }
 
             }

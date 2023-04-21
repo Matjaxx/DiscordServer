@@ -12,7 +12,7 @@ public class SocketServer {
     private ServerSocket serverSocket;
 
     public SocketServer() throws IOException {
-        serverSocket = new ServerSocket(1299);
+        serverSocket = new ServerSocket(1298);
     }
 
     public void execute() throws IOException {
@@ -75,7 +75,11 @@ public class SocketServer {
                             System.out.println("success");
                             out.println(customersDAO.getAnswerServer());
                         }
-                        else {
+                        else if (customersDAO.getBanned()){
+                            System.out.println("You have been banned from the server");
+                            out.println("banned");
+                        }
+                        else{
                             System.out.println("conenction failed : please retry");
                             out.println("Connection failed: please retry.");
                         }
@@ -110,7 +114,8 @@ public class SocketServer {
                     }
                     else if (inputLine.equals("SendM")) {
                         customersDAO.ServerJBDCConnection(listOrder);
-                        out.println("Message sent");
+                        out.flush();
+                        //out.println("Message sent");
                     }
                     else if (inputLine.equals("banUser")) {
                         customersDAO.ServerJBDCConnection(listOrder);
@@ -129,6 +134,10 @@ public class SocketServer {
                         out.println("You are going to be disconnect");
                     }
                     else if (inputLine.equals("seeMyFriendsOnline")) {
+                        customersDAO.ServerJBDCConnection(listOrder);
+                        out.println(customersDAO.getAnswerServer());
+                    }
+                    else if (inputLine.equals("seeEveryLog")) {
                         customersDAO.ServerJBDCConnection(listOrder);
                         out.println(customersDAO.getAnswerServer());
                     }

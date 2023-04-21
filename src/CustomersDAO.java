@@ -11,12 +11,23 @@ public class CustomersDAO {
 
     private String AnswerServer;
 
+     private String speakingTo = "";
+    public String Conv(){
+        return  speakingTo;
+    }
+
 
     public String getAnswerServer() {
         return AnswerServer;
     }
 
     private boolean verifConnection = false;
+
+    private boolean banned = false;
+    //creer un getter pour banned
+    public boolean getBanned() {
+        return banned;
+    }
     private boolean verifFriend = false;
     public boolean getVerifConnection() {
         return verifConnection;
@@ -78,6 +89,9 @@ public class CustomersDAO {
             else if (Objects.equals(getListCustomer.get(0), "seeMyFriendsOnline")){
                 seeMyFriendsOnlineDAO(conn,st,rs,getListCustomer);
             }
+            else if (Objects.equals(getListCustomer.get(0), "seeEveryLog")){
+                seeEveryLog(conn,st,rs);
+            }
 
 
         } catch (SQLException e) {
@@ -103,14 +117,29 @@ public class CustomersDAO {
         rs = st.executeQuery(sql3);
 
         while (rs.next()) {
+            if (rs.getString("PERMISSION").equals("BAN"))
+                banned = true;
+            else if (rs.getString("PERMISSION").equals("Free"))
             verifConnection = true;
         }
         String sql4 = "SELECT * FROM CUSTOMER WHERE USERNAME = '" + getListCustomer.get(1) + "'";
         rs = st.executeQuery(sql4);
         while (rs.next()) {
-
-            AnswerServer = "connected" + " " + rs.getString("USERNAME") + " "+ rs.getString("FIRST_NAME") + " " + rs.getString("LAST_NAME")+ " " + rs.getString("EMAIL") + " " + rs.getString("PERMISSION") + " " + rs.getString("PASSWORD");
+            if (!banned) {
+                AnswerServer = "connected" + " " + rs.getString("USERNAME") + " " + rs.getString("FIRST_NAME") + " " + rs.getString("LAST_NAME") + " " + rs.getString("EMAIL") + " " + rs.getString("PERMISSION") + " " + rs.getString("PASSWORD")+ " " + rs.getString("USERLVL");
+            }
+            else {
+                AnswerServer = "banned";
+            }
         }
+        sql3 = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
+        String IDString = "";
+        rs = st.executeQuery(sql3);
+        while (rs.next()){
+            IDString = rs.getString("ID");
+        }
+        int ID = Integer.parseInt(IDString);
+        newLogDAO(conn,st,rs,"connectionCustomer",ID);
     }
 
     public void addFriend(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
@@ -154,8 +183,14 @@ public class CustomersDAO {
                 System.out.println("friend doesn't exist");
             }
         }
-
-
+        String sql3 = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
+        String IDString = "";
+        rs = st.executeQuery(sql3);
+        while (rs.next()){
+            IDString = rs.getString("ID");
+        }
+        int ID = Integer.parseInt(IDString);
+        newLogDAO(conn,st,rs,"addFriend " + getListCustomer.get(2),ID);
     }
     public void FriendRequests(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
         st = conn.createStatement();
@@ -165,6 +200,14 @@ public class CustomersDAO {
         while (rs.next()) {
             AnswerServer = AnswerServer + rs.getString("USERNAMEFRIENDREQUEST")+ " ";
         }
+        sql3 = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
+        String IDString = "";
+        rs = st.executeQuery(sql3);
+        while (rs.next()){
+            IDString = rs.getString("ID");
+        }
+        int ID = Integer.parseInt(IDString);
+        newLogDAO(conn,st,rs,"FriendRequests",ID);
     }
     public void FriendUpdate(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
         st = conn.createStatement();
@@ -182,12 +225,22 @@ public class CustomersDAO {
         while (rs.next()) {
             AnswerServer = AnswerServer + rs.getString("FRIEND1") + " ";
         }
+        sql3 = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
+        String IDString = "";
+        rs = st.executeQuery(sql3);
+        while (rs.next()){
+            IDString = rs.getString("ID");
+        }
+
+        int ID = Integer.parseInt(IDString);
+        newLogDAO(conn,st,rs,"FriendUpdate",ID);
     }
     public void Conversation(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
         st = conn.createStatement();
 
-
+        speakingTo = getListCustomer.get(2);
         AnswerServer ="Conversation" + " " ;
+
         String sql = "SELECT * FROM MESSAGES WHERE (USERNAME = '" + getListCustomer.get(1) + "' AND USERNAME2 = '" + getListCustomer.get(2) + "') OR (USERNAME = '" + getListCustomer.get(2) + "' AND USERNAME2 = '" + getListCustomer.get(1) + "') ORDER BY DATEMESSAGE ASC;";
         rs = st.executeQuery(sql);
         while (rs.next()) {
@@ -205,13 +258,24 @@ public class CustomersDAO {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String formattedDate = dateFormat.format(new Date());
+        for (int i = 0; i < getListCustomer.size(); i++) {
+            System.out.println(getListCustomer.get(i) + " " + i);
+        }
+        if (getListCustomer.size() == 4) {
+            String sql3 = "INSERT INTO MESSAGES (USERNAME, USERNAME2, CONTENT, TIMES, ORDRE) " +
+                    "VALUES ('" + getListCustomer.get(2) + "','" + getListCustomer.get(1) + "','" + getListCustomer.get(3) + "','" + formattedDate + "',(SELECT COALESCE(MAX(ORDRE), 0) + 1 FROM MESSAGES))";
 
-        String sql3 = "INSERT INTO MESSAGES (USERNAME, USERNAME2, CONTENT,TIMES)" +
-                "VALUES ('"+getListCustomer.get(2)+"','" + getListCustomer.get(1) + "', '"+getListCustomer.get(3)+"','" + formattedDate + "')";
-        st.executeUpdate(sql3);
+            st.executeUpdate(sql3);
+        }
+        else{
+            String sql3 = "INSERT INTO MESSAGES (USERNAME, USERNAME2, CONTENT, TIMES, ORDRE) " +
+                    "VALUES ('" + getListCustomer.get(1) + "','" + speakingTo + "','" + getListCustomer.get(2) + "','" + formattedDate + "',(SELECT COALESCE(MAX(ORDRE), 0) + 1 FROM MESSAGES))";
+
+            st.executeUpdate(sql3);
+        }
         System.out.println("fritatos is here2");
         AnswerServer ="Conversation" + " " + getListCustomer.get(1) + " " ;
-        String sql = "SELECT * FROM MESSAGES WHERE (USERNAME = '" + getListCustomer.get(1) + "' AND USERNAME2 = '" + getListCustomer.get(2) + "') OR (USERNAME = '" + getListCustomer.get(2) + "' AND USERNAME2 = '" + getListCustomer.get(1) + "') ORDER BY DATEMESSAGE ASC;";
+        String sql = "SELECT * FROM MESSAGES WHERE (USERNAME = '" + getListCustomer.get(1) + "' AND USERNAME2 = '"+speakingTo+"') OR (USERNAME = '"+speakingTo+"' AND USERNAME2 = '" + getListCustomer.get(1) + "') ORDER BY ORDRE ASC;";
         rs = st.executeQuery(sql);
         while (rs.next()) {
             String sender = rs.getString("USERNAME");
@@ -222,6 +286,15 @@ public class CustomersDAO {
             AnswerServer = AnswerServer + sender + " " + recipient + " " + date + " " + content + " ";
             System.out.println(AnswerServer+"le serveur envoie ca");
         }
+        sql = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
+        String IDString = "";
+        rs = st.executeQuery(sql);
+        while (rs.next()){
+            IDString = rs.getString("ID");
+        }
+
+        int ID = Integer.parseInt(IDString);
+        newLogDAO(conn,st,rs,"AddMessage " + getListCustomer.get(2),ID);
 
     }
     public void FriendRequestsDenier(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
@@ -229,6 +302,15 @@ public class CustomersDAO {
 
         String sql3 = "DELETE FROM FRIENDREQUESTS WHERE USERNAMEFRIENDREQUEST = '" + getListCustomer.get(1) + "' AND USERNAMEFRIENDREQUESTED = '" + getListCustomer.get(2) + "'";
         st.executeUpdate(sql3);
+        sql3 = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
+        String IDString = "";
+        rs = st.executeQuery(sql3);
+        while (rs.next()){
+            IDString = rs.getString("ID");
+        }
+
+        int ID = Integer.parseInt(IDString);
+        newLogDAO(conn,st,rs,"FriendRequestsDenier " + getListCustomer.get(2),ID);
     }
 
     public void FriendRequestAccepter(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
@@ -240,8 +322,16 @@ public class CustomersDAO {
         st.executeUpdate(sql3);
         String a= getListCustomer.get(1);
         String b= getListCustomer.get(2);
-
         AnswerServer ="friendListUpdate" + a + " " + b;
+        sql3 = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
+        String IDString = "";
+        rs = st.executeQuery(sql3);
+        while (rs.next()){
+            IDString = rs.getString("ID");
+        }
+
+        int ID = Integer.parseInt(IDString);
+        newLogDAO(conn,st,rs,"FriendRequestAccepter " + getListCustomer.get(2),ID);
     }
 
 
@@ -249,12 +339,30 @@ public class CustomersDAO {
         st = conn.createStatement();
         String sql3 = "UPDATE Customer SET PERMISSION = 'BAN' WHERE USERNAME = '" + getListCustomer.get(1) + "'";
         st.executeUpdate(sql3);
+        sql3 = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
+        String IDString = "";
+        rs = st.executeQuery(sql3);
+        while (rs.next()){
+            IDString = rs.getString("ID");
+        }
+
+        int ID = Integer.parseInt(IDString);
+        newLogDAO(conn,st,rs,"banUserRequest",ID);
     }
 
     public void freeUserRequest(Connection conn, Statement st,ResultSet rs, List<String> getListCustomer)throws ClassNotFoundException, SQLException{
         st = conn.createStatement();
         String sql3 = "UPDATE Customer SET PERMISSION = 'FREE' WHERE USERNAME = '" + getListCustomer.get(1) + "'";
         st.executeUpdate(sql3);
+        sql3 = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
+        String IDString = "";
+        rs = st.executeQuery(sql3);
+        while (rs.next()){
+            IDString = rs.getString("ID");
+        }
+
+        int ID = Integer.parseInt(IDString);
+        newLogDAO(conn,st,rs,"freeUserRequest",ID);
     }
 
     public void beOnlineRequest(Connection conn, Statement st,ResultSet rs, List<String> getListCustomer)throws ClassNotFoundException, SQLException{
@@ -263,6 +371,15 @@ public class CustomersDAO {
         st.executeUpdate(sql3);
         sql3 = "UPDATE Customer SET Last_Connection = GETDATE() WHERE USERNAME = '" + getListCustomer.get(1) + "'";
         st.executeUpdate(sql3);
+        sql3 = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
+        String IDString = "";
+        rs = st.executeQuery(sql3);
+        while (rs.next()){
+            IDString = rs.getString("ID");
+        }
+
+        int ID = Integer.parseInt(IDString);
+        newLogDAO(conn,st,rs,"beOnlineRequest",ID);
     }
 
     public void beDisconnectRequest(Connection conn, Statement st,ResultSet rs, List<String> getListCustomer)throws ClassNotFoundException, SQLException{
@@ -271,6 +388,15 @@ public class CustomersDAO {
         st.executeUpdate(sql3);
         sql3 = "UPDATE Customer SET Last_Connection = GETDATE() WHERE USERNAME = '" + getListCustomer.get(1) + "'";
         st.executeUpdate(sql3);
+        sql3 = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
+        String IDString = "";
+        rs = st.executeQuery(sql3);
+        while (rs.next()){
+            IDString = rs.getString("ID");
+        }
+
+        int ID = Integer.parseInt(IDString);
+        newLogDAO(conn,st,rs,"beDisconnectRequest",ID);
     }
 
 
@@ -280,10 +406,10 @@ public class CustomersDAO {
         rs = dbmd.getTables(null, null, "CUSTOMER", null);
         if (rs.next()) {
             System.out.println("La table CUSTOMER existe dans la base de données.");
-            String sql3 = "INSERT INTO CUSTOMER (ID, USERNAME, FIRST_NAME, LAST_NAME, EMAIL, PASSWORD, PERMISSION, Last_Connection) " +
+            String sql3 = "INSERT INTO CUSTOMER (ID, USERNAME, FIRST_NAME, LAST_NAME, EMAIL, PASSWORD, PERMISSION, Last_Connection,USERLVL) " +
                     "VALUES ('" + getListCustomer.get(1) + "', '" + getListCustomer.get(2) + "', '" + getListCustomer.get(3) + "', '" +
                     getListCustomer.get(4) + "', '" + getListCustomer.get(5) + "', '" + getListCustomer.get(6) + "', '" +
-                    getListCustomer.get(7) + "', GETDATE())";
+                    getListCustomer.get(7) + "', GETDATE(), '"+ getListCustomer.get(8) +"')";
             st.executeUpdate(sql3);
             displayCustomerInfo(conn, st, rs);
 
@@ -301,12 +427,22 @@ public class CustomersDAO {
             st.executeUpdate(sql);
             System.out.println("Table CUSTOMER created successfully...");
 
-            String sql3 = "INSERT INTO CUSTOMER (ID, USERNAME, FIRST_NAME, LAST_NAME, EMAIL, PASSWORD, PERMISSION, Last_Connection) " +
+            String sql3 = "INSERT INTO CUSTOMER (ID, USERNAME, FIRST_NAME, LAST_NAME, EMAIL, PASSWORD, PERMISSION, Last_Connection,USERLVL) " +
                     "VALUES ('" + getListCustomer.get(1) + "', '" + getListCustomer.get(2) + "', '" + getListCustomer.get(3) + "', '" +
                     getListCustomer.get(4) + "', '" + getListCustomer.get(5) + "', '" + getListCustomer.get(6) + "', '" +
-                    getListCustomer.get(7) + "', GETDATE())";
+                    getListCustomer.get(7) + "', GETDATE(), + getListCustomer.get(8) +)";
             st.executeUpdate(sql3);
             displayCustomerInfo(conn,st,rs);
+
+            sql = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
+            String IDString = "";
+            rs = st.executeQuery(sql);
+            while (rs.next()){
+                IDString = rs.getString("ID");
+            }
+
+            int ID = Integer.parseInt(IDString);
+            newLogDAO(conn,st,rs,"addCustomer",ID);
         }
     }
 
@@ -349,16 +485,60 @@ public class CustomersDAO {
 
         String sql;
         String result = "";
-        for (int i = 1; i < getListCustomer.size(); i++) {
+        for (int i = 2; i < getListCustomer.size(); i++) {
             sql = "SELECT  Last_Connection FROM Customer WHERE USERNAME = '" + getListCustomer.get(i) + "'";
             rs = st.executeQuery(sql);
             while (rs.next()){
                 String Last_Connection = rs.getString("Last_Connection");
                 System.out.println(getListCustomer.get(i) + " : " + Last_Connection);
-                result += getListCustomer.get(i) + " : " + Last_Connection + "\n";
+                result += getListCustomer.get(i) + ":" + Last_Connection + " ";
             }
         }
         AnswerServer = result;
+        sql = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
+        String IDString = "";
+        rs = st.executeQuery(sql);
+        while (rs.next()){
+            IDString = rs.getString("ID");
+        }
+
+        int ID = Integer.parseInt(IDString);
+        newLogDAO(conn,st,rs,"seeMyFriendsOnlineDAO",ID);
     }
 
+
+    public void newLogDAO(Connection conn, Statement st, ResultSet rs, String nameFonction,int UserID)throws  SQLException{
+        st = conn.createStatement();
+
+        int newID = 0;
+        String sql = "SELECT ID FROM LOGS";
+        rs = st.executeQuery(sql);
+        while (rs.next()){
+            String ID = rs.getString("ID");
+            newID = Integer.parseInt(ID);
+        }
+        newID++;
+
+        System.out.println(newID);
+        sql = " INSERT INTO LOGS (ID, USER_ID, TYPELOG, TIMELOG) VALUES ('" + newID + "', '" + UserID + "','" + nameFonction + "', GETDATE())";
+        st.executeUpdate(sql);
+    }
+
+
+
+    public void seeEveryLog(Connection conn, Statement st, ResultSet rs)throws SQLException{
+        st = conn.createStatement();
+        String sql = "SELECT * FROM LOGS";
+        rs = st.executeQuery(sql);
+        String result ="";
+        while (rs.next()){
+            String ID = rs.getString("ID");
+            String USER_ID = rs.getString("USER_ID");
+            String TYPELOG = rs.getString("TYPELOG");
+            String TIMELOG = rs.getString("TIMELOG");
+
+            result += "ID:" + ID + ";USER_ID:" + USER_ID+ ";TYPELOG:" + TYPELOG+ ";TIMELOG:"+ TIMELOG + " ";
+        }
+        AnswerServer = result;
+    }
 }

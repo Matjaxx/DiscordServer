@@ -18,7 +18,9 @@ public class CustomersMVC {
     private String FirstName;
     private String LastName;
     private String permission;
+    private String userLVL;
     boolean isConnected = false;
+    boolean isBanned = false;
 
 
 
@@ -35,14 +37,22 @@ public class CustomersMVC {
     }
 
     public void setInfoCustomer(List<String> infoCustomer) {
-        System.out.println("setInfoCustomer");
-        isConnected = true;
-        Username = infoCustomer.get(1);
-        FirstName = infoCustomer.get(2);
-        LastName = infoCustomer.get(3);
-        Password = infoCustomer.get(4);
-        Email = infoCustomer.get(5);
-        permission = infoCustomer.get(6);
+        if (infoCustomer.get(0).equals("Banned")) {
+            isBanned = true;
+            System.out.println("You are Banned from the server");
+        }else{
+            System.out.println("setInfoCustomer");
+            isConnected = true;
+            Username = infoCustomer.get(1);
+            FirstName = infoCustomer.get(2);
+            LastName = infoCustomer.get(3);
+            Password = infoCustomer.get(6);
+            Email = infoCustomer.get(4);
+            permission = infoCustomer.get(5);
+            userLVL = infoCustomer.get(7);
+
+        }
+
     }
 
     public void setInfoFriendlist(List<String> AnswerServerFriendlist) {
@@ -70,14 +80,16 @@ public class CustomersMVC {
             System.out.println("-------------------");
             System.out.println(newFriendList.get(i));
         }
+        String reciever="";
 
-
-        String reciever = newFriendList.get(1);
-        if (!newFriendList.get(0).equals(Username)) {
-            reciever = newFriendList.get(0);
-        }
-        if (!newFriendList.get(1).equals(Username)) {
-            reciever = newFriendList.get(0);
+        if (newFriendList.size() != 0) {
+            reciever = newFriendList.get(1);
+            if (!newFriendList.get(0).equals(Username)) {
+                reciever = newFriendList.get(0);
+            }
+            if (!newFriendList.get(1).equals(Username)) {
+                reciever = newFriendList.get(1);
+            }
         }
 
         Scanner s = new Scanner(System.in);
@@ -94,30 +106,33 @@ public class CustomersMVC {
             }
         }*/
         int k = 0;
-        while(k != newFriendList.size() / 5){
-            if (newFriendList.get(0).equals(Username)) {
+        if (newFriendList.size() != 0) {
+            while (k != newFriendList.size() / 5) {
+                if (newFriendList.get(0).equals(Username)) {
+                    newFriendList.set(4, newFriendList.get(4).replace("_", " "));
+                    System.out.println(newFriendList.get(3) + " " + newFriendList.get(2) + "  Me: " + newFriendList.get(4));
+                    newFriendList.remove(0);
+                    newFriendList.remove(0);
+                    newFriendList.remove(0);
+                    newFriendList.remove(0);
+                    newFriendList.remove(0);
 
-                System.out.println(newFriendList.get(3) + " " + newFriendList.get(2)+"  Me: " + newFriendList.get(4)  );
-                newFriendList.remove(0);
-                newFriendList.remove(0);
-                newFriendList.remove(0);
-                newFriendList.remove(0);
-                newFriendList.remove(0);
-
-            }
-            else{
-
-                System.out.println(newFriendList.get(3)+ newFriendList.get(2) +"    "+  newFriendList.get(4)+ "                :"+newFriendList.get(0)+" "   );
-                newFriendList.remove(0);
-                newFriendList.remove(0);
-                newFriendList.remove(0);
-                newFriendList.remove(0);
-                newFriendList.remove(0);
+                } else {
+                    newFriendList.set(4, newFriendList.get(4).replace("_", " "));
+                    System.out.println(newFriendList.get(3) + " " + newFriendList.get(2) + "               " + newFriendList.get(4) + "                :" + newFriendList.get(0) + " ");
+                    newFriendList.remove(0);
+                    newFriendList.remove(0);
+                    newFriendList.remove(0);
+                    newFriendList.remove(0);
+                    newFriendList.remove(0);
+                }
             }
         }
         System.out.println("Type your message");
         String message = s.nextLine();
-        return "SendM"+" "+ reciever + " " + Username + " " + message;
+        message = message.replaceAll(" ", "_");
+        System.out.println("testLine " + message);
+        return "SendM " + reciever + " " + Username + " " + message;
     }
 
     public String Conversation() {
@@ -232,6 +247,7 @@ public class CustomersMVC {
             UserCharacteristic = password;
             UserCharacteristic = hashingPassword(UserCharacteristic);
             listCustomer.add(UserCharacteristic);
+            listCustomer.add("Free");
             listCustomer.add("User");
 
             for (int i = 0; i < listCustomer.size(); i++) {
@@ -288,6 +304,7 @@ public class CustomersMVC {
             UserCharacteristic = s.nextLine();
             UserCharacteristic = hashingPassword(UserCharacteristic);
             listCustomer.add(UserCharacteristic);
+            listCustomer.add("Free");
             listCustomer.add("User");
 
             for (int i = 0; i < listCustomer.size(); i++) {
@@ -358,7 +375,7 @@ public class CustomersMVC {
     }
 
     public String seeMyFriendsOnline(){
-        String stringFriends =  "";
+        String stringFriends =  " " + Username;
         for (String friend:friends) {
             stringFriends +=  " " + friend;
         }
