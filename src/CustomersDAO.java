@@ -572,4 +572,48 @@ public class CustomersDAO {
         }
 
     }
+
+    public List<Integer> countLog(Connection conn, Statement st, ResultSet rs)throws SQLException{
+        String sql = "SELECT * FROM LOGS";
+        rs = st.executeQuery(sql);
+        List<Integer> nbLog = new ArrayList<>();
+        int connectionCustomer = 0;
+        int AddMessage = 0;
+        int banUserRequest = 0;
+        int freeUserRequest = 0;
+        int seeMyFriendsOnlineDAO = 0;
+        int FriendUpdate = 0;
+
+        while (rs.next()){
+            String TYPELOG = rs.getString("TYPELOG");
+            switch (TYPELOG){
+                case "connectionCustomer":
+                    connectionCustomer++;
+                    break;
+                case "AddMessage":
+                    AddMessage++;
+                    break;
+                case "FriendUpdate":
+                    FriendUpdate++;
+                    break;
+                case "seeMyFriendsOnlineDAO":
+                    seeMyFriendsOnlineDAO++;
+                    break;
+                case "banUserRequest":
+                    banUserRequest++;
+                    break;
+                case "freeUserRequest":
+                    freeUserRequest++;
+                    break;
+            }
+        }
+        nbLog.add(connectionCustomer);
+        nbLog.add(AddMessage);
+        nbLog.add(FriendUpdate);
+        nbLog.add(seeMyFriendsOnlineDAO);
+        nbLog.add(banUserRequest);
+        nbLog.add(freeUserRequest);
+
+        return nbLog;
+    }
 }
