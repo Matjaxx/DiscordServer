@@ -342,10 +342,11 @@ public class Client extends JFrame {
                 }
                 else if (userInput.equals("seeMyFriendsOnline()") && customer.getIsConnected()){
                     String message = customer.seeMyFriendsOnline();
-                    out.println("seeMyFriendsOnline" + message);
+                    out.println("seeMyFriendsOnline " + message);
                 }
                 else if (userInput.equals("seeEveryLog()") && customer.getIsConnected()){
-                    out.println("seeEveryLog");
+                    String message = customer.seeMyFriendsOnline();
+                    out.println("seeEveryLog " + message);
                 }
                 else if (userInput.equals("Writte message") && customer.getIsConnected()){
                     String message = customer.Conversation();;

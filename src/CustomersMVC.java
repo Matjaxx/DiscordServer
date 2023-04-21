@@ -192,13 +192,13 @@ public class CustomersMVC {
             System.out.println("type the name of the person you want to free");
             answer= l.nextLine();
             System.out.println(answer);
-            return "freeUser" + " " +answer+ " " +Username;
+            return "freeUser" + " " + Username+ " " +answer;
         }
         else if(a==0) {
             System.out.println("type the name of the person you want to ban");
             answer = l.nextLine();
             System.out.println(answer);
-            return "banUser" + " " +answer+ " " +Username;
+            return "banUser" + " " + Username+ " " +answer;
         }
         else{
             return "cancel";

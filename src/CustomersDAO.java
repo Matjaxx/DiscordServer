@@ -90,7 +90,7 @@ public class CustomersDAO {
                 seeMyFriendsOnlineDAO(conn,st,rs,getListCustomer);
             }
             else if (Objects.equals(getListCustomer.get(0), "seeEveryLog")){
-                seeEveryLog(conn,st,rs);
+                seeEveryLog(conn,st,rs,getListCustomer);
             }
 
 
@@ -337,32 +337,52 @@ public class CustomersDAO {
 
     public void banUserRequest(Connection conn, Statement st,ResultSet rs, List<String> getListCustomer)throws ClassNotFoundException, SQLException{
         st = conn.createStatement();
-        String sql3 = "UPDATE Customer SET PERMISSION = 'BAN' WHERE USERNAME = '" + getListCustomer.get(1) + "'";
-        st.executeUpdate(sql3);
-        sql3 = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
-        String IDString = "";
-        rs = st.executeQuery(sql3);
-        while (rs.next()){
-            IDString = rs.getString("ID");
-        }
+        String s = "SELECT USERLVL FROM Customer WHERE USERNAME = '" + getListCustomer.get(1)+ "'";
+        rs = st.executeQuery(s);
 
-        int ID = Integer.parseInt(IDString);
-        newLogDAO(conn,st,rs,"banUserRequest",ID);
+        while (rs.next()){
+            String admin = rs.getString("USERLVL");
+            if (admin.equals("ADMIN") || admin.equals("MODO")){
+                String sql3 = "UPDATE Customer SET PERMISSION = 'BAN' WHERE USERNAME = '" + getListCustomer.get(2) + "'";
+                st.executeUpdate(sql3);
+                sql3 = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(2) + "'";
+                String IDString = "";
+                rs = st.executeQuery(sql3);
+                while (rs.next()){
+                    IDString = rs.getString("ID");
+                }
+
+                int ID = Integer.parseInt(IDString);
+                newLogDAO(conn,st,rs,"banUserRequest",ID);
+                AnswerServer = "You are admin";
+            }
+            else {AnswerServer = "You are not admin";}
+        }
     }
 
     public void freeUserRequest(Connection conn, Statement st,ResultSet rs, List<String> getListCustomer)throws ClassNotFoundException, SQLException{
         st = conn.createStatement();
-        String sql3 = "UPDATE Customer SET PERMISSION = 'FREE' WHERE USERNAME = '" + getListCustomer.get(1) + "'";
-        st.executeUpdate(sql3);
-        sql3 = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
-        String IDString = "";
-        rs = st.executeQuery(sql3);
-        while (rs.next()){
-            IDString = rs.getString("ID");
-        }
+        String s = "SELECT USERLVL FROM Customer WHERE USERNAME = '" + getListCustomer.get(1)+ "'";
+        rs = st.executeQuery(s);
 
-        int ID = Integer.parseInt(IDString);
-        newLogDAO(conn,st,rs,"freeUserRequest",ID);
+        while (rs.next()){
+            String admin = rs.getString("USERLVL");
+            if (admin.equals("ADMIN") || admin.equals("MODO")){
+                String sql3 = "UPDATE Customer SET PERMISSION = 'FREE' WHERE USERNAME = '" + getListCustomer.get(2) + "'";
+                st.executeUpdate(sql3);
+                sql3 = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(2) + "'";
+                String IDString = "";
+                rs = st.executeQuery(sql3);
+                while (rs.next()){
+                    IDString = rs.getString("ID");
+                }
+
+                int ID = Integer.parseInt(IDString);
+                newLogDAO(conn,st,rs,"freeUserRequest",ID);
+                System.out.println("You are admin");
+            }
+            else {System.out.println("You are not admin");}
+        }
     }
 
     public void beOnlineRequest(Connection conn, Statement st,ResultSet rs, List<String> getListCustomer)throws ClassNotFoundException, SQLException{
@@ -526,19 +546,30 @@ public class CustomersDAO {
 
 
 
-    public void seeEveryLog(Connection conn, Statement st, ResultSet rs)throws SQLException{
+    public void seeEveryLog(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer)throws SQLException{
         st = conn.createStatement();
-        String sql = "SELECT * FROM LOGS";
-        rs = st.executeQuery(sql);
-        String result ="";
-        while (rs.next()){
-            String ID = rs.getString("ID");
-            String USER_ID = rs.getString("USER_ID");
-            String TYPELOG = rs.getString("TYPELOG");
-            String TIMELOG = rs.getString("TIMELOG");
 
-            result += "ID:" + ID + ";USER_ID:" + USER_ID+ ";TYPELOG:" + TYPELOG+ ";TIMELOG:"+ TIMELOG + " ";
+        String s = "SELECT USERLVL FROM Customer WHERE USERNAME = '" + getListCustomer.get(1)+ "'";
+        rs = st.executeQuery(s);
+
+        while (rs.next()){
+            String admin = rs.getString("USERLVL");
+            if (admin.equals("ADMIN")){
+                String sql = "SELECT * FROM LOGS";
+                rs = st.executeQuery(sql);
+                String result ="";
+                while (rs.next()){
+                    String ID = rs.getString("ID");
+                    String USER_ID = rs.getString("USER_ID");
+                    String TYPELOG = rs.getString("TYPELOG");
+                    String TIMELOG = rs.getString("TIMELOG");
+
+                    result += "ID:" + ID + ";USER_ID:" + USER_ID+ ";TYPELOG:" + TYPELOG+ ";TIMELOG:"+ TIMELOG + " ";
+                }
+                AnswerServer = result;
+            }
+            else {AnswerServer = "You are not admin";}
         }
-        AnswerServer = result;
+
     }
 }
