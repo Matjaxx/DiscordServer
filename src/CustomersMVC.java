@@ -17,8 +17,14 @@ public class CustomersMVC {
     private String LastName;
     private String permission;
     private String userLVL;
-    boolean isConnected = false;
-    boolean isBanned = false;
+    private boolean isConnected = false;
+    private boolean isBanned = false;
+
+    private int indexPermission;
+    //0 USER
+    //1 MODO
+    //2 ADMIN
+
 
 
     public List<String> getListCustomer() {
@@ -43,7 +49,7 @@ public class CustomersMVC {
     }
 
     public void setInfoCustomer(List<String> infoCustomer) {
-        if (infoCustomer.get(0).equals("Banned")) {
+        if (infoCustomer.get(8).equals("Banned")) {
             isBanned = true;
             System.out.println("You are Banned from the server");
         }else{
@@ -56,6 +62,18 @@ public class CustomersMVC {
             Email = infoCustomer.get(4);
             permission = infoCustomer.get(5);
             userLVL = infoCustomer.get(7);
+            if (infoCustomer.get(7).equals("USER")) {
+                indexPermission = 0;
+                System.out.println("You are USER");
+            }
+            if (infoCustomer.get(7).equals("MODO")) {
+                indexPermission = 1;
+                System.out.println("You are MODO");
+            }
+            if (infoCustomer.get(7).equals("ADMIN")) {
+                indexPermission = 2;
+                System.out.println("You are ADMIN");
+            }
 
         }
 

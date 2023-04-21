@@ -527,6 +527,30 @@ public class CustomersDAO {
     }
 
 
+
+    public List<String> seeMyFriendsOnlineDAOGraphique(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer)throws  SQLException{
+        st = conn.createStatement();
+        List<String> seeMyFriendsOnline = new ArrayList<>();
+        String sql;
+        for (int i = 2; i < getListCustomer.size(); i++) {
+            sql = "SELECT  Last_Connection FROM Customer WHERE USERNAME = '" + getListCustomer.get(i) + "'";
+            rs = st.executeQuery(sql);
+            while (rs.next()){
+                String Last_Connection = rs.getString("Last_Connection");
+                seeMyFriendsOnline.add(getListCustomer.get(i) + ":" + Last_Connection + " ");
+            }
+        }
+        sql = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
+        String IDString = "";
+        rs = st.executeQuery(sql);
+        while (rs.next()){
+            IDString = rs.getString("ID");
+        }
+
+        int ID = Integer.parseInt(IDString);
+        newLogDAO(conn,st,rs,"seeMyFriendsOnlineDAO",ID);
+        return seeMyFriendsOnline;
+    }
     public void newLogDAO(Connection conn, Statement st, ResultSet rs, String nameFonction,int UserID)throws  SQLException{
         st = conn.createStatement();
 
@@ -573,6 +597,35 @@ public class CustomersDAO {
 
     }
 
+
+    public List<String> seeEveryLogGraphique(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer)throws SQLException{
+        st = conn.createStatement();
+        List<String> listLog = new ArrayList<>();
+        String s = "SELECT USERLVL FROM Customer WHERE USERNAME = '" + getListCustomer.get(1)+ "'";
+        rs = st.executeQuery(s);
+
+        while (rs.next()){
+            String admin = rs.getString("USERLVL");
+            if (admin.equals("ADMIN")){
+                String sql = "SELECT * FROM LOGS";
+                rs = st.executeQuery(sql);
+                while (rs.next()){
+                    String ID = rs.getString("ID");
+                    String USER_ID = rs.getString("USER_ID");
+                    String TYPELOG = rs.getString("TYPELOG");
+                    String TIMELOG = rs.getString("TIMELOG");
+
+                    listLog.add("ID:" + ID + ";USER_ID:" + USER_ID+ ";TYPELOG:" + TYPELOG+ ";TIMELOG:"+ TIMELOG + " ");
+                }
+            }
+            else {
+                listLog.add("You are not admin");
+                }
+        }
+        return listLog;
+
+    }
+
     public List<Integer> countLog(Connection conn, Statement st, ResultSet rs)throws SQLException{
         String sql = "SELECT * FROM LOGS";
         rs = st.executeQuery(sql);
@@ -615,5 +668,27 @@ public class CustomersDAO {
         nbLog.add(freeUserRequest);
 
         return nbLog;
+    }
+
+
+    public List<String> getFriendsFromMessages(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer)throws SQLException{
+        String sql = "SELECT USERNAME FROM MESSAGES WHERE USERNAME2 = '" + getListCustomer.get(1)+ "'";
+        rs = st.executeQuery(sql);
+        List<String> friendsConv = new ArrayList<>();
+        while (rs.next()){
+            String USERNAME = rs.getString("USERNAME");
+            if (!friendsConv.contains(USERNAME)){
+                friendsConv.add(USERNAME);
+            }
+        }
+        sql = "SELECT USERNAME2 FROM MESSAGES WHERE USERNAME = '" + getListCustomer.get(1)+ "'";
+        rs = st.executeQuery(sql);
+        while (rs.next()){
+            String USERNAME2 = rs.getString("USERNAME2");
+            if (!friendsConv.contains(USERNAME2)){
+                friendsConv.add(USERNAME2);
+            }
+        }
+        return friendsConv;
     }
 }

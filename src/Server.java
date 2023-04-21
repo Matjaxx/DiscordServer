@@ -1,6 +1,9 @@
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.List;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart;
@@ -24,68 +27,24 @@ public class Server {
 
 
 
-            String sql3 = "UPDATE Customer SET PERMISSION = 'BAN' WHERE USERNAME = 'MATHIS'";
-            st.executeUpdate(sql3);
-            String sql = "SELECT * FROM LOGS";
+            String sql = "SELECT USERNAME FROM MESSAGES WHERE USERNAME2 = 'JEREMIE'";
             rs = st.executeQuery(sql);
-
-            int connectionCustomer = 0;
-            int AddMessage = 0;
-            int banUserRequest = 0;
-            int freeUserRequest = 0;
-            int seeMyFriendsOnlineDAO = 0;
-            int FriendUpdate = 0;
-
+            List<String> friendsConv = new ArrayList<>();
             while (rs.next()){
-                String TYPELOG = rs.getString("TYPELOG");
-                switch (TYPELOG){
-                    case "connectionCustomer":
-                        connectionCustomer++;
-                        break;
-                    case "AddMessage":
-                        AddMessage++;
-                        break;
-                    case "FriendUpdate":
-                        FriendUpdate++;
-                        break;
-                    case "seeMyFriendsOnlineDAO":
-                        seeMyFriendsOnlineDAO++;
-                        break;
-                    case "banUserRequest":
-                        banUserRequest++;
-                        break;
-                    case "freeUserRequest":
-                        freeUserRequest++;
-                        break;
+                String USERNAME = rs.getString("USERNAME");
+                if (!friendsConv.contains(USERNAME)){
+                    friendsConv.add(USERNAME);
                 }
             }
-            System.out.println(connectionCustomer);
-            System.out.println(AddMessage);
-            System.out.println(FriendUpdate);
-            System.out.println(seeMyFriendsOnlineDAO);
-            System.out.println(banUserRequest);
-            System.out.println(freeUserRequest);
-
-            DefaultPieDataset dataset = new DefaultPieDataset();
-            dataset.setValue("Connection Customer", connectionCustomer);
-            dataset.setValue("Add Message", AddMessage);
-            dataset.setValue("Ban User Request", banUserRequest);
-            dataset.setValue("Free User Request", freeUserRequest);
-            dataset.setValue("See My Friends Online DAO", seeMyFriendsOnlineDAO);
-            dataset.setValue("Friend Update", FriendUpdate);
-
-            // Create the chart
-            JFreeChart chart = ChartFactory.createPieChart("Requests", dataset, true, true, false);
-
-            // Customize the chart
-            PiePlot plot = (PiePlot) chart.getPlot();
-            plot.setSectionOutlinesVisible(false);
-            plot.setCircular(false);
-
-            // Display the chart
-            ChartFrame frame = new ChartFrame("Requests", chart);
-            frame.setVisible(true);
-            frame.setSize(500, 500);
+            sql = "SELECT USERNAME2 FROM MESSAGES WHERE USERNAME = 'JEREMIE'";
+            rs = st.executeQuery(sql);
+            while (rs.next()){
+                String USERNAME2 = rs.getString("USERNAME2");
+                if (!friendsConv.contains(USERNAME2)){
+                    friendsConv.add(USERNAME2);
+                }
+            }
+            System.out.println(friendsConv);
 
         } catch (SQLException e) {
             System.out.println("Erreur lors de la connexion à la base de données : " + e.getMessage());
