@@ -137,6 +137,9 @@ public class Client extends JFrame {
                     pseudoTextt = pseudoInput.getText();
                     passwordTextt = new String(passwordInput.getPassword());
 
+                    pseudoInput.setText("");
+                    passwordInput.setText("");
+
                     if(customer.getIsBanned()){
                         JDialog dialog = new JDialog(homePage,"BAN",true);
                         dialog.setLayout(new BorderLayout());
@@ -204,10 +207,6 @@ public class Client extends JFrame {
                         JButton sendButton = new JButton();
                         JButton pictureButton = new JButton();
                         JButton microButton = new JButton();
-
-                        JLabel labelFriend = new JLabel("FRIEND");
-                        labelFriend.setFont(new Font("Serif", Font.BOLD,30));
-                        labelFriend.setBounds(65,30,150,30);
 
                         JTextArea messageArea = new JTextArea();
                         messageArea.setBackground(Color.getHSBColor(0.6f,0.3f,1f));
@@ -289,13 +288,13 @@ public class Client extends JFrame {
                         panel2.add(labelConnect);
                         panel2.add(newMessButton);
 
-                        panel3.add(messageText);
+                        /*panel3.add(messageText);
                         panel3.add(statutFriend);
                         panel3.add(sendButton);
                         panel3.add(microButton);
                         panel3.add(labelFriend);
                         panel3.add(pictureButton);
-                        panel3.add(messageArea);
+                        panel3.add(messageArea);*/
 
                         friendButton.addActionListener(new ActionListener() {
                             public void actionPerformed(ActionEvent e) {
@@ -411,6 +410,7 @@ public class Client extends JFrame {
                                         panelAdd.add(panel1);
                                         a1 += 70;
                                         a2 += 70;
+
                                     }
                                 });
 
@@ -421,15 +421,11 @@ public class Client extends JFrame {
                                 friendPage.setVisible(true);
                                 friendPage.setLocationRelativeTo(null);
                                 friendPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                                messagePage.dispose();
-                                statPage.dispose();
                             }
                         });
 
                         messageButton.addActionListener(new ActionListener() {
                             public void actionPerformed(ActionEvent e) {
-                                friendPage.dispose();
-                                statPage.dispose();
                                 messagePage.add(panel1);
                                 messagePage.add(panel2);
                                 messagePage.add(panel3);
@@ -451,13 +447,13 @@ public class Client extends JFrame {
                                 statPage.setVisible(true);
                                 statPage.setLocationRelativeTo(null);
                                 statPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                                friendPage.dispose();
-                                messagePage.dispose();
                             }
                         });
 
                         decoButton.addActionListener(new ActionListener() {
                                                          public void actionPerformed(ActionEvent a) {
+                                                             friendPage.dispose();
+                                                             statPage.dispose();
                                                              messagePage.dispose();
                                                              homePage.setVisible(true);
                                                          }
@@ -528,6 +524,32 @@ public class Client extends JFrame {
                                         panel2.repaint();
                                         y += 70;
                                         y2 += 70;
+                                        buttonTest.addActionListener(new ActionListener() {
+                                            public void actionPerformed(ActionEvent e) {
+                                                /*JPanel panelTemp = new JPanel();
+                                                panelTemp.setLayout(null);
+                                                panelTemp.setBackground(Color.getHSBColor(0.6f,0.3f,1f));
+                                                panelTemp.setBounds(400,0,600,700);*/
+                                                panel3.removeAll();
+
+                                                JLabel labelFriend = new JLabel();
+                                                labelFriend.setFont(new Font("Serif", Font.BOLD,30));
+                                                labelFriend.setBounds(65,30,150,30);
+                                                labelFriend.setText(text);
+
+                                                panel3.add(messageText);
+                                                panel3.add(sendButton);
+                                                panel3.add(microButton);
+                                                panel3.add(labelFriend);
+                                                panel3.add(pictureButton);
+                                                panel3.add(messageArea);
+
+                                                panel3.revalidate();
+                                                panel3.repaint();
+
+                                            }
+                                        });
+
                                     }
                                 });
                                 dialog.pack();
@@ -543,12 +565,6 @@ public class Client extends JFrame {
                         messagePage.setLocationRelativeTo(null);
                         messagePage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         messagePage.setVisible(true);
-
-
-
-
-
-
 
                     String serverResponse = null;
                     try {
