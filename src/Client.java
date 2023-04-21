@@ -743,6 +743,11 @@ public class Client extends JFrame {
                     String message = customer.setInfoFriendRequest();
                     out.println(message);
                 }
+                else if (userInput.equals("Conv()") && customer.getIsConnected()){
+                    System.out.println("A l'aide");
+                    String message = customer.Conv();
+                    out.println(message);
+                }
                 else if (userInput.equals("banUser()") && customer.getIsConnected()){
                     String message = customer.tryToBanUser();
                     out.println(message);
@@ -804,6 +809,13 @@ public class Client extends JFrame {
                     if (Objects.equals(ServerContent.get(0), "Conversation")) {
                         String ForServ = customer.YourConv(ServerContent);
                         out.println(ForServ);
+                    }
+                    if (Objects.equals(ServerContent.get(0), "Convs")) {
+                        customer.YourConvs(ServerContent);
+                        customer.ConversationGRAPH();
+                        customer.flushConversation();
+                        customer.ConversationGRAPH();
+
                     }
                     if (Objects.equals(ServerContent.get(0), "banUser")) {
                         customer.setInfoFriend(ServerContent);

@@ -11,6 +11,8 @@ import java.util.ArrayList;
 public class SocketServer {
     private ServerSocket serverSocket;
 
+    private boolean friendManger = false;
+
     public SocketServer() throws IOException {
         serverSocket = new ServerSocket(1298);
     }
@@ -105,6 +107,11 @@ public class SocketServer {
                         out.println("Friendship request has been accepted");
                     }
                     else if (inputLine.equals("conversation")) {
+                        customersDAO.ServerJBDCConnection(listOrder);
+                        out.println(customersDAO.getAnswerServer());
+                    }
+                    else if (inputLine.equals("Convs")) {
+                        System.out.println("MLMLMLML");
                         customersDAO.ServerJBDCConnection(listOrder);
                         out.println(customersDAO.getAnswerServer());
                     }

@@ -66,6 +66,10 @@ public class CustomersDAO {
             else if (Objects.equals(getListCustomer.get(0), "conversation")){
                 Conversation(conn,st,rs,getListCustomer);
             }
+            else if (Objects.equals(getListCustomer.get(0), "Convs")){
+                System.out.println("MLMLMLML2");
+                Convs(conn,st,rs,getListCustomer);
+            }
             else if (Objects.equals(getListCustomer.get(0), "SendM")){
                 AddMessage(conn,st,rs,getListCustomer);
             }
@@ -252,6 +256,25 @@ public class CustomersDAO {
             AnswerServer = AnswerServer + sender + " " + recipient + " " + date + " " + content + " ";
         }
     }
+
+    public void Convs(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
+        st = conn.createStatement();
+        System.out.println("MLMLMLML");
+        speakingTo = getListCustomer.get(2);
+        AnswerServer ="Convs" + " " ;
+
+        String sql = "SELECT * FROM MESSAGES WHERE (USERNAME = '" + getListCustomer.get(1) + "' AND USERNAME2 = '" + getListCustomer.get(2) + "') OR (USERNAME = '" + getListCustomer.get(2) + "' AND USERNAME2 = '" + getListCustomer.get(1) + "') ORDER BY DATEMESSAGE ASC;";
+        rs = st.executeQuery(sql);
+        while (rs.next()) {
+            String sender = rs.getString("USERNAME");
+            String recipient = rs.getString("USERNAME2");
+            String content = rs.getString("CONTENT");
+            String date = rs.getString("TIMES");
+            System.out.println(date + " - " + sender + " to " + recipient + ": " + content);
+            AnswerServer = AnswerServer + sender + " " + recipient + " " + date + " " + content + " ";
+        }
+    }
+
     public void AddMessage(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
         st = conn.createStatement();
         System.out.println("fritatos is here");
