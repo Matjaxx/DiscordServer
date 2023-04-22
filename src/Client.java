@@ -94,7 +94,6 @@ public class Client extends JFrame {
         Thread t = new Thread(new Runnable() {
             public void run() {
                 while(affichage){
-                    z=100;
                     System.out.print("ee");
                     String message = customer.Conv();
                     out.println(message);
@@ -118,14 +117,15 @@ public class Client extends JFrame {
                     panel4.setLayout(null);
                     panel4.setBackground(Color.getHSBColor(0.6f,0.3f,1f));
                     panel4.setBounds(400,100,500,500);
-                    panel4.removeAll();
 
                     for(int i=0; i<customer.getConversation().size(); i++){
                         messageArea.append(customer.getConversation().get(i) + "\n");
-                        panel4.add(messageArea);
+                        //messageArea.setBounds(400,z,500,500);
+                        //z+=20;
                     }
+                    panel4.add(messageArea);
+                    panel4.removeAll();
                     customer.flushConversation();
-
                     try{
                         Thread.sleep(5000);
                     }catch(InterruptedException p){
@@ -749,6 +749,7 @@ public class Client extends JFrame {
                                                              String timestamp = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                                                              messageArea.append(timestamp + pseudoTextt + message + "\n");
                                                              messageText.setText("");
+                                                             panel4.add(messageArea);
                                                          }
                                                      }
                         );
@@ -825,7 +826,7 @@ public class Client extends JFrame {
                                                 panel3.add(microButton);
                                                 panel3.add(labelFriend);
                                                 panel3.add(pictureButton);
-                                                panel3.add(messageArea);
+                                                //panel3.add(messageArea);
 
                                                 panel3.revalidate();
                                                 panel3.repaint();
