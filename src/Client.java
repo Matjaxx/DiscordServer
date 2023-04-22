@@ -102,52 +102,11 @@ public class Client extends JFrame {
 
 
     private void startAffichageThread() {
-        // Si un thread affichage est déjà en cours, on le stoppe
-        if (affichageThread != null) {
-            affichage = false;
-            try {
-                affichageThread.join(); // On attend que le thread se termine
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        affichage = true;
-        affichageThread = new Thread(new Runnable() {
+        Thread t = new Thread(new Runnable() {
             public void run() {
-                for (boucle = 0; boucle < buttonTest1.size(); boucle++) {
-                    final JButton currentButton = buttonTest1.get(boucle);
-                    currentButton.addMouseListener(new MouseAdapter() {
-                        public void mouseClicked(MouseEvent a) {
-                            Point buttonLocationOnScreen = currentButton.getLocationOnScreen();
-                            int mousex = buttonLocationOnScreen.x + a.getX();
-                            int mousey = buttonLocationOnScreen.y + a.getY();
-                            k = (mousey - 150) / 70;
-                            System.out.println("Mouse clicked at x=" + mousex + ", y=" + mousey);
-                            System.out.println("K:"+k);
-                            customer.setSpeakingWith(customer.getUserinConversation().get(k));
-                            panel3.removeAll();
-                            affichage = true;
-
-                            System.out.println("Le K est toujours :"+k);
-                            System.out.println(mousex);
-
-                            JLabel labelFriend = new JLabel(customer.getUserinConversation().get(k));
-                            labelFriend.setFont(new Font("Serif", Font.BOLD,30));
-                            labelFriend.setBounds(65,30,150,30);
-
-                            panel3.add(messageText);
-                            panel3.add(sendButton);
-                            panel3.add(microButton);
-                            panel3.add(labelFriend);
-                            panel3.add(pictureButton);
-                            panel3.add(messageArea);
-
-                            panel3.revalidate();
-                            panel3.repaint();
-                        }
-                    });
-                }
+                int lastMessageCount = 0; // nombre de messages déjà affichés
                 while(affichage){
+
                     System.out.print("ee");
                     String message = customer.Conv();
                     out.println(message);
@@ -162,24 +121,25 @@ public class Client extends JFrame {
                         System.out.println("Received message from server: " + serverResponse5);
                         ServerContent = separateWords(serverResponse5);
                         if (Objects.equals(ServerContent.get(0), "Convs")) {
+
+                            customer.flushConversation();
                             customer.YourConvs(ServerContent);
                             customer.displayInfoCustomer();
 
                         }
                     }
 
-                    panel4.setLayout(null);
-                    panel4.setBackground(Color.getHSBColor(0.6f,0.3f,1f));
-                    panel4.setBounds(400,100,500,500);
-
-                    for(int i=0; i<customer.getConversation().size(); i++){
-                        messageArea.append(customer.getConversation().get(i) + "\n");
-                        //messageArea.setBounds(400,z,500,500);
-                        //z+=20;
+                    int messageCount = customer.getConversation().size(); // nombre total de messages
+                    if (messageCount > lastMessageCount) { // n'afficher que les nouveaux messages
+                        messageArea.setText(""); // supprimer les anciens messages
+                        for(int i=lastMessageCount; i<messageCount; i++){ // afficher seulement les nouveaux messages
+                            messageArea.append(customer.getConversation().get(i) + "\n");
+                        }
+                        lastMessageCount = messageCount; // mettre à jour le nombre de messages affichés
                     }
-                    panel4.add(messageArea);
-                    panel4.removeAll();
+
                     customer.flushConversation();
+
                     try{
                         Thread.sleep(5000);
                     }catch(InterruptedException p){
@@ -188,8 +148,10 @@ public class Client extends JFrame {
                 }
             }
         });
-        affichageThread.start();
+        t.start();
     }
+
+
 
 
     public void execute() {
@@ -896,7 +858,7 @@ public class Client extends JFrame {
                         messagePage.add(panel1);
                         messagePage.add(panel2);
                         messagePage.add(panel3);
-                        messagePage.add(panel4);
+                        //messagePage.add(panel4);
                         messagePage.add(panel5);
                         messagePage.setLocationRelativeTo(null);
                         messagePage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
