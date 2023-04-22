@@ -760,7 +760,6 @@ public class Client extends JFrame {
                     out.println(message);
                 }
                 else if (userInput.equals("Conv()") && customer.getIsConnected()){
-                    System.out.println("A l'aide");
                     String message = customer.Conv();
                     out.println(message);
                 }
@@ -787,6 +786,14 @@ public class Client extends JFrame {
                 else if (userInput.equals("seeEveryLog()") && customer.getIsConnected()){
                     String message = customer.seeMyFriendsOnline();
                     out.println("seeEveryLog " + message);
+                }
+
+                else if (userInput.equals("GraphMessage") && customer.getIsConnected()){
+                    String message = customer.SendMessageGraph();
+                    out.println(message);
+                }
+                else if (userInput.equals("GetConv") && customer.getIsConnected()){
+                    out.println("GetConv " + customer.getUsername());
                 }
                 else if (userInput.equals("Writte message") && customer.getIsConnected()){
                     String message = customer.Conversation();;
@@ -826,12 +833,12 @@ public class Client extends JFrame {
                         String ForServ = customer.YourConv(ServerContent);
                         out.println(ForServ);
                     }
-                    if (Objects.equals(ServerContent.get(0), "Convs")) {
-                        customer.YourConvs(ServerContent);
-                        customer.ConversationGRAPH();
-                        customer.flushConversation();
-                        customer.ConversationGRAPH();
-
+                    if (Objects.equals(ServerContent.get(0), "Conversation")) {
+                        String ForServ = customer.YourConv(ServerContent);
+                        out.println(ForServ);
+                    }
+                    if (Objects.equals(ServerContent.get(0), "getConvs")) {
+                        customer.GetConvs(ServerContent);
                     }
                     if (Objects.equals(ServerContent.get(0), "banUser")) {
                         customer.setInfoFriend(ServerContent);

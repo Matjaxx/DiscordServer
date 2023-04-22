@@ -66,12 +66,18 @@ public class CustomersDAO {
             else if (Objects.equals(getListCustomer.get(0), "conversation")){
                 Conversation(conn,st,rs,getListCustomer);
             }
+            else if (Objects.equals(getListCustomer.get(0), "GetConv")){
+                getFriendsFromMessages(conn,st,rs,getListCustomer);
+            }
             else if (Objects.equals(getListCustomer.get(0), "Convs")){
                 System.out.println("MLMLMLML2");
                 Convs(conn,st,rs,getListCustomer);
             }
             else if (Objects.equals(getListCustomer.get(0), "SendM")){
                 AddMessage(conn,st,rs,getListCustomer);
+            }
+            else if (Objects.equals(getListCustomer.get(0), "SendMessageGraph")){
+                AddMessageGraph(conn,st,rs,getListCustomer);
             }
             else if (Objects.equals(getListCustomer.get(0), "acceptfriendrequest")){
                 FriendRequestAccepter(conn,st,rs,getListCustomer);
@@ -310,6 +316,41 @@ public class CustomersDAO {
             System.out.println(AnswerServer+"le serveur envoie ca");
         }
         sql = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
+        String IDString = "";
+        rs = st.executeQuery(sql);
+        while (rs.next()){
+            IDString = rs.getString("ID");
+        }
+
+        int ID = Integer.parseInt(IDString);
+        newLogDAO(conn,st,rs,"AddMessage " + getListCustomer.get(2),ID);
+
+    }
+    public void AddMessageGraph(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
+        st = conn.createStatement();
+        System.out.println("fritatos is here");
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String formattedDate = dateFormat.format(new Date());
+        for (int i = 0; i < getListCustomer.size(); i++) {
+            System.out.println(getListCustomer.get(i) + " " + i);
+        }
+        if (getListCustomer.size() == 4) {
+            String sql3 = "INSERT INTO MESSAGES (USERNAME, USERNAME2, CONTENT, TIMES, ORDRE) " +
+                    "VALUES ('" + getListCustomer.get(2) + "','" + getListCustomer.get(1) + "','" + getListCustomer.get(3) + "','" + formattedDate + "',(SELECT COALESCE(MAX(ORDRE), 0) + 1 FROM MESSAGES))";
+
+            st.executeUpdate(sql3);
+        }
+        else{
+            String sql3 = "INSERT INTO MESSAGES (USERNAME, USERNAME2, CONTENT, TIMES, ORDRE) " +
+                    "VALUES ('" + getListCustomer.get(1) + "','" + speakingTo + "','" + getListCustomer.get(2) + "','" + formattedDate + "',(SELECT COALESCE(MAX(ORDRE), 0) + 1 FROM MESSAGES))";
+
+            st.executeUpdate(sql3);
+        }
+        System.out.println("fritatos is here2");
+        AnswerServer ="Message Sent";
+
+        String sql = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
         String IDString = "";
         rs = st.executeQuery(sql);
         while (rs.next()){
@@ -708,7 +749,7 @@ public class CustomersDAO {
     }
 
 
-    public List<String> getFriendsFromMessages(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer)throws SQLException{
+    public String getFriendsFromMessages(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer)throws SQLException{
         st = conn.createStatement();
 
         String sql = "SELECT USERNAME FROM MESSAGES WHERE USERNAME2 = '" + getListCustomer.get(1)+ "'";
@@ -728,7 +769,15 @@ public class CustomersDAO {
                 friendsConv.add(USERNAME2);
             }
         }
-        return friendsConv;
+        for (int i = 0; i < friendsConv.size(); i++) {
+            System.out.println(friendsConv.get(i));
+        }
+        AnswerServer = "getConvs" + " ";
+        System.out.println("fritatos is hereee");
+        for (int i = 0; i < friendsConv.size(); i++) {
+            AnswerServer = AnswerServer + friendsConv.get(i) + " ";
+        }
+        return AnswerServer;
     }
 
     public List<String> listBan(Connection conn, Statement st, ResultSet rs) throws SQLException{
