@@ -35,6 +35,9 @@ public class CustomersMVC {
     public List<String> getListCustomer() {
         return listCustomer;
     }
+    public List<String> getUserinConversation() {
+        return UserInConversation;
+    }
     //creer un getter pour isConnected
     public boolean getIsConnected() {
         return isConnected;
@@ -58,10 +61,10 @@ public class CustomersMVC {
     }
 
     public void setInfoCustomer(List<String> infoCustomer) {
-        if (infoCustomer.get(0).equals("Banned")) {
+        System.out.println(infoCustomer.get(0));
+        if (infoCustomer.get(0).equals("banned")) {
             //TODO
             isBanned = true;
-            System.out.println("You are Banned from the server");
         }else{
             System.out.println("setInfoCustomer");
             isConnected = true;

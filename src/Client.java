@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -33,19 +35,29 @@ public class Client extends JFrame {
     private String firstNameText;
     private String mailText;
     private String idText;
+    private List<JButton> buttonTest1 = new ArrayList<JButton>();
+    private int mousex = 0;
+    private int mousey = 0;
     private int y = 120;
     private int y2 = 152;
+    private int j = 120;
+    private int j2 = 152;
     private int a1 = 400;
     private int a2 = 420;
     private int b = 100;
     private int b1 = 40;
+    private int i = 0;
     private boolean iconConnected = true;
+    private int boucle = 0;
     private int connexion = 0;
 
     public Client(String host, int port) {
         this.host = host;
         this.port = port;
     }
+
+
+    public int getBoucle(){return boucle;}
 
     public static List<String> separateWords(String inputLine) {
         String[] wordsArray = inputLine.split("\\s+");
@@ -59,6 +71,14 @@ public class Client extends JFrame {
 
     public void execute() {
         try {
+            messagePage.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent e) {
+                    mousex = e.getX();
+                    mousey = e.getY();
+                    System.out.println("Mouse clicked at x=" + mousex + ", y=" + mousey);
+                }
+            });
+
             // Se connecte au serveur
             socket = new Socket(host, port);
             List<String> infoCustomers = new ArrayList<>();
@@ -137,8 +157,35 @@ public class Client extends JFrame {
                     pseudoTextt = pseudoInput.getText();
                     passwordTextt = new String(passwordInput.getPassword());
 
-                    pseudoInput.setText("");
-                    passwordInput.setText("");
+                    customer.connectionGraphique(1, pseudoTextt,passwordTextt,null,null,null, null);
+                    String convertListToString = "";
+                    for (int i = 0; i < customer.getListCustomer().size(); i++) {
+                        convertListToString += customer.getListCustomer().get(i)+" ";
+                    }
+                    out.println(convertListToString);
+
+                    String serverResponse4 = null;
+                    try {
+                        serverResponse4 = in.readLine();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    if (serverResponse4 != null) {
+                        System.out.println("Received message from server: " + serverResponse4);
+                        ServerContent = separateWords(serverResponse4);
+                        if (Objects.equals(ServerContent.get(0), "connected")) {
+                            customer.setInfoCustomer(ServerContent);
+                            customer.displayInfoCustomer();
+                        }
+                        if (Objects.equals(ServerContent.get(0), "banned")) {
+                            customer.setInfoCustomer(ServerContent);
+                            customer.displayInfoCustomer();
+                        }
+                    }
+
+
+                    //pseudoInput.setText("");
+                    //passwordInput.setText("");
 
                     if(customer.getIsBanned()){
                         JDialog dialog = new JDialog(homePage,"BAN",true);
@@ -158,13 +205,8 @@ public class Client extends JFrame {
                         homePage.setVisible(true);
                     }
                     else{
-                    customer.connectionGraphique(1, pseudoTextt,passwordTextt,null,null,null, null);
-                    String convertListToString = "";
-                    for (int i = 0; i < customer.getListCustomer().size(); i++) {
-                        convertListToString += customer.getListCustomer().get(i)+" ";
-                    }
-                    out.println(convertListToString);
 
+                        System.out.println("aaa");
                         homePage.dispose();
                         messagePage.setTitle("Your account");
                         messagePage.setSize(1000,700);
@@ -282,6 +324,81 @@ public class Client extends JFrame {
                         panel1.add(friendButton);
                         panel1.add(statButton);
                         panel1.add(decoButton);
+
+                        out.println("GetConv " + customer.getUsername());
+
+                        String serverResponse3 = null;
+                        try {
+                            serverResponse3 = in.readLine();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        if (serverResponse3 != null) {
+                            System.out.println("Received message from server: " + serverResponse3);
+                            ServerContent = separateWords(serverResponse3);
+
+                            if (Objects.equals(ServerContent.get(0), "getConvs")) {
+                                customer.GetConvs(ServerContent);
+                            }
+                        }
+
+                        for(i=0; i<customer.getUserinConversation().size(); i++) {
+                            JButton buttonTest = new JButton();
+                            buttonTest.setIcon(new ImageIcon("Images/profil.png"));
+                            buttonTest.setBounds(15, y, 40, 40);
+                            buttonTest.setContentAreaFilled(false);
+                            buttonTest.setBorderPainted(false);
+                            buttonTest.setFocusPainted(false);
+
+                            JLabel labelTest = new JLabel(customer.getUserinConversation().get(i));
+                            labelTest.setFont(new Font("Serif", Font.BOLD, 30));
+                            labelTest.setBounds(65, y, 150, 30);
+
+                            JLabel labelConnectTest = new JLabel("Connexion");
+                            labelConnectTest.setFont(new Font("Serif", Font.ITALIC, 15));
+                            labelConnectTest.setBounds(65, y2, 100, 15);
+
+                            panel2.add(buttonTest);
+                            panel2.add(labelTest);
+                            panel2.add(labelConnectTest);
+                            panel2.revalidate();
+                            panel2.repaint();
+                            y += 70;
+                            y2 += 70;
+                            buttonTest1.add(buttonTest);
+                        }
+
+
+
+
+                        for (boucle = 0; boucle < buttonTest1.size(); boucle++) {
+                            buttonTest1.get(boucle).addActionListener(new ActionListener() {
+                                public void actionPerformed(ActionEvent e) {
+
+                                    panel3.removeAll();
+
+                                    int k;
+                                    k = ((j - 50)*(mousex+1)) / 70;
+                                    System.out.println(k);
+                                    System.out.println(mousex);
+
+                                    JLabel labelFriend = new JLabel(customer.getUserinConversation().get(k-1));
+                                    labelFriend.setFont(new Font("Serif", Font.BOLD,30));
+                                    labelFriend.setBounds(65,30,150,30);
+
+                                    panel3.add(messageText);
+                                    panel3.add(sendButton);
+                                    panel3.add(microButton);
+                                    panel3.add(labelFriend);
+                                    panel3.add(pictureButton);
+                                    panel3.add(messageArea);
+
+                                    panel3.revalidate();
+                                    panel3.repaint();
+                                }
+                            });
+                        }
+
 
                         panel2.add(statutButton);
                         panel2.add(label);
@@ -522,6 +639,7 @@ public class Client extends JFrame {
                                         buttonTest.setBorderPainted(false);
                                         buttonTest.setFocusPainted(false);
                                         JLabel labelTest = new JLabel(text);
+
                                         labelTest.setFont(new Font("Serif", Font.BOLD,30));
                                         labelTest.setBounds(65,y,150,30);
                                         JLabel labelConnectTest = new JLabel("Connexion");
@@ -576,6 +694,7 @@ public class Client extends JFrame {
                         messagePage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         messagePage.setVisible(true);
 
+                        /*
                     String serverResponse = null;
                     try {
                         serverResponse = in.readLine();
@@ -621,7 +740,7 @@ public class Client extends JFrame {
                             customer.setInfoFriend(ServerContent);
                             System.out.println("beDisconnect");
                         }
-                    }
+                    }*/
                     }
                 }
             }
