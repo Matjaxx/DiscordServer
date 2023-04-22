@@ -36,6 +36,7 @@ public class Client extends JFrame {
     public List<String> infoCustomers = new ArrayList<>();
     private BufferedReader in;
     private String host;
+    private int k;
     private int port;
     public JFrame homePage = new JFrame();
     public JFrame createAccountPage = new JFrame();
@@ -84,13 +85,7 @@ public class Client extends JFrame {
 
     public void execute() {
         try {
-            messagePage.addMouseListener(new MouseAdapter() {
-                public void mouseClicked(MouseEvent e) {
-                    mousex = e.getX();
-                    mousey = e.getY();
-                    System.out.println("Mouse clicked at x=" + mousex + ", y=" + mousey);
-                }
-            });
+
 
             // Se connecte au serveur
             socket = new Socket(host, port);
@@ -384,18 +379,29 @@ public class Client extends JFrame {
 
 
 
+
                         for (boucle = 0; boucle < buttonTest1.size(); boucle++) {
-                            buttonTest1.get(boucle).addActionListener(new ActionListener() {
+                            final JButton currentButton = buttonTest1.get(boucle);
+                            currentButton.addActionListener(new ActionListener() {
                                 public void actionPerformed(ActionEvent e) {
+                                    currentButton.addMouseListener(new MouseAdapter() {
+                                        public void mouseClicked(MouseEvent a) {
+                                            Point buttonLocationOnScreen = currentButton.getLocationOnScreen();
+                                            int mousex = buttonLocationOnScreen.x + a.getX();
+                                            int mousey = buttonLocationOnScreen.y + a.getY();
+                                            k = (mousey - 150) / 70;
+                                            System.out.println("Mouse clicked at x=" + mousex + ", y=" + mousey);
+                                            System.out.println("K:"+k);
+                                        }
+                                    });
 
                                     panel3.removeAll();
 
-                                    int k;
-                                    k = ((j - 50)*(mousex+1)) / 70;
-                                    System.out.println(k);
+
+                                    System.out.println("Le K est toujour :"+k);
                                     System.out.println(mousex);
 
-                                    JLabel labelFriend = new JLabel(customer.getUserinConversation().get(k-1));
+                                    JLabel labelFriend = new JLabel(customer.getUserinConversation().get(k));
                                     labelFriend.setFont(new Font("Serif", Font.BOLD,30));
                                     labelFriend.setBounds(65,30,150,30);
 
@@ -411,6 +417,10 @@ public class Client extends JFrame {
                                 }
                             });
                         }
+
+
+
+
 
 
                         panel2.add(statutButton);
