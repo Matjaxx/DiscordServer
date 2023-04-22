@@ -1038,6 +1038,10 @@ public class Client extends JFrame {
                         customer.setInfoCustomer(ServerContent);
                         customer.displayInfoCustomer();
                     }
+                    if (Objects.equals(ServerContent.get(0), "Convs")) {
+                        customer.YourConvs(ServerContent);
+                        customer.displayInfoCustomer();
+                    }
                     if (Objects.equals(ServerContent.get(0), "banned")) {
                         customer.setInfoCustomer(ServerContent);
                         customer.displayInfoCustomer();
