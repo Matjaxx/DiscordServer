@@ -48,6 +48,10 @@ public class Client extends JFrame {
     private String nameText;
     private String firstNameText;
     private String mailText;
+
+    private Thread currentThread = null;
+
+    private Thread affichageThread = null;
     private String idText;
     private List<JButton> buttonTest1 = new ArrayList<JButton>();
     private JPanel panel3 = new JPanel();
@@ -65,8 +69,14 @@ public class Client extends JFrame {
     private int b1 = 40;
     private int i = 0;
     private boolean affichage = false;
+
     private boolean iconConnected = true;
     private int boucle = 0;
+
+    private JButton sendButton = new JButton();
+    private JButton pictureButton = new JButton();
+    private JButton microButton = new JButton();
+    private JTextField messageText = new JTextField();
     private int connexion = 0;
     private int z = 10;
 
@@ -90,9 +100,53 @@ public class Client extends JFrame {
         return wordsList;
     }
 
+
     private void startAffichageThread() {
-        Thread t = new Thread(new Runnable() {
+        // Si un thread affichage est déjà en cours, on le stoppe
+        if (affichageThread != null) {
+            affichage = false;
+            try {
+                affichageThread.join(); // On attend que le thread se termine
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        affichage = true;
+        affichageThread = new Thread(new Runnable() {
             public void run() {
+                for (boucle = 0; boucle < buttonTest1.size(); boucle++) {
+                    final JButton currentButton = buttonTest1.get(boucle);
+                    currentButton.addMouseListener(new MouseAdapter() {
+                        public void mouseClicked(MouseEvent a) {
+                            Point buttonLocationOnScreen = currentButton.getLocationOnScreen();
+                            int mousex = buttonLocationOnScreen.x + a.getX();
+                            int mousey = buttonLocationOnScreen.y + a.getY();
+                            k = (mousey - 150) / 70;
+                            System.out.println("Mouse clicked at x=" + mousex + ", y=" + mousey);
+                            System.out.println("K:"+k);
+                            customer.setSpeakingWith(customer.getUserinConversation().get(k));
+                            panel3.removeAll();
+                            affichage = true;
+
+                            System.out.println("Le K est toujours :"+k);
+                            System.out.println(mousex);
+
+                            JLabel labelFriend = new JLabel(customer.getUserinConversation().get(k));
+                            labelFriend.setFont(new Font("Serif", Font.BOLD,30));
+                            labelFriend.setBounds(65,30,150,30);
+
+                            panel3.add(messageText);
+                            panel3.add(sendButton);
+                            panel3.add(microButton);
+                            panel3.add(labelFriend);
+                            panel3.add(pictureButton);
+                            panel3.add(messageArea);
+
+                            panel3.revalidate();
+                            panel3.repaint();
+                        }
+                    });
+                }
                 while(affichage){
                     System.out.print("ee");
                     String message = customer.Conv();
@@ -134,8 +188,9 @@ public class Client extends JFrame {
                 }
             }
         });
-        t.start();
+        affichageThread.start();
     }
+
 
     public void execute() {
         try {
@@ -304,12 +359,9 @@ public class Client extends JFrame {
                         JButton statButton = new JButton();
                         JButton decoButton = new JButton();
                         JButton newMessButton = new JButton();
-                        JTextField messageText = new JTextField();
                         messageText.setBounds(70,630,490,35);
                         JButton statutFriend = new JButton();
-                        JButton sendButton = new JButton();
-                        JButton pictureButton = new JButton();
-                        JButton microButton = new JButton();
+
 
                         messageArea.setBackground(Color.getHSBColor(0.6f,0.3f,1f));
                         messageArea.setBounds(10,80,580,550);
@@ -469,6 +521,7 @@ public class Client extends JFrame {
                                 }
                             });
                         }
+
 
 
 
