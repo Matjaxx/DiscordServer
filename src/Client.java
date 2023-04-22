@@ -13,6 +13,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PiePlot;
+import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.plot.PiePlot3D;
+import org.jfree.data.general.DefaultPieDataset;
+import java.util.stream.Collectors;
+
+
+
 
 public class Client extends JFrame {
     private List<String> ServerContent = new ArrayList<String>();
@@ -436,19 +449,89 @@ public class Client extends JFrame {
 
                         statButton.addActionListener(new ActionListener() {
                             public void actionPerformed(ActionEvent e) {
-                                statPage.setTitle("Your friends");
-                                statPage.setSize(1000,700);
-                                JPanel panelStat = new JPanel();
-                                panelStat.setLayout(null);
-                                panelStat.setBackground(Color.getHSBColor(0.6f,0.3f,1f));
-                                panelStat.setBounds(60,0,940,700);
-                                statPage.add(panel1);
-                                statPage.add(panelStat);
-                                statPage.setVisible(true);
-                                statPage.setLocationRelativeTo(null);
-                                statPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                                out.println("getUSERLVL " + customer.getUsername());
+                                String serverResponse = "";
+                                try {
+                                    serverResponse = in.readLine();
+                                }
+                                catch (IOException ioException){}
+
+                                System.out.println(serverResponse);
+
+                                if (serverResponse.contains("ADMIN")){
+                                    statPage.setTitle("Stat");
+                                    JButton buttonCamembert = new JButton("Camembert");
+                                    buttonCamembert.setBounds(400, 300, 200, 50);
+                                    statPage.setSize(1000,700);
+                                    JPanel panelStat = new JPanel();
+                                    panelStat.setLayout(null);
+                                    panelStat.setBackground(Color.getHSBColor(0.6f,0.3f,1f));
+                                    panelStat.setBounds(60,0,940,700);
+                                    panelStat.add(buttonCamembert);
+                                    panelStat.setVisible(true);
+                                    buttonCamembert.setVisible(true);
+                                    statPage.add(panel1);
+                                    statPage.add(panelStat);
+                                    statPage.setVisible(true);
+                                    statPage.setLocationRelativeTo(null);
+                                    statPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                                    buttonCamembert.addActionListener(new ActionListener() {
+                                        public void actionPerformed(ActionEvent e) {
+                                            out.println("countLog ");
+                                            String serverResponse = "";
+                                            try {
+                                                serverResponse = in.readLine();
+                                            }
+                                            catch (IOException ioException){}
+
+                                            System.out.println(serverResponse);
+                                            List<Integer> nbLog = new ArrayList<>();
+                                            String number = "";
+
+                                            for (int i = 0; i < serverResponse.length(); i++) {
+                                                if (serverResponse.charAt(i) == ' '){
+                                                    nbLog.add(Integer.parseInt(number));
+                                                    number = "";
+                                                }
+                                                else {
+                                                    number += serverResponse.charAt(i);
+                                                }
+                                            }
+
+                                            System.out.println(nbLog);
+
+                                            DefaultPieDataset dataset = new DefaultPieDataset();
+                                            dataset.setValue("Connection Customer (" + nbLog.get(0) + ")", nbLog.get(0));
+                                            dataset.setValue("Add Message(" + nbLog.get(1) + ")", nbLog.get(1));
+                                            dataset.setValue("Ban User Request(" + nbLog.get(4) + ")", nbLog.get(4));
+                                            dataset.setValue("Free User Request(" + nbLog.get(5) + ")", nbLog.get(5));
+                                            dataset.setValue("See My Friends Online DAO(" + nbLog.get(3) + ")", nbLog.get(3));
+                                            dataset.setValue("Friend Update(" + nbLog.get(2) + ")", nbLog.get(2));
+                                            dataset.setValue("Be Online(" + nbLog.get(7) + ")", nbLog.get(7));
+                                            dataset.setValue("Be Disconnect(" + nbLog.get(6) + ")", nbLog.get(6));
+
+                                            JFreeChart chart = ChartFactory.createPieChart("Requests", dataset, true, true, false);
+
+                                            PiePlot plot = (PiePlot) chart.getPlot();
+                                            plot.setSectionOutlinesVisible(false);
+                                            plot.setLabelFont(new Font("SansSerif", Font.PLAIN, 12));
+                                            plot.setCircular(false);
+
+                                            ChartFrame frame = new ChartFrame("Requests", chart);
+                                            frame.setVisible(true);
+                                            frame.setSize(500, 500);                                    }
+                                    });
+                                }
+                                else {
+                                    System.out.println("Vous n'êtes pas admin");
+                                }
+
                             }
+
+
                         });
+
+
 
                         decoButton.addActionListener(new ActionListener() {
                                                          public void actionPerformed(ActionEvent a) {

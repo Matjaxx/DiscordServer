@@ -102,6 +102,12 @@ public class CustomersDAO {
             else if (Objects.equals(getListCustomer.get(0), "seeEveryLog")){
                 seeEveryLog(conn,st,rs,getListCustomer);
             }
+            else if (Objects.equals(getListCustomer.get(0), "countLog")){
+                countLog(conn,st,rs);
+            }
+            else if (Objects.equals(getListCustomer.get(0), "getUSERLVL")){
+                getUSERLVL(conn,st,rs,getListCustomer);
+            }
 
 
         } catch (SQLException e) {
@@ -466,6 +472,8 @@ public class CustomersDAO {
         newLogDAO(conn,st,rs,"beOnlineRequest",ID);
     }
 
+
+
     public void beDisconnectRequest(Connection conn, Statement st,ResultSet rs, List<String> getListCustomer)throws ClassNotFoundException, SQLException{
         st = conn.createStatement();
         String sql3 = "UPDATE Customer SET STATE = 'DISCONNECT' WHERE USERNAME = '" + getListCustomer.get(1) + "'";
@@ -743,7 +751,12 @@ public class CustomersDAO {
         nbLog.add(beDisconnectRequest);
         nbLog.add(beOnlineRequest);
 
+        AnswerServer = "";
 
+        for (int i = 0; i < nbLog.size(); i++) {
+            System.out.println(nbLog.get(i));
+            AnswerServer += nbLog.get(i) + " ";
+        }
 
         return nbLog;
     }
@@ -863,5 +876,15 @@ public class CustomersDAO {
             listAdmin.add(USERNAME);
         }
         return listAdmin;
+    }
+
+    public void getUSERLVL(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws SQLException{
+        st = conn.createStatement();
+        String sql = "SELECT USERLVL FROM Customer WHERE USERNAME = '" + getListCustomer.get(1)+ "'";
+        rs = st.executeQuery(sql);
+        while (rs.next()){
+            String USERNAME = rs.getString("USERNAME");
+            AnswerServer = USERNAME;
+        }
     }
 }
