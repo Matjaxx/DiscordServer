@@ -181,11 +181,8 @@ public class CustomersMVC {
         return "SendM " + reciever + " " + Username + " " + message;
     }
 
-    public String SendMessageGraph() {
-        System.out.println("-------------------");
-        Scanner s = new Scanner(System.in);
-        System.out.println("Type your message");
-        String message = s.nextLine();
+    public String SendMessageGraph(String message) {
+
         message = message.replaceAll(" ", "_");
         System.out.println("testLine " + message);
         return "SendMessageGraph " + SpeakingWith + " " + Username + " " + message;

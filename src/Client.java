@@ -49,6 +49,7 @@ public class Client extends JFrame {
     private String firstNameText;
     private String mailText;
 
+    private volatile boolean affichage = false;
     private Thread currentThread = null;
 
     private Thread affichageThread = null;
@@ -68,7 +69,7 @@ public class Client extends JFrame {
     private int b = 100;
     private int b1 = 40;
     private int i = 0;
-    private boolean affichage = false;
+
 
     private boolean iconConnected = true;
     private int boucle = 0;
@@ -102,6 +103,11 @@ public class Client extends JFrame {
 
 
     private void startAffichageThread() {
+        // Arrêter le thread précédent s'il existe
+        if (affichageThread != null) {
+            affichageThread.interrupt();
+        }
+
         Thread t = new Thread(new Runnable() {
             public void run() {
                 int lastMessageCount = 0; // nombre de messages déjà affichés
@@ -143,12 +149,17 @@ public class Client extends JFrame {
                     try{
                         Thread.sleep(5000);
                     }catch(InterruptedException p){
-                        p.printStackTrace();
+                        // Réagir à l'interruption
+                        System.out.println("Thread interrompu");
+                        return;
                     }
                 }
             }
         });
         t.start();
+
+        // Stocker le nouveau thread dans le champ de classe
+        affichageThread = t;
     }
 
 
@@ -756,16 +767,14 @@ public class Client extends JFrame {
                         );
 
                         sendButton.addActionListener(new ActionListener() {
-                                                         public void actionPerformed(ActionEvent a) {
-                                                             String message = messageText.getText();
-                                                             LocalDateTime now = LocalDateTime.now();
-                                                             String timestamp = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-                                                             messageArea.append(timestamp + pseudoTextt + message + "\n");
-                                                             messageText.setText("");
-                                                             panel4.add(messageArea);
-                                                         }
-                                                     }
-                        );
+                            public void actionPerformed(ActionEvent a) {
+                                String message = messageText.getText();
+                                String message2 = customer.SendMessageGraph(message);
+                                out.println(message2);
+                                messageArea.append(message + "\n"); // Ajouter le nouveau message à l'affichage
+                                startAffichageThread();
+                            }
+                        });
 
                         statutButton.addActionListener(new ActionListener() {
                             public void actionPerformed(ActionEvent e) {
@@ -1089,8 +1098,8 @@ public class Client extends JFrame {
                 }
 
                 else if (userInput.equals("GraphMessage") && customer.getIsConnected()){
-                    String message = customer.SendMessageGraph();
-                    out.println(message);
+                    //String message = customer.SendMessageGraph();
+                    //out.println(message);
                 }
                 else if (userInput.equals("GetConv") && customer.getIsConnected()){
                     out.println("GetConv " + customer.getUsername());
