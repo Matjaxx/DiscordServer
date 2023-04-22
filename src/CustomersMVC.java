@@ -35,6 +35,9 @@ public class CustomersMVC {
     public List<String> getListCustomer() {
         return listCustomer;
     }
+    public List<String> getConversation() {
+        return Conversation;
+    }
     public List<String> getUserinConversation() {
         return UserInConversation;
     }
@@ -286,10 +289,10 @@ public class CustomersMVC {
         Scanner s = new Scanner(System.in);
 
         String Receiver;
-        System.out.println("Type the name of the person you want to talk to");
+        /*System.out.println("Type the name of the person you want to talk to");
         Receiver = s.nextLine();
         System.out.println("testLine");
-        SpeakingWith = Receiver;
+        SpeakingWith = Receiver;*/
         return "Convs" + " " + Username + " " + SpeakingWith;
     }
 

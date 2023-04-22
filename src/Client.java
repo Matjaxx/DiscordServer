@@ -50,6 +50,9 @@ public class Client extends JFrame {
     private String mailText;
     private String idText;
     private List<JButton> buttonTest1 = new ArrayList<JButton>();
+    private JPanel panel3 = new JPanel();
+    private JPanel panel4 = new JPanel();
+    private JTextArea messageArea = new JTextArea();
     private int mousex = 0;
     private int mousey = 0;
     private int y = 120;
@@ -61,9 +64,13 @@ public class Client extends JFrame {
     private int b = 100;
     private int b1 = 40;
     private int i = 0;
+    private boolean affichage = false;
     private boolean iconConnected = true;
     private int boucle = 0;
     private int connexion = 0;
+    private int z = 100;
+
+    private CustomersMVC customer = new CustomersMVC();
 
     public Client(String host, int port) {
         this.host = host;
@@ -83,6 +90,57 @@ public class Client extends JFrame {
         return wordsList;
     }
 
+    private void startAffichageThread() {
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                while(affichage){
+                    z=100;
+                    System.out.print("ee");
+                    String message = customer.Conv();
+                    out.println(message);
+
+                    String serverResponse5 = null;
+                    try {
+                        serverResponse5 = in.readLine();
+                    } catch (IOException s) {
+                        throw new RuntimeException(s);
+                    }
+                    if (serverResponse5 != null) {
+                        System.out.println("Received message from server: " + serverResponse5);
+                        ServerContent = separateWords(serverResponse5);
+                        if (Objects.equals(ServerContent.get(0), "Convs")) {
+                            customer.YourConvs(ServerContent);
+                            customer.displayInfoCustomer();
+
+                        }
+                    }
+
+                    panel4.setLayout(null);
+                    panel4.setBackground(Color.getHSBColor(0.6f,0.3f,1f));
+                    panel4.setBounds(400,100,500,500);
+                    //panel4.removeAll();
+
+                    for(int i=0; i<customer.getConversation().size(); i++){
+                        System.out.print(" " + customer.getConversation().size());
+                        JLabel label4 = new JLabel(customer.getConversation().get(i));
+                        label4.setBounds(10,z,600,100);
+                        z+=20;
+                        panel4.add(label4);
+                        //messageArea.append(customer.getConversation().get(i));
+                    }
+                    customer.flushConversation();
+
+                    try{
+                        Thread.sleep(5000);
+                    }catch(InterruptedException p){
+                        p.printStackTrace();
+                    }
+                }
+            }
+        });
+        t.start();
+    }
+
     public void execute() {
         try {
 
@@ -90,7 +148,7 @@ public class Client extends JFrame {
             // Se connecte au serveur
             socket = new Socket(host, port);
             List<String> infoCustomers = new ArrayList<>();
-            CustomersMVC customer = new CustomersMVC();
+
 
             // Initialise les flux d'entrée/sortie
             out = new PrintWriter(socket.getOutputStream(), true);
@@ -229,12 +287,11 @@ public class Client extends JFrame {
                         panel2.setBackground(Color.getHSBColor(0.1f,0.2f,0.9f));
                         panel2.setBounds(60,0,340,700);
 
-                        JPanel panel3 = new JPanel();
                         panel3.setLayout(null);
                         panel3.setBackground(Color.getHSBColor(0.6f,0.3f,1f));
                         panel3.setBounds(400,0,600,700);
 
-                        JPanel panel4 = new JPanel();
+                        JPanel panel5 = new JPanel();
 
                         JButton statutButton = new JButton();
                         JLabel label = new JLabel(pseudoTextt);
@@ -258,7 +315,6 @@ public class Client extends JFrame {
                         JButton pictureButton = new JButton();
                         JButton microButton = new JButton();
 
-                        JTextArea messageArea = new JTextArea();
                         messageArea.setBackground(Color.getHSBColor(0.6f,0.3f,1f));
                         messageArea.setBounds(10,80,580,550);
                         messageArea.setEditable(false);
@@ -381,6 +437,7 @@ public class Client extends JFrame {
 
 
 
+
                         for (boucle = 0; boucle < buttonTest1.size(); boucle++) {
                             final JButton currentButton = buttonTest1.get(boucle);
                             currentButton.addActionListener(new ActionListener() {
@@ -397,6 +454,7 @@ public class Client extends JFrame {
                                     });
 
                                     panel3.removeAll();
+                                    affichage = true;
 
                                     System.out.println("Le K est toujour :"+k);
                                     System.out.println(mousex);
@@ -406,6 +464,8 @@ public class Client extends JFrame {
                                     JLabel labelFriend = new JLabel(customer.getUserinConversation().get(k));
                                     labelFriend.setFont(new Font("Serif", Font.BOLD,30));
                                     labelFriend.setBounds(65,30,150,30);
+
+                                    startAffichageThread(); // appel de la méthode qui contient la boucle while
 
                                     panel3.add(messageText);
                                     panel3.add(sendButton);
@@ -419,6 +479,10 @@ public class Client extends JFrame {
                                 }
                             });
                         }
+
+
+
+
 
 
 
@@ -785,6 +849,7 @@ public class Client extends JFrame {
                         messagePage.add(panel2);
                         messagePage.add(panel3);
                         messagePage.add(panel4);
+                        messagePage.add(panel5);
                         messagePage.setLocationRelativeTo(null);
                         messagePage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         messagePage.setLocation(0,0);
