@@ -103,16 +103,9 @@ public class Client extends JFrame {
 
 
     private void startAffichageThread() {
-        // Arrêter le thread précédent s'il existe
-        if (affichageThread != null) {
-            affichageThread.interrupt();
-        }
-
         Thread t = new Thread(new Runnable() {
             public void run() {
-                int lastMessageCount = 0; // nombre de messages déjà affichés
                 while(affichage){
-
                     System.out.print("ee");
                     String message = customer.Conv();
                     out.println(message);
@@ -123,44 +116,33 @@ public class Client extends JFrame {
                     } catch (IOException s) {
                         throw new RuntimeException(s);
                     }
+
                     if (serverResponse5 != null) {
                         System.out.println("Received message from server: " + serverResponse5);
                         ServerContent = separateWords(serverResponse5);
                         if (Objects.equals(ServerContent.get(0), "Convs")) {
-
                             customer.flushConversation();
                             customer.YourConvs(ServerContent);
                             customer.displayInfoCustomer();
+                        }
 
+                        messageArea.setText(""); // effacer les anciens messages
+                        for (String msg : customer.getConversation()) { // afficher tous les messages
+                            messageArea.append(msg + "\n");
                         }
                     }
-
-                    int messageCount = customer.getConversation().size(); // nombre total de messages
-                    if (messageCount > lastMessageCount) { // n'afficher que les nouveaux messages
-                        messageArea.setText(""); // supprimer les anciens messages
-                        for(int i=lastMessageCount; i<messageCount; i++){ // afficher seulement les nouveaux messages
-                            messageArea.append(customer.getConversation().get(i) + "\n");
-                        }
-                        lastMessageCount = messageCount; // mettre à jour le nombre de messages affichés
-                    }
-
-                    customer.flushConversation();
 
                     try{
                         Thread.sleep(5000);
                     }catch(InterruptedException p){
-                        // Réagir à l'interruption
-                        System.out.println("Thread interrompu");
-                        return;
+                        p.printStackTrace();
                     }
                 }
             }
         });
         t.start();
-
-        // Stocker le nouveau thread dans le champ de classe
-        affichageThread = t;
     }
+
 
 
 
