@@ -771,7 +771,7 @@ public class Client extends JFrame {
                                 String message = messageText.getText();
                                 String message2 = customer.SendMessageGraph(message);
                                 out.println(message2);
-                                messageArea.append(message + "\n"); // Ajouter le nouveau message à l'affichage
+                                messageText.setText("");
                                 startAffichageThread();
                             }
                         });
