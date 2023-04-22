@@ -56,6 +56,10 @@ public class CustomersMVC {
         return Username;
     }
     private String SpeakingWith;
+
+    public void setSpeakingWith(String a){
+        SpeakingWith = a;
+    }
     public String getSpeakingWith() {
         return SpeakingWith;
     }

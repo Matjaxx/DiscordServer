@@ -263,7 +263,8 @@ public class Client extends JFrame {
                         messageArea.setBounds(10,80,580,550);
                         messageArea.setEditable(false);
                         messageArea.setLineWrap(true);
-                        //messageArea.setMargin(new Insets(5,5,5,5));
+                        messageArea.setMargin(new Insets(5,5,5,5));
+
 
                         //JScrollPane scrollPane = new JScrollPane(messageArea);
                         //scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -397,9 +398,10 @@ public class Client extends JFrame {
 
                                     panel3.removeAll();
 
-
                                     System.out.println("Le K est toujour :"+k);
                                     System.out.println(mousex);
+
+                                    customer.setSpeakingWith(customer.getUserinConversation().get(k));
 
                                     JLabel labelFriend = new JLabel(customer.getUserinConversation().get(k));
                                     labelFriend.setFont(new Font("Serif", Font.BOLD,30));
@@ -785,6 +787,7 @@ public class Client extends JFrame {
                         messagePage.add(panel4);
                         messagePage.setLocationRelativeTo(null);
                         messagePage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        messagePage.setLocation(0,0);
                         messagePage.setVisible(true);
 
                         /*
