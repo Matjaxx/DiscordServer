@@ -9,6 +9,8 @@ public class CustomersMVC {
     private List<String> listCustomer = new ArrayList<String>();
 
     private List<String> Conversation = new ArrayList<String>();
+
+    private List<String> UserInConversation = new ArrayList<String>();
     private List<String> friendRequest = new ArrayList<String>();
     private List<String> friends = new ArrayList<String>();
     private String Username;
@@ -49,6 +51,10 @@ public class CustomersMVC {
     //creer un getter pour username
     public String getUsername() {
         return Username;
+    }
+    private String SpeakingWith;
+    public String getSpeakingWith() {
+        return SpeakingWith;
     }
 
     public void setInfoCustomer(List<String> infoCustomer) {
@@ -165,6 +171,16 @@ public class CustomersMVC {
         return "SendM " + reciever + " " + Username + " " + message;
     }
 
+    public String SendMessageGraph() {
+        System.out.println("-------------------");
+        Scanner s = new Scanner(System.in);
+        System.out.println("Type your message");
+        String message = s.nextLine();
+        message = message.replaceAll(" ", "_");
+        System.out.println("testLine " + message);
+        return "SendMessageGraph " + SpeakingWith + " " + Username + " " + message;
+    }
+
     public  void flushConversation(){
         Conversation.clear();
     }
@@ -237,6 +253,19 @@ public class CustomersMVC {
         }
     }
 
+    public void GetConvs(List<String> AnswerServerConvlist) {
+        //creer une list
+        List<String> newConvList = new ArrayList<String>(AnswerServerConvlist);
+        newConvList.remove(0);
+        System.out.println("--------CONVLIST--------");
+        for (int i = 0; i < newConvList.size(); i++) {
+            UserInConversation.add(newConvList.get(i));
+        }
+        for (int i = 0; i < UserInConversation.size(); i++) {
+            System.out.println(UserInConversation.get(i));
+        }
+    }
+
     public String Conversation() {
         Scanner s = new Scanner(System.in);
         String Receiver;
@@ -248,11 +277,13 @@ public class CustomersMVC {
 
     public String Conv() {
         Scanner s = new Scanner(System.in);
+
         String Receiver;
         System.out.println("Type the name of the person you want to talk to");
         Receiver = s.nextLine();
         System.out.println("testLine");
-        return "Convs" + " " + Username + " " + Receiver;
+        SpeakingWith = Receiver;
+        return "Convs" + " " + Username + " " + SpeakingWith;
     }
 
     public String setInfoFriendRequest() {

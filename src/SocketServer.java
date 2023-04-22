@@ -110,7 +110,17 @@ public class SocketServer {
                         customersDAO.ServerJBDCConnection(listOrder);
                         out.println(customersDAO.getAnswerServer());
                     }
+                    else if (inputLine.equals("GetConv")) {
+                        System.out.println("MLMLMLML");
+                        customersDAO.ServerJBDCConnection(listOrder);
+                        out.println(customersDAO.getAnswerServer());
+                    }
                     else if (inputLine.equals("Convs")) {
+                        System.out.println("testtt");
+                        customersDAO.ServerJBDCConnection(listOrder);
+                        out.println(customersDAO.getAnswerServer());
+                    }
+                    else if (inputLine.equals("SendMessageGraph")) {
                         System.out.println("MLMLMLML");
                         customersDAO.ServerJBDCConnection(listOrder);
                         out.println(customersDAO.getAnswerServer());
