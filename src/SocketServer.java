@@ -14,7 +14,7 @@ public class SocketServer {
     private boolean friendManger = false;
 
     public SocketServer() throws IOException {
-        serverSocket = new ServerSocket(1111);
+        serverSocket = new ServerSocket(1299);
     }
 
     public void execute() throws IOException {

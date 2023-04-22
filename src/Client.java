@@ -440,9 +440,15 @@ public class Client extends JFrame {
                             labelTest.setFont(new Font("Serif", Font.BOLD, 30));
                             labelTest.setBounds(65, y, 150, 30);
 
-                            JLabel labelConnectTest = new JLabel("Connexion");
+                            JLabel labelConnectTest = new JLabel();
                             labelConnectTest.setFont(new Font("Serif", Font.ITALIC, 15));
                             labelConnectTest.setBounds(65, y2, 100, 15);
+
+                            if(customer.getIsConnected()){
+                                labelConnectTest.setText("Connected");
+                            }else{
+                                labelConnectTest.setText("Disconnected");
+                            }
 
                             panel2.add(buttonTest);
                             panel2.add(labelTest);
@@ -494,19 +500,6 @@ public class Client extends JFrame {
                                 }
                             });
                         }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
                         panel2.add(statutButton);
@@ -666,6 +659,7 @@ public class Client extends JFrame {
                                 messagePage.add(panel2);
                                 messagePage.add(panel3);
                                 messagePage.add(panel4);
+                                messagePage.add(panel5);
                                 messagePage.setVisible(true);
                             }
                         });
@@ -785,7 +779,7 @@ public class Client extends JFrame {
                                 }
                                 else if(connexion==1){
                                     labelConnect.setText("Away");
-                                    statutButton.setIcon(new ImageIcon("Images/profilConnected.png"));
+                                    statutButton.setIcon(new ImageIcon("Images/away.png"));
                                     connexion=2;
                                 }else{
                                     labelConnect.setText("Connected");
