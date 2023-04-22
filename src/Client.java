@@ -288,14 +288,6 @@ public class Client extends JFrame {
                         panel2.add(labelConnect);
                         panel2.add(newMessButton);
 
-                        /*panel3.add(messageText);
-                        panel3.add(statutFriend);
-                        panel3.add(sendButton);
-                        panel3.add(microButton);
-                        panel3.add(labelFriend);
-                        panel3.add(pictureButton);
-                        panel3.add(messageArea);*/
-
                         friendButton.addActionListener(new ActionListener() {
                             public void actionPerformed(ActionEvent e) {
                                 friendPage.setTitle("Your friends");
@@ -365,8 +357,26 @@ public class Client extends JFrame {
 
                                 for(int i=0; i<customer.getListRequest().size();i++){
                                     JLabel labelFriend = new JLabel(customer.getListRequest().get(i));
-                                    labelFriend.setBounds(20,b1,200,30);
+                                    labelFriend.setBounds(80,b1,200,30);
                                     labelFriend.setFont(new Font("Serif", Font.BOLD,30));
+
+                                    JButton buttonAccepted = new JButton();
+                                    JButton buttonRejected = new JButton();
+
+                                    buttonAccepted.setIcon(new ImageIcon("Images/jaccepte.png"));
+                                    buttonAccepted.setBounds(10,b1,32,32);
+                                    buttonAccepted.setContentAreaFilled(false);
+                                    buttonAccepted.setBorderPainted(false);
+                                    buttonAccepted.setFocusPainted(false);
+
+                                    buttonRejected.setIcon(new ImageIcon("Images/rejete.png"));
+                                    buttonRejected.setBounds(45,b1,32,32);
+                                    buttonRejected.setContentAreaFilled(false);
+                                    buttonRejected.setBorderPainted(false);
+                                    buttonRejected.setFocusPainted(false);
+
+                                    panelRequest.add(buttonAccepted);
+                                    panelRequest.add(buttonRejected);
                                     panelRequest.add(labelFriend);
                                     panelRequest.add(panelListFriend);
                                     panelRequest.revalidate();
