@@ -436,26 +436,20 @@ public class Client extends JFrame {
 
                         for (boucle = 0; boucle < buttonTest1.size(); boucle++) {
                             final JButton currentButton = buttonTest1.get(boucle);
-                            currentButton.addActionListener(new ActionListener() {
-                                public void actionPerformed(ActionEvent e) {
-                                    currentButton.addMouseListener(new MouseAdapter() {
-                                        public void mouseClicked(MouseEvent a) {
-                                            Point buttonLocationOnScreen = currentButton.getLocationOnScreen();
-                                            int mousex = buttonLocationOnScreen.x + a.getX();
-                                            int mousey = buttonLocationOnScreen.y + a.getY();
-                                            k = (mousey - 150) / 70;
-                                            System.out.println("Mouse clicked at x=" + mousex + ", y=" + mousey);
-                                            System.out.println("K:"+k);
-                                        }
-                                    });
-
+                            currentButton.addMouseListener(new MouseAdapter() {
+                                public void mouseClicked(MouseEvent a) {
+                                    Point buttonLocationOnScreen = currentButton.getLocationOnScreen();
+                                    int mousex = buttonLocationOnScreen.x + a.getX();
+                                    int mousey = buttonLocationOnScreen.y + a.getY();
+                                    k = (mousey - 150) / 70;
+                                    System.out.println("Mouse clicked at x=" + mousex + ", y=" + mousey);
+                                    System.out.println("K:"+k);
+                                    customer.setSpeakingWith(customer.getUserinConversation().get(k));
                                     panel3.removeAll();
                                     affichage = true;
 
-                                    System.out.println("Le K est toujour :"+k);
+                                    System.out.println("Le K est toujours :"+k);
                                     System.out.println(mousex);
-
-                                    customer.setSpeakingWith(customer.getUserinConversation().get(k));
 
                                     JLabel labelFriend = new JLabel(customer.getUserinConversation().get(k));
                                     labelFriend.setFont(new Font("Serif", Font.BOLD,30));
@@ -475,6 +469,10 @@ public class Client extends JFrame {
                                 }
                             });
                         }
+
+
+
+
 
 
 
