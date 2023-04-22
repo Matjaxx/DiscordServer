@@ -68,7 +68,7 @@ public class Client extends JFrame {
     private boolean iconConnected = true;
     private int boucle = 0;
     private int connexion = 0;
-    private int z = 100;
+    private int z = 10;
 
     private CustomersMVC customer = new CustomersMVC();
 
@@ -118,15 +118,11 @@ public class Client extends JFrame {
                     panel4.setLayout(null);
                     panel4.setBackground(Color.getHSBColor(0.6f,0.3f,1f));
                     panel4.setBounds(400,100,500,500);
-                    //panel4.removeAll();
+                    panel4.removeAll();
 
                     for(int i=0; i<customer.getConversation().size(); i++){
-                        System.out.print(" " + customer.getConversation().size());
-                        JLabel label4 = new JLabel(customer.getConversation().get(i));
-                        label4.setBounds(10,z,600,100);
-                        z+=20;
-                        panel4.add(label4);
-                        //messageArea.append(customer.getConversation().get(i));
+                        messageArea.append(customer.getConversation().get(i) + "\n");
+                        panel4.add(messageArea);
                     }
                     customer.flushConversation();
 
