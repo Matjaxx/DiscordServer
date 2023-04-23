@@ -48,15 +48,7 @@ public class Server {
 
             String sql3 = "UPDATE Customer SET USERLVL = 'ADMIN' WHERE USERNAME = 'Oscar_got'";
             st.executeUpdate(sql3);
-            String sql = "SELECT USERLVL FROM Customer WHERE USERNAME = 'Oscar_got'";
-            rs = st.executeQuery(sql);
-            while (rs.next()){
-                String USERLVL = rs.getString("USERLVL");
-            }
-            String sql4 = "DELETE MESSAGES WHERE USERNAME = 'null'";
-            st.executeUpdate(sql4);
-            sql4 = "DELETE MESSAGES WHERE USERNAME2 = 'null'";
-            st.executeUpdate(sql4);
+
 
         } catch (SQLException e) {
             System.out.println("Erreur lors de la connexion à la base de données : " + e.getMessage());

@@ -354,6 +354,7 @@ public class CustomersMVC {
         }
     }
 
+
     public String tryToBeOnline() {
         return "beOnline" + " " + Username;
     }

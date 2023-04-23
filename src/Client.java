@@ -44,6 +44,9 @@ public class Client extends JFrame {
     public JFrame friendPage = new JFrame();
     public JFrame statPage = new JFrame();
     public JFrame banPage = new JFrame();
+    public JFrame seeBan = new JFrame();
+    public JFrame seeFree = new JFrame();
+
 
     private String pseudoTextt;
     private String passwordTextt;
@@ -922,38 +925,153 @@ public class Client extends JFrame {
 
                                 if (serverResponse.equals("ADMIN") || serverResponse.equals("MODO")){
                                     banPage.setTitle("Stat");
-                                    JButton buttonBAN = new JButton("buttonBAN");
-                                    buttonBAN.setBounds(200, 500, 200, 50);
-                                    JButton buttonFREE = new JButton("buttonFREE");
-                                    buttonFREE.setBounds(700, 500, 200, 50);
+                                    JButton buttonBAN = new JButton("SEE BAN");
+                                    buttonBAN.setBounds(200, 100, 200, 50);
+                                    JButton buttonB = new JButton("BAN");
+                                    buttonB.setBounds(200, 300, 200, 50);
+                                    JButton buttonFREE = new JButton("SEE FREE");
+                                    buttonFREE.setBounds(700, 100, 200, 50);
+                                    JButton buttonF = new JButton("FREE");
+                                    buttonF.setBounds(700, 300, 200, 50);
                                     banPage.setSize(1000,700);
+                                    banPage.setLocation(0,0);
                                     JPanel panelBan = new JPanel();
                                     panelBan.setLayout(null);
                                     panelBan.setBackground(Color.ORANGE);
                                     panelBan.setBounds(60,0,940,700);
                                     panelBan.add(buttonBAN);
                                     panelBan.add(buttonFREE);
+                                    panelBan.add(buttonB);
+                                    panelBan.add(buttonF);
                                     panelBan.setVisible(true);
                                     buttonBAN.setVisible(true);
                                     buttonFREE.setVisible(true);
-                                    banPage.add(panel1);
+                                    buttonB.setVisible(true);
+                                    buttonF.setVisible(true);
+                                    JTextField textField = new JTextField();
+                                    textField.setBounds(450,400,200,50);
+                                    panelBan.add(textField);
+
+
+
+
+
                                     banPage.add(panelBan);
+                                    banPage.add(panel1);
                                     banPage.setVisible(true);
                                     banPage.setLocationRelativeTo(null);
                                     banPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                                     buttonBAN.addActionListener(new ActionListener() {
                                         public void actionPerformed(ActionEvent e) {
+                                            seeBan.dispose();
+                                            seeFree.dispose();
+                                            out.println("viewlistBan");
+                                            String serverResponse = "";
+                                            try {
+                                                serverResponse = in.readLine();
+                                            }
+                                            catch (IOException ioException){}
+
+                                            List<String> bans = new ArrayList<>();
+
+                                            String ban = "";
+                                            for (int i = 0; i < serverResponse.length(); i++) {
+                                                if (serverResponse.charAt(i) == ' '){
+                                                    bans.add(ban);
+                                                    ban = "";
+                                                }
+                                                else {
+                                                    ban += serverResponse.charAt(i);
+                                                }
+                                            }
+
+                                            System.out.println(bans);
+                                            DefaultListModel<String> listModelB = new DefaultListModel<>();
+                                            for (String o : bans) {
+                                                listModelB.addElement(o);
+                                            }
+                                            JList<String> jListB = new JList<>(listModelB);
+                                            JScrollPane scrollPaneF = new JScrollPane(jListB);
+                                            seeBan = new JFrame("BAN");
+                                            seeBan.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                                            seeBan.setBackground(Color.getHSBColor(0.6f,0.3f,1f));
+                                            seeBan.add(scrollPaneF);
+                                            seeBan.pack();
+                                            seeBan.setVisible(true);
                                         }
                                     });
 
 
                                     buttonFREE.addActionListener(new ActionListener() {
                                         public void actionPerformed(ActionEvent e) {
+                                            seeBan.dispose();
+                                            seeFree.dispose();
+                                            out.println("viewlistFree");
+                                            String serverResponse = "";
+                                            try {
+                                                serverResponse = in.readLine();
+                                            }
+                                            catch (IOException ioException){}
+
+                                            List<String> frees = new ArrayList<>();
+
+                                            String free = "";
+                                            for (int i = 0; i < serverResponse.length(); i++) {
+                                                if (serverResponse.charAt(i) == ' '){
+                                                    frees.add(free);
+                                                    free = "";
+                                                }
+                                                else {
+                                                    free += serverResponse.charAt(i);
+                                                }
+                                            }
+
+
+                                            System.out.println(frees);
+                                            DefaultListModel<String> listModelF = new DefaultListModel<>();
+                                            for (String o : frees) {
+                                                listModelF.addElement(o);
+                                            }
+                                            JList<String> jListF = new JList<>(listModelF);
+                                            JScrollPane scrollPaneF = new JScrollPane(jListF);
+                                            seeFree = new JFrame("FREE");
+                                            seeFree.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                                            seeFree.setBackground(Color.getHSBColor(0.6f,0.3f,1f));
+                                            seeFree.add(scrollPaneF);
+                                            seeFree.pack();
+                                            seeFree.setVisible(true);
 
 
                                         }
                                     });
 
+                                    buttonB.addActionListener(new ActionListener() {
+                                        public void actionPerformed(ActionEvent e) {
+                                            String peopleBan = textField.getText();
+                                            System.out.println("banUser " + customer.getUsername() + " " + peopleBan);
+                                            out.println("banUser " + customer.getUsername() + " " + peopleBan);
+                                            String serverResponse = "";
+                                            try {
+                                                serverResponse = in.readLine();
+                                            }
+                                            catch (IOException ioException){}
+                                            System.out.println(serverResponse);
+                                        }
+                                    });
+
+                                    buttonF.addActionListener(new ActionListener() {
+                                        public void actionPerformed(ActionEvent e) {
+                                            String peopleFree = textField.getText();
+                                            System.out.println("freeUser " + customer.getUsername() + " " + peopleFree);
+                                            out.println("freeUser " + customer.getUsername() + " " + peopleFree);
+                                            String serverResponse = "";
+                                            try {
+                                                serverResponse = in.readLine();
+                                            }
+                                            catch (IOException ioException){}
+                                            System.out.println(serverResponse);
+                                        }
+                                    });
                                 }
                                 else {
                                     System.out.println("Vous n'êtes pas admin ni modo");

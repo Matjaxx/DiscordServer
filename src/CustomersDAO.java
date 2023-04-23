@@ -114,6 +114,12 @@ public class CustomersDAO {
             else if (Objects.equals(getListCustomer.get(0), "seeMyFriendsOnlineDAO2")){
                 seeMyFriendsOnlineDAO2(conn,st,rs,getListCustomer);
             }
+            else if (Objects.equals(getListCustomer.get(0), "viewlistBan")){
+                viewlistBan(conn,st,rs);
+            }
+            else if (Objects.equals(getListCustomer.get(0), "viewlistFree")){
+                viewlistFree(conn,st,rs);
+            }
 
 
         } catch (SQLException e) {
@@ -451,6 +457,9 @@ public class CustomersDAO {
             else {AnswerServer = "You are not admin";}
         }
     }
+
+
+
 
     public void freeUserRequest(Connection conn, Statement st,ResultSet rs, List<String> getListCustomer)throws ClassNotFoundException, SQLException{
         st = conn.createStatement();
@@ -861,6 +870,37 @@ public class CustomersDAO {
             listBan.add(USERNAME);
         }
         return listBan;
+    }
+
+    public void viewlistBan(Connection conn, Statement st, ResultSet rs) throws SQLException{
+        List<String> listBan = new ArrayList<>();
+        listBan = listBan(conn,st,rs);
+        AnswerServer = "";
+        for (String ban:listBan) {
+            AnswerServer += ban + " ";
+        }
+    }
+
+    public List<String> listFree(Connection conn, Statement st, ResultSet rs) throws SQLException{
+        st = conn.createStatement();
+        List<String> listBan = new ArrayList<>();
+        listBan.add("FREE");
+        String sql = "SELECT USERNAME FROM Customer WHERE PERMISSION = 'FREE'";
+        rs = st.executeQuery(sql);
+        while (rs.next()){
+            String USERNAME = rs.getString("USERNAME");
+            listBan.add(USERNAME);
+        }
+        return listBan;
+    }
+
+    public void viewlistFree(Connection conn, Statement st, ResultSet rs) throws SQLException{
+        List<String> listFree = new ArrayList<>();
+        listFree = listFree(conn,st,rs);
+        AnswerServer = "";
+        for (String free:listFree) {
+            AnswerServer += free + " ";
+        }
     }
 
     public List<String> listOnline(Connection conn, Statement st, ResultSet rs) throws SQLException{
