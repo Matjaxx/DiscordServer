@@ -43,6 +43,8 @@ public class Client extends JFrame {
     public JFrame messagePage = new JFrame();
     public JFrame friendPage = new JFrame();
     public JFrame statPage = new JFrame();
+    public JFrame banPage = new JFrame();
+
     private String pseudoTextt;
     private String passwordTextt;
     private String nameText;
@@ -313,6 +315,7 @@ public class Client extends JFrame {
                         JButton friendButton = new JButton();
                         JButton statButton = new JButton();
                         JButton decoButton = new JButton();
+                        JButton banButton = new JButton();
                         JButton newMessButton = new JButton();
                         messageText.setBounds(70,630,490,35);
                         JButton statutFriend = new JButton();
@@ -333,6 +336,12 @@ public class Client extends JFrame {
                         statutButton.setContentAreaFilled(false);
                         statutButton.setBorderPainted(false);
                         statutButton.setFocusPainted(false);
+
+                        banButton.setIcon(new ImageIcon("Images/ban.png"));
+                        banButton.setBounds(10,170,40,40);
+                        banButton.setContentAreaFilled(false);
+                        banButton.setBorderPainted(false);
+                        banButton.setFocusPainted(false);
 
                         statutFriend.setIcon(new ImageIcon("Images/profil.png"));
                         statutFriend.setBounds(15,25,40,40);
@@ -392,6 +401,7 @@ public class Client extends JFrame {
                         panel1.add(friendButton);
                         panel1.add(statButton);
                         panel1.add(decoButton);
+                        panel1.add(banButton);
 
                         out.println("GetConv " + customer.getUsername());
 
@@ -864,6 +874,61 @@ public class Client extends JFrame {
                         });
 
 
+                        banButton.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                out.println("getUSERLVL " + customer.getUsername());
+                                String serverResponse = "";
+                                try {
+                                    serverResponse = in.readLine();
+                                }
+                                catch (IOException ioException){}
+
+                                System.out.println(serverResponse);
+
+                                if (serverResponse.equals("ADMIN") || serverResponse.equals("MODO")){
+                                    banPage.setTitle("Stat");
+                                    JButton buttonBAN = new JButton("buttonBAN");
+                                    buttonBAN.setBounds(200, 500, 200, 50);
+                                    JButton buttonFREE = new JButton("buttonFREE");
+                                    buttonFREE.setBounds(700, 500, 200, 50);
+                                    banPage.setSize(1000,700);
+                                    JPanel panelBan = new JPanel();
+                                    panelBan.setLayout(null);
+                                    panelBan.setBackground(Color.ORANGE);
+                                    panelBan.setBounds(60,0,940,700);
+                                    panelBan.add(buttonBAN);
+                                    panelBan.add(buttonFREE);
+                                    panelBan.setVisible(true);
+                                    buttonBAN.setVisible(true);
+                                    buttonFREE.setVisible(true);
+                                    banPage.add(panel1);
+                                    banPage.add(panelBan);
+                                    banPage.setVisible(true);
+                                    banPage.setLocationRelativeTo(null);
+                                    banPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                                    buttonBAN.addActionListener(new ActionListener() {
+                                        public void actionPerformed(ActionEvent e) {
+                                        }
+                                    });
+
+
+                                    buttonFREE.addActionListener(new ActionListener() {
+                                        public void actionPerformed(ActionEvent e) {
+
+
+                                        }
+                                    });
+
+                                }
+                                else {
+                                    System.out.println("Vous n'êtes pas admin ni modo");
+                                }
+
+                            }
+
+
+                        });
+
 
                         decoButton.addActionListener(new ActionListener() {
                                                          public void actionPerformed(ActionEvent a) {
@@ -872,6 +937,7 @@ public class Client extends JFrame {
                                                              friendPage.dispose();
                                                              statPage.dispose();
                                                              messagePage.dispose();
+                                                             banPage.dispose();
                                                              homePage.setVisible(true);
                                                          }
                                                      }
