@@ -111,6 +111,9 @@ public class CustomersDAO {
             else if (Objects.equals(getListCustomer.get(0), "seeStat")){
                 seeStat(conn,st,rs);
             }
+            else if (Objects.equals(getListCustomer.get(0), "seeMyFriendsOnlineDAO2")){
+                seeMyFriendsOnlineDAO2(conn,st,rs,getListCustomer);
+            }
 
 
         } catch (SQLException e) {
@@ -617,6 +620,40 @@ public class CustomersDAO {
         int ID = Integer.parseInt(IDString);
         newLogDAO(conn,st,rs,"seeMyFriendsOnlineDAO",ID);
     }
+
+    public void seeMyFriendsOnlineDAO2(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer)throws  SQLException{
+        st = conn.createStatement();
+
+        String sql;
+        String result = "";
+            sql = "SELECT  * FROM Customer WHERE USERNAME = '" + getListCustomer.get(2) + "'";
+            rs = st.executeQuery(sql);
+            while (rs.next()){
+                String Last_Connection = rs.getString("Last_Connection");
+                String STATE = rs.getString("STATE");
+                if(STATE.contains("ONLINE")){
+                    System.out.println(getListCustomer.get(2) + " : " + STATE);
+                    result += getListCustomer.get(2) + ":" + STATE + "!";
+                }
+                if(STATE.contains("DISCONNECT")){
+                    System.out.println(getListCustomer.get(2) + " : " + STATE);
+                    result += getListCustomer.get(2) + ":" + STATE + ":" + Last_Connection + "!";
+                }
+
+            }
+
+        AnswerServer = result;
+        sql = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
+        String IDString = "";
+        rs = st.executeQuery(sql);
+        while (rs.next()){
+            IDString = rs.getString("ID");
+        }
+
+        int ID = Integer.parseInt(IDString);
+        newLogDAO(conn,st,rs,"seeMyFriendsOnlineDAO2",ID);
+    }
+
 
 
 

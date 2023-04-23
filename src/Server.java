@@ -53,6 +53,10 @@ public class Server {
             while (rs.next()){
                 String USERLVL = rs.getString("USERLVL");
             }
+            String sql4 = "DELETE MESSAGES WHERE USERNAME = 'null'";
+            st.executeUpdate(sql4);
+            sql4 = "DELETE MESSAGES WHERE USERNAME2 = 'null'";
+            st.executeUpdate(sql4);
 
         } catch (SQLException e) {
             System.out.println("Erreur lors de la connexion à la base de données : " + e.getMessage());

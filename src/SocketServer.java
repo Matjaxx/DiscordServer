@@ -170,6 +170,10 @@ public class SocketServer {
                         customersDAO.ServerJBDCConnection(listOrder);
                         out.println(customersDAO.getAnswerServer());
                     }
+                    else if (inputLine.equals("seeMyFriendsOnlineDAO2")) {
+                        customersDAO.ServerJBDCConnection(listOrder);
+                        out.println(customersDAO.getAnswerServer());
+                    }
                     else if (inputLine.equals("quit()")) {
                         break;
                     }
