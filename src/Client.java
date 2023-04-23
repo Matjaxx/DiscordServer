@@ -67,9 +67,9 @@ public class Client extends JFrame {
     private int j = 120;
     private int j2 = 152;
     private int a1 = 400;
-    private int a2 = 420;
-    private int b = 100;
-    private int b1 = 40;
+    private int a2 = 410;
+    private int b = 50;
+    private int b1 = 50;
     private int i = 0;
 
 
@@ -509,6 +509,7 @@ public class Client extends JFrame {
                                 panelListFriend.setBackground(Color.getHSBColor(0.1f,0.2f,0.9f));
                                 panelListFriend.setBounds(60,0,340,700);
                                 JLabel labelListFriend = new JLabel("List of your friends");
+                                labelListFriend.setFont(new Font("Serif", Font.BOLD,30));
                                 labelListFriend.setBounds(10,10,340,30);
                                 panelListFriend.add(labelListFriend);
 
@@ -532,12 +533,13 @@ public class Client extends JFrame {
                                 for(int i=0; i<customer.getListFriends().size(); i++){
                                     JLabel labelFriend1 = new JLabel(customer.getListFriends().get(i));
                                     labelFriend1.setBounds(20,b,200,30);
-                                    labelFriend1.setFont(new Font("Serif", Font.BOLD,30));
+                                    labelFriend1.setFont(new Font("Lilly", Font.PLAIN,20));
+                                    //labelFriend1.setFont(new Font("Serif", Font.BOLD,30));
                                     panelListFriend.add(labelFriend1);
                                     panelListFriend.revalidate();
                                     panelListFriend.repaint();
                                     panelListFriend.add(panel1);
-                                    b += 70;
+                                    b += 40;
                                 }
 
                                 JPanel panelRequest = new JPanel();
@@ -545,6 +547,7 @@ public class Client extends JFrame {
                                 panelRequest.setBackground(Color.getHSBColor(0.6f,0.3f,1f));
                                 panelRequest.setBounds(400,0,600,350);
                                 JLabel labelRequest = new JLabel("Request");
+                                labelRequest.setFont(new Font("Serif", Font.BOLD,30));
                                 labelRequest.setBounds(10,10,600,30);
                                 panelRequest.add(labelRequest);
 
@@ -569,7 +572,8 @@ public class Client extends JFrame {
                                 for(int i=0; i<customer.getListRequest().size();i++){
                                     JLabel labelFriend = new JLabel(customer.getListRequest().get(i));
                                     labelFriend.setBounds(80,b1,200,30);
-                                    labelFriend.setFont(new Font("Serif", Font.BOLD,30));
+                                    labelFriend.setFont(new Font("Lilly", Font.PLAIN,20));
+                                    //labelFriend.setFont(new Font("Serif", Font.BOLD,30));
 
                                     JButton buttonAccepted = new JButton();
                                     JButton buttonRejected = new JButton();
@@ -593,7 +597,7 @@ public class Client extends JFrame {
                                     panelRequest.revalidate();
                                     panelRequest.repaint();
                                     panelRequest.add(panel1);
-                                    b1 += 70;
+                                    b1 += 40;
                                 }
 
 
@@ -601,10 +605,11 @@ public class Client extends JFrame {
                                 panelAdd.setLayout(null);
                                 panelAdd.setBackground(Color.getHSBColor(0.4f,0.3f,1f));
                                 panelAdd.setBounds(400,350,600,350);
-                                JLabel labelAdd = new JLabel("Add a friend : ");
-                                labelAdd.setBounds(410,360,100,30);
+                                JLabel labelAdd = new JLabel("Add a friend ");
+                                labelAdd.setFont(new Font("Serif", Font.BOLD,30));
+                                labelAdd.setBounds(410,362,200,30);
                                 JTextField textAdd = new JTextField(50);
-                                textAdd.setBounds(500,360,420,30);
+                                textAdd.setBounds(590,360,340,30);
                                 JButton buttonAdd = new JButton("ADD");
                                 buttonAdd.setBounds(930,360,60,30);
                                 panelAdd.add(buttonAdd);
@@ -616,12 +621,13 @@ public class Client extends JFrame {
                                         String message3 = textAdd.getText();
                                         String message2 = customer.requestFrienshipGraphic(message3);
                                         out.println(message2);
-                                        JLabel labelFriend = new JLabel(message2);
-                                        labelFriend.setBounds(410,a1,100,30);
-                                        labelFriend.setFont(new Font("Serif", Font.BOLD,30));
+                                        textAdd.setText(" ");
+                                        JLabel labelFriend = new JLabel(message3);
+                                        labelFriend.setBounds(410,a1,150,30);
+                                        labelFriend.setFont(new Font("Lilly", Font.PLAIN,20));
                                         JLabel labelAttente = new JLabel("En attente de réponse");
                                         labelAttente.setFont(new Font("Serif", Font.ITALIC,15));
-                                        labelAttente.setBounds(510,a2,150,15);
+                                        labelAttente.setBounds(560,a2,150,15);
                                         panelAdd.add(labelFriend);
                                         panelAdd.add(labelAttente);
                                         panelAdd.revalidate();
@@ -629,8 +635,8 @@ public class Client extends JFrame {
                                         panelAdd.add(panelListFriend);
                                         panelAdd.add(panelRequest);
                                         panelAdd.add(panel1);
-                                        a1 += 70;
-                                        a2 += 70;
+                                        a1 += 50;
+                                        a2 += 50;
 
                                     }
                                 });
