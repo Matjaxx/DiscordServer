@@ -48,8 +48,24 @@ public class CustomersMVC {
     public List<String> getListRequest() {
         return friendRequest;
     }
+
+
+    public void RemoveFriendRequest(int index) {
+        friendRequest.remove(index);
+    }
+    public void RemoveFriendRequestList(int index) {
+        friends.remove(index);
+    }
     public List<String> getListFriends() {
         return friends;
+    }
+
+    //creer un setter pour ajouter un ami
+    public void AddFriendList(String friend) {
+        friends.add(friend);
+    }
+    public void ADDFriendList(String friend) {
+        friendRequest.add(friend);
     }
     public boolean getIsBanned() {
         return isBanned;

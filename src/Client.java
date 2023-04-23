@@ -34,9 +34,17 @@ public class Client extends JFrame {
     private Socket socket;
     private PrintWriter out;
     public List<String> infoCustomers = new ArrayList<>();
+
+    private JLabel labelFriend = new JLabel("Friend");
+    private JPanel panelRequest = new JPanel();
+
+    private volatile boolean keepRefreshing = true;
     private BufferedReader in;
     private String host;
     private int k;
+
+    private JButton buttonAccepted = new JButton();
+    private JButton buttonRejected = new JButton();
     private int port;
     public JFrame homePage = new JFrame();
     public JFrame createAccountPage = new JFrame();
@@ -55,11 +63,15 @@ public class Client extends JFrame {
     private String mailText;
 
     private volatile boolean affichage = false;
+    private volatile boolean affichage2 = false;
+
     private Thread currentThread = null;
 
     private Thread affichageThread = null;
     private String idText;
     private List<JButton> buttonTest1 = new ArrayList<JButton>();
+
+    private List<JButton> buttonFriend = new ArrayList<JButton>();
     private JPanel panel3 = new JPanel();
     private JPanel panel4 = new JPanel();
     private JTextArea messageArea = new JTextArea();
@@ -104,6 +116,75 @@ public class Client extends JFrame {
             System.out.println(wordsList.get(i));
         }
         return wordsList;
+    }
+
+    private void startRefreshThread() {
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                while(affichage2){
+                    System.out.print("ff");
+                    String message = customer.getUsername();
+                    out.println("requestlist "+ message);
+
+                    String serverResponse5 = null;
+                    try {
+                        serverResponse5 = in.readLine();
+                    } catch (IOException s) {
+                        throw new RuntimeException(s);
+                    }
+
+                    if (serverResponse5 != null) {
+                        System.out.println("Received message from server: " + serverResponse5);
+                        ServerContent = separateWords(serverResponse5);
+                        if (Objects.equals(ServerContent.get(0), "friendRequest")) {
+                            customer.setInfoFriendlist(ServerContent);
+                            customer.displayInfoCustomer();
+                            affichage2 = false; // arrêter le rafraîchissement
+                            SwingUtilities.invokeLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    panelRequest.removeAll(); // supprimer tous les éléments du panel
+                                    panelRequest.revalidate();
+                                    panelRequest.repaint();
+                                }
+                            });
+                        }
+
+                    }
+
+                    System.out.print("gg");
+
+                    String message2 = customer.getUsername();
+                    out.println("friendlist "+ message2);
+
+
+                    String serverResponse6 = null;
+                    try {
+                        serverResponse6 = in.readLine();
+                    } catch (IOException s) {
+                        throw new RuntimeException(s);
+                    }
+
+                    if (serverResponse6 != null) {
+                        System.out.println("Received message from server: " + serverResponse6);
+                        ServerContent = separateWords(serverResponse6);
+                        if (Objects.equals(ServerContent.get(0), "friendListUpdate")) {
+                            customer.setInfoFriend(ServerContent);
+                            System.out.println("friendListUpdated");
+                        }
+                    }
+
+
+
+                    try{
+                        Thread.sleep(5000);
+                    }catch(InterruptedException p){
+                        p.printStackTrace();
+                    }
+                }
+            }
+        });
+        t.start();
     }
 
 
@@ -233,6 +314,7 @@ public class Client extends JFrame {
                     //homePage.dispose();
                     pseudoTextt = pseudoInput.getText();
                     passwordTextt = new String(passwordInput.getPassword());
+                    System.out.println(pseudoTextt+ "///" + passwordTextt);
 
                     customer.connectionGraphique(1, pseudoTextt,passwordTextt,null,null,null, null);
                     String convertListToString = "";
@@ -575,7 +657,7 @@ public class Client extends JFrame {
                                 labelListFriend.setBounds(10,10,340,30);
                                 panelListFriend.add(labelListFriend);
 
-                                JPanel panelRequest = new JPanel();
+
                                 panelRequest.setLayout(null);
                                 panelRequest.setBackground(Color.getHSBColor(0.6f,0.3f,1f));
                                 panelRequest.setBounds(400,0,600,350);
@@ -584,7 +666,7 @@ public class Client extends JFrame {
                                 labelRequest.setBounds(10,10,600,30);
                                 panelRequest.add(labelRequest);
 
-                                for(int i=0; i<customer.getListRequest().size(); i++){
+                                for(int i=0; i<customer.getListRequest().size(); i++){ //liste d ami (nom inverser)
                                     System.out.println("oooooooo");
                                     System.out.println(customer.getListRequest().get(i));
                                     JLabel labelFriend1 = new JLabel(customer.getListRequest().get(i));
@@ -599,13 +681,14 @@ public class Client extends JFrame {
                                     b += 40;
                                 }
 
-                                for(int i=0; i<customer.getListFriends().size();i++){
+                                for(int i=0; i<customer.getListFriends().size();i++){// liste des requetes d ami
                                     System.out.println("aaaaaaaa");
                                     System.out.println(customer.getListFriends().get(i));
                                     JLabel labelFriend = new JLabel(customer.getListFriends().get(i));
                                     labelFriend.setBounds(80,b1,200,30);
                                     labelFriend.setFont(new Font("Lilly", Font.PLAIN,20));
                                     //labelFriend.setFont(new Font("Serif", Font.BOLD,30));
+
 
                                     JButton buttonAccepted = new JButton();
                                     JButton buttonRejected = new JButton();
@@ -622,6 +705,7 @@ public class Client extends JFrame {
                                     buttonRejected.setBorderPainted(false);
                                     buttonRejected.setFocusPainted(false);
 
+
                                     panelRequest.add(buttonAccepted);
                                     panelRequest.add(buttonRejected);
                                     panelRequest.add(labelFriend);
@@ -629,7 +713,48 @@ public class Client extends JFrame {
                                     panelRequest.revalidate();
                                     panelRequest.repaint();
                                     panelRequest.add(panel1);
+                                    buttonFriend.add(buttonAccepted);
+                                    buttonFriend.add(buttonRejected);
+
                                     b1 += 40;
+                                }
+
+                                for (boucle = 0; boucle < buttonFriend.size(); boucle++) {
+                                    final JButton currentButton = buttonFriend.get(boucle);
+                                    currentButton.addMouseListener(new MouseAdapter() {
+                                        public void mouseClicked(MouseEvent a) {
+
+                                            Point buttonLocationOnScreen = currentButton.getLocationOnScreen();
+                                            int mousex = buttonLocationOnScreen.x + a.getX();
+                                            int mousey = buttonLocationOnScreen.y + a.getY();
+                                            k = (mousey - 263) / 40;
+                                            z = (mousex - 889) / 40;
+
+                                            System.out.println("Mouse clicked at x=" + mousex + ", y=" + mousey);
+                                            System.out.println((mousey - 280));
+                                            System.out.println((mousex - 910));
+                                            System.out.println(" K=" + k + ", Z=" + z);
+                                            panelRequest.removeAll();
+                                            customer.ADDFriendList(customer.getListRequest().get(k));// ajoute 1 customer.getListRequest().size() a la liste d ami
+                                            if (z == 0){
+                                                customer.RemoveFriendRequestList(k);
+                                            }
+
+                                            affichage2 = true;
+                                            buttonFriend.remove(0);
+                                            startRefreshThread();
+                                            panelRequest.add(buttonAccepted);
+                                            panelRequest.add(buttonRejected);
+                                            panelRequest.add(labelFriend);
+                                            //panelRequest.add(panelListFriend);
+                                            panelRequest.revalidate();
+                                            panelRequest.repaint();
+
+
+
+
+                                        }
+                                    });
                                 }
 
 
@@ -1335,6 +1460,15 @@ public class Client extends JFrame {
                                                                    }
 
                                                                    out.println(convertListToString);
+                                                                   createAccountPage.dispose();
+                                                                   homePage.setVisible(true);
+
+                                                                   pseudoTextt = "";
+                                                                   passwordTextt ="";
+                                                                   nameText = "";
+                                                                   firstNameText = "";
+                                                                   mailText = "";
+                                                                   idText = "";
                                                                }
                                                            }
                     );
