@@ -846,6 +846,16 @@ public class Client extends JFrame {
                                 }
                                 else {
                                     System.out.println("Vous n'êtes pas admin");
+                                    JDialog dialogStat = new JDialog(homePage,"STATISTIQUE",true);
+                                    dialogStat.setLayout(new BorderLayout());
+                                    dialogStat.setPreferredSize(new Dimension(320,100));
+                                    JLabel stati = new JLabel("You are not ADMIN !");
+                                    stati.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+                                    stati.setFont(new Font("Serif", Font.BOLD,30));
+                                    dialogStat.add(stati,BorderLayout.CENTER);
+                                    dialogStat.pack();
+                                    dialogStat.setLocationRelativeTo(homePage);
+                                    dialogStat.setVisible(true);
                                 }
 
                             }
