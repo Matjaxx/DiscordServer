@@ -118,74 +118,7 @@ public class Client extends JFrame {
         return wordsList;
     }
 
-    private void startRefreshThread() {
-        Thread t = new Thread(new Runnable() {
-            public void run() {
-                while(affichage2){
-                    System.out.print("ff");
-                    String message = customer.getUsername();
-                    out.println("requestlist "+ message);
 
-                    String serverResponse5 = null;
-                    try {
-                        serverResponse5 = in.readLine();
-                    } catch (IOException s) {
-                        throw new RuntimeException(s);
-                    }
-
-                    if (serverResponse5 != null) {
-                        System.out.println("Received message from server: " + serverResponse5);
-                        ServerContent = separateWords(serverResponse5);
-                        if (Objects.equals(ServerContent.get(0), "friendRequest")) {
-                            customer.setInfoFriendlist(ServerContent);
-                            customer.displayInfoCustomer();
-                            affichage2 = false; // arrêter le rafraîchissement
-                            SwingUtilities.invokeLater(new Runnable() {
-                                @Override
-                                public void run() {
-                                    panelRequest.removeAll(); // supprimer tous les éléments du panel
-                                    panelRequest.revalidate();
-                                    panelRequest.repaint();
-                                }
-                            });
-                        }
-
-                    }
-
-                    System.out.print("gg");
-
-                    String message2 = customer.getUsername();
-                    out.println("friendlist "+ message2);
-
-
-                    String serverResponse6 = null;
-                    try {
-                        serverResponse6 = in.readLine();
-                    } catch (IOException s) {
-                        throw new RuntimeException(s);
-                    }
-
-                    if (serverResponse6 != null) {
-                        System.out.println("Received message from server: " + serverResponse6);
-                        ServerContent = separateWords(serverResponse6);
-                        if (Objects.equals(ServerContent.get(0), "friendListUpdate")) {
-                            customer.setInfoFriend(ServerContent);
-                            System.out.println("friendListUpdated");
-                        }
-                    }
-
-
-
-                    try{
-                        Thread.sleep(5000);
-                    }catch(InterruptedException p){
-                        p.printStackTrace();
-                    }
-                }
-            }
-        });
-        t.start();
-    }
 
 
     private void startAffichageThread() {
@@ -735,23 +668,12 @@ public class Client extends JFrame {
                                             System.out.println((mousex - 910));
                                             System.out.println(" K=" + k + ", Z=" + z);
                                             panelRequest.removeAll();
-                                            customer.ADDFriendList(customer.getListRequest().get(k));// ajoute 1 customer.getListRequest().size() a la liste d ami
-                                            if (z == 0){
-                                                customer.RemoveFriendRequestList(k);
-                                            }
-
-                                            affichage2 = true;
-                                            buttonFriend.remove(0);
-                                            startRefreshThread();
                                             panelRequest.add(buttonAccepted);
                                             panelRequest.add(buttonRejected);
                                             panelRequest.add(labelFriend);
                                             //panelRequest.add(panelListFriend);
                                             panelRequest.revalidate();
                                             panelRequest.repaint();
-
-
-
 
                                         }
                                     });
