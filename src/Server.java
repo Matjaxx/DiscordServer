@@ -27,7 +27,7 @@ public class Server {
 
 
 
-            String sql = "SELECT USERNAME FROM MESSAGES WHERE USERNAME2 = 'JEREMIE'";
+            /*String sql = "SELECT USERNAME FROM MESSAGES WHERE USERNAME2 = 'JEREMIE'";
             rs = st.executeQuery(sql);
             List<String> friendsConv = new ArrayList<>();
             while (rs.next()){
@@ -44,7 +44,10 @@ public class Server {
                     friendsConv.add(USERNAME2);
                 }
             }
-            System.out.println(friendsConv);
+            System.out.println(friendsConv);*/
+
+            String sql = "DELETE FROM MESSAGES WHERE USERNAME = 'PE' OR USERNAME2 = 'PE'";
+            st.executeUpdate(sql);
 
         } catch (SQLException e) {
             System.out.println("Erreur lors de la connexion à la base de données : " + e.getMessage());

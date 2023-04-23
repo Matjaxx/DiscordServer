@@ -785,6 +785,7 @@ public class Client extends JFrame {
                                 buttonOK.addActionListener(new ActionListener() {
                                     public void actionPerformed(ActionEvent e) {
                                         String text = textField.getText();
+                                        customer.setSpeakingWith(text); // déplacer cette ligne ici
                                         dialog.dispose();
                                         JButton buttonTest = new JButton();
                                         buttonTest.setIcon(new ImageIcon("Images/profil.png"));
@@ -793,7 +794,6 @@ public class Client extends JFrame {
                                         buttonTest.setBorderPainted(false);
                                         buttonTest.setFocusPainted(false);
                                         JLabel labelTest = new JLabel(text);
-
                                         labelTest.setFont(new Font("Serif", Font.BOLD,30));
                                         labelTest.setBounds(65,y,150,30);
                                         JLabel labelConnectTest = new JLabel("Connexion");
@@ -804,34 +804,32 @@ public class Client extends JFrame {
                                         panel2.add(labelConnectTest);
                                         panel2.revalidate();
                                         panel2.repaint();
+                                        buttonTest1.add(buttonTest);
                                         y += 70;
                                         y2 += 70;
                                         buttonTest.addActionListener(new ActionListener() {
                                             public void actionPerformed(ActionEvent e) {
-                                                /*JPanel panelTemp = new JPanel();
-                                                panelTemp.setLayout(null);
-                                                panelTemp.setBackground(Color.getHSBColor(0.6f,0.3f,1f));
-                                                panelTemp.setBounds(400,0,600,700);*/
                                                 panel3.removeAll();
 
                                                 JLabel labelFriend = new JLabel();
                                                 labelFriend.setFont(new Font("Serif", Font.BOLD,30));
                                                 labelFriend.setBounds(65,30,150,30);
                                                 labelFriend.setText(text);
+                                                customer.setSpeakingWith(text);
+                                                startAffichageThread();
+                                                System.out.println(customer.getSpeakingWith());
 
                                                 panel3.add(messageText);
                                                 panel3.add(sendButton);
                                                 panel3.add(microButton);
                                                 panel3.add(labelFriend);
                                                 panel3.add(pictureButton);
-                                                //panel3.add(messageArea);
+                                                panel3.add(messageArea);
 
                                                 panel3.revalidate();
                                                 panel3.repaint();
-
                                             }
                                         });
-
                                     }
                                 });
                                 dialog.pack();
@@ -839,6 +837,8 @@ public class Client extends JFrame {
                                 dialog.setVisible(true);
                             }
                         });
+
+
 
                         messagePage.add(panel1);
                         messagePage.add(panel2);
