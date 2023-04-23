@@ -632,7 +632,7 @@ public class CustomersDAO {
 
     public void seeMyFriendsOnlineDAO2(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer)throws  SQLException{
         st = conn.createStatement();
-
+        AnswerServer = "";
         String sql;
         String result = "";
             sql = "SELECT  * FROM Customer WHERE USERNAME = '" + getListCustomer.get(2) + "'";
@@ -642,11 +642,11 @@ public class CustomersDAO {
                 String STATE = rs.getString("STATE");
                 if(STATE.contains("ONLINE")){
                     System.out.println(getListCustomer.get(2) + " : " + STATE);
-                    result += getListCustomer.get(2) + ":" + STATE + "!";
+                    result += STATE ;
                 }
                 if(STATE.contains("DISCONNECT")){
                     System.out.println(getListCustomer.get(2) + " : " + STATE);
-                    result += getListCustomer.get(2) + ":" + STATE + ":" + Last_Connection + "!";
+                    result += STATE + ":" + Last_Connection ;
                 }
 
             }

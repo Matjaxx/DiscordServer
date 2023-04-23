@@ -475,38 +475,24 @@ public class Client extends JFrame {
                             labelConnectTest.setFont(new Font("Serif", Font.ITALIC, 15));
                             labelConnectTest.setBounds(65, y2, 100, 15);
 
-                            /*String mess = customer.getUsername();
+                            String mess = customer.getUsername();
                             out.println("friendlist "+ mess);
-
-                            String message3 = customer.getUsername();
-                            out.println("seeMyFriendsOnlineDAO2 " + message3 + " " + customer.getUserinConversation().get(i));
-
                             String serverResponse6 = "";
                             try {
                                 serverResponse6 = in.readLine();
                             }
                             catch (IOException ioException){}
 
-                            List<String> stats = new ArrayList<>();
+                            out.println("seeMyFriendsOnlineDAO2 " + mess + " " + customer.getUserinConversation().get(i));
 
-                            String stat = "";
-                            for (int i = 0; i < serverResponse6.length(); i++) {
-                                if (serverResponse6.charAt(i) == '!'){
-                                    stats.add(stat);
-                                    stat = "";
-                                }
-                                else {
-                                    stat += serverResponse6.charAt(i);
-                                }
-                            }*/
+                            serverResponse6 = "";
+                            try {
+                                serverResponse6 = in.readLine();
+                            }
+                            catch (IOException ioException){}
 
-                            //System.out.println(stats);
-
-                            /*if(){
-                                labelConnectTest.setText("Connected");
-                            }else{
-                                labelConnectTest.setText("Disconnected ");
-                            }*/
+                            System.out.println(serverResponse6);
+                            labelConnectTest.setText(serverResponse6);
 
                             panel2.add(buttonTest);
                             panel2.add(labelTest);
@@ -618,10 +604,10 @@ public class Client extends JFrame {
                                 labelRequest.setBounds(10,10,600,30);
                                 panelRequest.add(labelRequest);
 
-                                for(int i=0; i<customer.getListRequest().size(); i++){ //liste d ami (nom inverser)
+                                for(int i=0; i<customer.getListFriends().size(); i++){ //liste d ami (nom inverser)
                                     System.out.println("oooooooo");
-                                    System.out.println(customer.getListRequest().get(i));
-                                    JLabel labelFriend1 = new JLabel(customer.getListRequest().get(i));
+                                    System.out.println(customer.getListFriends().get(i));
+                                    JLabel labelFriend1 = new JLabel(customer.getListFriends().get(i));
                                     labelFriend1.setBounds(20,b,200,30);
                                     labelFriend1.setFont(new Font("Lilly", Font.PLAIN,20));
                                     //labelFriend1.setFont(new Font("Serif", Font.BOLD,30));
@@ -633,14 +619,13 @@ public class Client extends JFrame {
                                     b += 40;
                                 }
 
-                                for(int i=0; i<customer.getListFriends().size();i++){// liste des requetes d ami
+                                for(int i=0; i<customer.getListRequest().size();i++){// liste des requetes d ami
                                     System.out.println("aaaaaaaa");
-                                    System.out.println(customer.getListFriends().get(i));
-                                    JLabel labelFriend = new JLabel(customer.getListFriends().get(i));
+                                    System.out.println(customer.getListRequest().get(i));
+                                    JLabel labelFriend = new JLabel(customer.getListRequest().get(i));
                                     labelFriend.setBounds(80,b1,200,30);
                                     labelFriend.setFont(new Font("Lilly", Font.PLAIN,20));
                                     //labelFriend.setFont(new Font("Serif", Font.BOLD,30));
-
 
                                     JButton buttonAccepted = new JButton();
                                     JButton buttonRejected = new JButton();
@@ -656,7 +641,6 @@ public class Client extends JFrame {
                                     buttonRejected.setContentAreaFilled(false);
                                     buttonRejected.setBorderPainted(false);
                                     buttonRejected.setFocusPainted(false);
-
 
                                     panelRequest.add(buttonAccepted);
                                     panelRequest.add(buttonRejected);
@@ -683,9 +667,10 @@ public class Client extends JFrame {
                                             z = (mousex - 889) / 40;
 
                                             System.out.println("Mouse clicked at x=" + mousex + ", y=" + mousey);
-                                            System.out.println((mousey - 280));
-                                            System.out.println((mousex - 910));
+                                            System.out.println(mousey);
+                                            System.out.println(mousex);
                                             System.out.println(" K=" + k + ", Z=" + z);
+
                                             panelRequest.removeAll();
                                             panelRequest.add(buttonAccepted);
                                             panelRequest.add(buttonRejected);
@@ -1208,6 +1193,7 @@ public class Client extends JFrame {
                                 JButton buttonOK = new JButton("OK");
                                 dialog.add(textField,BorderLayout.CENTER);
                                 dialog.add(buttonOK,BorderLayout.SOUTH);
+
                                 buttonOK.addActionListener(new ActionListener() {
                                     public void actionPerformed(ActionEvent e) {
                                         String text = textField.getText();
@@ -1222,7 +1208,7 @@ public class Client extends JFrame {
                                         JLabel labelTest = new JLabel(text);
                                         labelTest.setFont(new Font("Serif", Font.BOLD,30));
                                         labelTest.setBounds(65,y,150,30);
-                                        JLabel labelConnectTest = new JLabel("Connexion");
+                                        JLabel labelConnectTest = new JLabel();
                                         labelConnectTest.setFont(new Font("Serif", Font.ITALIC,15));
                                         labelConnectTest.setBounds(65,y2,100,15);
                                         panel2.add(buttonTest);
