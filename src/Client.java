@@ -1143,7 +1143,10 @@ public class Client extends JFrame {
 
             while ((userInput = stdIn.readLine()) != null) {
 
-                if (userInput.equals("'quit()'")) {
+                if (userInput.equals("quit()")) {
+                    System.out.println("Bye bye");
+                    String message = customer.tryToBeDisconnect();
+                    out.println(message);
                     break;
                 }
                 else if (userInput.equals("connection()")) {

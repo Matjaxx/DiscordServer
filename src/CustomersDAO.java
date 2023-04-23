@@ -499,6 +499,7 @@ public class CustomersDAO {
         st.executeUpdate(sql3);
         sql3 = "UPDATE Customer SET Last_Connection = GETDATE() WHERE USERNAME = '" + getListCustomer.get(1) + "'";
         st.executeUpdate(sql3);
+        System.out.println("OFFLINE");
         sql3 = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
         String IDString = "";
         rs = st.executeQuery(sql3);
