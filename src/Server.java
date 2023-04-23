@@ -46,8 +46,13 @@ public class Server {
             }
             System.out.println(friendsConv);*/
 
-            String sql = "DELETE FROM MESSAGES WHERE USERNAME = 'PE' OR USERNAME2 = 'PE'";
-            st.executeUpdate(sql);
+            String sql3 = "UPDATE Customer SET USERLVL = 'ADMIN' WHERE USERNAME = 'Oscar_got'";
+            st.executeUpdate(sql3);
+            String sql = "SELECT USERLVL FROM Customer WHERE USERNAME = 'Oscar_got'";
+            rs = st.executeQuery(sql);
+            while (rs.next()){
+                String USERLVL = rs.getString("USERLVL");
+            }
 
         } catch (SQLException e) {
             System.out.println("Erreur lors de la connexion à la base de données : " + e.getMessage());

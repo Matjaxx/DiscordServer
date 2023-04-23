@@ -14,7 +14,7 @@ public class SocketServer {
     private boolean friendManger = false;
 
     public SocketServer() throws IOException {
-        serverSocket = new ServerSocket(1299);
+        serverSocket = new ServerSocket(1333);
     }
 
     public void execute() throws IOException {
@@ -163,6 +163,10 @@ public class SocketServer {
                         out.println(customersDAO.getAnswerServer());
                     }
                     else if (inputLine.equals("getUSERLVL")) {
+                        customersDAO.ServerJBDCConnection(listOrder);
+                        out.println(customersDAO.getAnswerServer());
+                    }
+                    else if (inputLine.equals("seeStat")) {
                         customersDAO.ServerJBDCConnection(listOrder);
                         out.println(customersDAO.getAnswerServer());
                     }

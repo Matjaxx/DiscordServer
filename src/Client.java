@@ -660,15 +660,23 @@ public class Client extends JFrame {
                                 if (serverResponse.contains("ADMIN")){
                                     statPage.setTitle("Stat");
                                     JButton buttonCamembert = new JButton("Camembert");
-                                    buttonCamembert.setBounds(400, 300, 200, 50);
+                                    buttonCamembert.setBounds(200, 200, 200, 50);
+                                    JButton buttonSeeStat = new JButton("buttonSeeStat");
+                                    buttonSeeStat.setBounds(200, 500, 200, 50);
+                                    JButton buttonSeeLog = new JButton("buttonSeeLog");
+                                    buttonSeeLog.setBounds(700, 500, 200, 50);
                                     statPage.setSize(1000,700);
                                     JPanel panelStat = new JPanel();
                                     panelStat.setLayout(null);
                                     panelStat.setBackground(Color.getHSBColor(0.6f,0.3f,1f));
                                     panelStat.setBounds(60,0,940,700);
                                     panelStat.add(buttonCamembert);
+                                    panelStat.add(buttonSeeStat);
+                                    panelStat.add(buttonSeeLog);
                                     panelStat.setVisible(true);
                                     buttonCamembert.setVisible(true);
+                                    buttonSeeStat.setVisible(true);
+                                    buttonSeeLog.setVisible(true);
                                     statPage.add(panel1);
                                     statPage.add(panelStat);
                                     statPage.setVisible(true);
@@ -720,9 +728,134 @@ public class Client extends JFrame {
                                             frame.setVisible(true);
                                             frame.setSize(500, 500);                                    }
                                     });
+
+
+                                    buttonSeeStat.addActionListener(new ActionListener() {
+                                        public void actionPerformed(ActionEvent e) {
+                                            out.println("seeStat");
+                                            String serverResponse = "";
+                                            try {
+                                                serverResponse = in.readLine();
+                                            }
+                                            catch (IOException ioException){}
+
+                                            System.out.println(serverResponse);
+
+                                            List<String> stats = new ArrayList<>();
+
+                                            String stat = "";
+                                            for (int i = 0; i < serverResponse.length(); i++) {
+                                                if (serverResponse.charAt(i) == ' '){
+                                                    stats.add(stat);
+                                                    stat = "";
+                                                }
+                                                else {
+                                                    stat += serverResponse.charAt(i);
+                                                }
+                                            }
+
+                                            JTextArea textArea = new JTextArea();
+                                            textArea.setEditable(false);
+
+                                            for (String s:stats) {
+                                                switch (s){
+                                                    case "ADMIN":
+                                                        System.out.println();
+                                                        textArea.append("\n");
+                                                        break;
+                                                    case "MODO":
+                                                        System.out.println();
+                                                        textArea.append("\n");
+                                                        break;
+                                                    case "USER":
+                                                        System.out.println();
+                                                        textArea.append("\n");
+                                                        break;
+                                                    case "ONLINE":
+                                                        System.out.println();
+                                                        textArea.append("\n");
+                                                        break;
+                                                    case "DISCONNECT":
+                                                        System.out.println();
+                                                        textArea.append("\n");
+                                                        break;
+                                                    case "AWAY":
+                                                        System.out.println();
+                                                        textArea.append("\n");
+                                                        break;
+                                                    case "BAN":
+                                                        System.out.println();
+                                                        textArea.append("\n");
+                                                        break;
+                                                }
+                                                textArea.append(s + "\n");
+                                            }
+                                            JScrollPane scrollPane = new JScrollPane(textArea);
+                                            JFrame frame = new JFrame("Liste");
+                                            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                                            frame.setBackground(Color.getHSBColor(0.6f,0.3f,1f));
+                                            frame.add(scrollPane);
+                                            frame.pack();
+                                            frame.setVisible(true);
+
+
+                                                                      }
+                                    });
+
+                                    buttonSeeLog.addActionListener(new ActionListener() {
+                                        public void actionPerformed(ActionEvent e) {
+                                            String message = customer.seeMyFriendsOnline();
+                                            out.println("seeEveryLog " + message);                                            String serverResponse = "";
+                                            try {
+                                                serverResponse = in.readLine();
+                                            }
+                                            catch (IOException ioException){}
+
+                                            System.out.println(serverResponse);
+                                            List<String> logs = new ArrayList<>();
+
+                                            String log = "";
+                                            for (int i = 0; i < serverResponse.length(); i++) {
+                                                if (serverResponse.charAt(i) == ' '){
+                                                    logs.add(log);
+                                                    log = "";
+                                                }
+                                                else {
+                                                    log += serverResponse.charAt(i);
+                                                }
+                                            }
+
+
+
+                                            JTextArea textArea = new JTextArea();
+                                            textArea.setEditable(false);
+
+                                            for (String element : logs) {
+                                                textArea.append(element + "\n");
+                                            }
+
+                                            JScrollPane scrollPane = new JScrollPane(textArea);
+                                            JFrame frame = new JFrame("Liste");
+                                            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                                            frame.setBackground(Color.getHSBColor(0.6f,0.3f,1f));
+                                            frame.add(scrollPane);
+                                            frame.pack();
+                                            frame.setVisible(true);
+                                        }
+                                    });
                                 }
                                 else {
                                     System.out.println("Vous n'êtes pas admin");
+                                    JDialog dialogStat = new JDialog(homePage,"STATISTIQUE",true);
+                                    dialogStat.setLayout(new BorderLayout());
+                                    dialogStat.setPreferredSize(new Dimension(320,100));
+                                    JLabel stati = new JLabel("You are not ADMIN !");
+                                    stati.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+                                    stati.setFont(new Font("Serif", Font.BOLD,30));
+                                    dialogStat.add(stati,BorderLayout.CENTER);
+                                    dialogStat.pack();
+                                    dialogStat.setLocationRelativeTo(homePage);
+                                    dialogStat.setVisible(true);
                                 }
 
                             }
