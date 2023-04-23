@@ -337,7 +337,9 @@ public class Client extends JFrame {
                         JButton newMessButton = new JButton();
                         messageText.setBounds(70,630,490,35);
                         JButton statutFriend = new JButton();
-
+                        JButton buttonCamembert = new JButton();
+                        JButton buttonSeeStat = new JButton();
+                        JButton buttonSeeLog = new JButton();
 
                         messageArea.setBackground(Color.getHSBColor(0.6f,0.3f,1f));
                         messageArea.setBounds(10,80,580,550);
@@ -345,9 +347,26 @@ public class Client extends JFrame {
                         messageArea.setLineWrap(true);
                         messageArea.setMargin(new Insets(5,5,5,5));
 
-
                         //JScrollPane scrollPane = new JScrollPane(messageArea);
                         //scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+                        buttonCamembert.setIcon(new ImageIcon("Images/diagramme.png"));
+                        buttonCamembert.setBounds(630,170,64,64);
+                        buttonCamembert.setContentAreaFilled(false);
+                        buttonCamembert.setBorderPainted(false);
+                        buttonCamembert.setFocusPainted(false);
+
+                        buttonSeeStat.setIcon(new ImageIcon("Images/equipe.png"));
+                        buttonSeeStat.setBounds(630,255,64,64);
+                        buttonSeeStat.setContentAreaFilled(false);
+                        buttonSeeStat.setBorderPainted(false);
+                        buttonSeeStat.setFocusPainted(false);
+
+                        buttonSeeLog.setIcon(new ImageIcon("Images/priorite.png"));
+                        buttonSeeLog.setBounds(630,340,64,64);
+                        buttonSeeLog.setContentAreaFilled(false);
+                        buttonSeeLog.setBorderPainted(false);
+                        buttonSeeLog.setFocusPainted(false);
 
                         statutButton.setIcon(new ImageIcon("Images/profilConnected.png"));
                         statutButton.setBounds(15,25,40,40);
@@ -754,12 +773,15 @@ public class Client extends JFrame {
 
                                 if (serverResponse.contains("ADMIN")){
                                     statPage.setTitle("Stat");
-                                    JButton buttonCamembert = new JButton("Camembert");
-                                    buttonCamembert.setBounds(200, 200, 200, 50);
-                                    JButton buttonSeeStat = new JButton("buttonSeeStat");
-                                    buttonSeeStat.setBounds(200, 500, 200, 50);
-                                    JButton buttonSeeLog = new JButton("buttonSeeLog");
-                                    buttonSeeLog.setBounds(700, 500, 200, 50);
+                                    JLabel text1 = new JLabel("See all the types of logs : ");
+                                    text1.setBounds(280,190,400,30);
+                                    text1.setFont(new Font("Serif", Font.BOLD,30));
+                                    JLabel text2 = new JLabel("See the details of the statistics : ");
+                                    text2.setFont(new Font("Serif", Font.BOLD,30));
+                                    text2.setBounds(200,275,450,30);
+                                    JLabel text3 = new JLabel("See the list of the logs : ");
+                                    text3.setFont(new Font("Serif", Font.BOLD,30));
+                                    text3.setBounds(300,360,400,30);
                                     statPage.setSize(1000,700);
                                     JPanel panelStat = new JPanel();
                                     panelStat.setLayout(null);
@@ -768,6 +790,9 @@ public class Client extends JFrame {
                                     panelStat.add(buttonCamembert);
                                     panelStat.add(buttonSeeStat);
                                     panelStat.add(buttonSeeLog);
+                                    panelStat.add(text1);
+                                    panelStat.add(text2);
+                                    panelStat.add(text3);
                                     panelStat.setVisible(true);
                                     buttonCamembert.setVisible(true);
                                     buttonSeeStat.setVisible(true);
