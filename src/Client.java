@@ -867,6 +867,8 @@ public class Client extends JFrame {
 
                         decoButton.addActionListener(new ActionListener() {
                                                          public void actionPerformed(ActionEvent a) {
+                                                             String message = customer.tryToBeDisconnect();
+                                                             out.println(message);
                                                              friendPage.dispose();
                                                              statPage.dispose();
                                                              messagePage.dispose();
