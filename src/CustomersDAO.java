@@ -108,6 +108,9 @@ public class CustomersDAO {
             else if (Objects.equals(getListCustomer.get(0), "getUSERLVL")){
                 getUSERLVL(conn,st,rs,getListCustomer);
             }
+            else if (Objects.equals(getListCustomer.get(0), "seeStat")){
+                seeStat(conn,st,rs);
+            }
 
 
         } catch (SQLException e) {
@@ -796,6 +799,7 @@ public class CustomersDAO {
     public List<String> listBan(Connection conn, Statement st, ResultSet rs) throws SQLException{
         st = conn.createStatement();
         List<String> listBan = new ArrayList<>();
+        listBan.add("BAN");
         String sql = "SELECT USERNAME FROM Customer WHERE PERMISSION = 'BAN'";
         rs = st.executeQuery(sql);
         while (rs.next()){
@@ -808,6 +812,7 @@ public class CustomersDAO {
     public List<String> listOnline(Connection conn, Statement st, ResultSet rs) throws SQLException{
         st = conn.createStatement();
         List<String> listOnline = new ArrayList<>();
+        listOnline.add("ONLINE");
         String sql = "SELECT USERNAME FROM Customer WHERE STATE = 'ONLINE'";
         rs = st.executeQuery(sql);
         while (rs.next()){
@@ -820,6 +825,7 @@ public class CustomersDAO {
     public List<String> listDisconnect(Connection conn, Statement st, ResultSet rs) throws SQLException{
         st = conn.createStatement();
         List<String> listDisconnect = new ArrayList<>();
+        listDisconnect.add("DISCONNECT");
         String sql = "SELECT USERNAME FROM Customer WHERE STATE = 'DISCONNECT'";
         rs = st.executeQuery(sql);
         while (rs.next()){
@@ -832,6 +838,7 @@ public class CustomersDAO {
     public List<String> listAway(Connection conn, Statement st, ResultSet rs) throws SQLException{
         st = conn.createStatement();
         List<String> listAway = new ArrayList<>();
+        listAway.add("AWAY");
         String sql = "SELECT USERNAME FROM Customer WHERE STATE = 'AWAY'";
         rs = st.executeQuery(sql);
         while (rs.next()){
@@ -844,6 +851,7 @@ public class CustomersDAO {
     public List<String> listUser(Connection conn, Statement st, ResultSet rs) throws SQLException{
         st = conn.createStatement();
         List<String> listUser = new ArrayList<>();
+        listUser.add("USER");
         String sql = "SELECT USERNAME FROM Customer WHERE USERLVL = 'USER'";
         rs = st.executeQuery(sql);
         while (rs.next()){
@@ -857,6 +865,7 @@ public class CustomersDAO {
     public List<String> listModo(Connection conn, Statement st, ResultSet rs) throws SQLException{
         st = conn.createStatement();
         List<String> listModo = new ArrayList<>();
+        listModo.add("MODO");
         String sql = "SELECT USERNAME FROM Customer WHERE USERLVL = 'MODO'";
         rs = st.executeQuery(sql);
         while (rs.next()){
@@ -869,6 +878,7 @@ public class CustomersDAO {
     public List<String> listAdmin(Connection conn, Statement st, ResultSet rs) throws SQLException{
         st = conn.createStatement();
         List<String> listAdmin = new ArrayList<>();
+        listAdmin.add("ADMIN");
         String sql = "SELECT USERNAME FROM Customer WHERE USERLVL = 'ADMIN'";
         rs = st.executeQuery(sql);
         while (rs.next()){
@@ -883,8 +893,49 @@ public class CustomersDAO {
         String sql = "SELECT USERLVL FROM Customer WHERE USERNAME = '" + getListCustomer.get(1)+ "'";
         rs = st.executeQuery(sql);
         while (rs.next()){
-            String USERNAME = rs.getString("USERNAME");
-            AnswerServer = USERNAME;
+            String USERLVL = rs.getString("USERLVL");
+            AnswerServer = USERLVL;
         }
+    }
+
+    public void seeStat(Connection conn, Statement st, ResultSet rs)throws SQLException{
+        List<String> ADMIN = new ArrayList<>();
+        List<String> MODO = new ArrayList<>();
+        List<String> USER = new ArrayList<>();
+        List<String> ONLINE = new ArrayList<>();
+        List<String> DISCONNECT = new ArrayList<>();
+        List<String> AWAY = new ArrayList<>();
+        List<String> BAN = new ArrayList<>();
+
+        ADMIN = listAdmin(conn,st,rs);
+        MODO = listModo(conn,st,rs);
+        USER = listUser(conn,st,rs);
+        ONLINE = listOnline(conn,st,rs);
+        DISCONNECT = listDisconnect(conn,st,rs);
+        AWAY = listAway(conn,st,rs);
+        BAN = listBan(conn,st,rs);
+
+        for (String o: ADMIN) {
+            AnswerServer += o + " ";
+        }
+        for (String o: MODO) {
+            AnswerServer += o + " ";
+        }
+        for (String o: USER) {
+            AnswerServer += o + " ";
+        }
+        for (String o: ONLINE) {
+            AnswerServer += o + " ";
+        }
+        for (String o: DISCONNECT) {
+            AnswerServer += o + " ";
+        }
+        for (String o: AWAY) {
+            AnswerServer += o + " ";
+        }
+        for (String o: BAN) {
+            AnswerServer += o + " ";
+        }
+
     }
 }
