@@ -151,13 +151,29 @@ public class CustomersDAO {
                 AnswerServer = "banned";
             }
         }
+        System.out.println("ONLINE");
+
+        sql3 = "UPDATE Customer SET STATE = 'ONLINE' WHERE USERNAME = '" + getListCustomer.get(1) + "'";
+        st.executeUpdate(sql3);
+        sql3 = "UPDATE Customer SET Last_Connection = GETDATE() WHERE USERNAME = '" + getListCustomer.get(1) + "'";
+        st.executeUpdate(sql3);
         sql3 = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
         String IDString = "";
         rs = st.executeQuery(sql3);
         while (rs.next()){
             IDString = rs.getString("ID");
         }
+
         int ID = Integer.parseInt(IDString);
+        newLogDAO(conn,st,rs,"beOnlineRequest",ID);
+
+        sql3 = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
+        IDString = "";
+        rs = st.executeQuery(sql3);
+        while (rs.next()){
+            IDString = rs.getString("ID");
+        }
+        ID = Integer.parseInt(IDString);
         newLogDAO(conn,st,rs,"connectionCustomer",ID);
     }
 
