@@ -247,8 +247,8 @@ public class CustomersMVC {
             while (k != newFriendList.size() / 5) {
                 if (newFriendList.get(0).equals(Username)) {
                     newFriendList.set(4, newFriendList.get(4).replace("_", " "));
-                    Conversation.add(newFriendList.get(3) + " " + newFriendList.get(2) + "  Me: " + newFriendList.get(4));
-                    System.out.println(newFriendList.get(3) + " " + newFriendList.get(2) + "  Me: " + newFriendList.get(4));
+                    Conversation.add(newFriendList.get(3) + " " + newFriendList.get(2) + "      Me: " + newFriendList.get(4));
+                    System.out.println(newFriendList.get(3) + " " + newFriendList.get(2) + "      Me: " + newFriendList.get(4));
                     newFriendList.remove(0);
                     newFriendList.remove(0);
                     newFriendList.remove(0);
@@ -257,8 +257,8 @@ public class CustomersMVC {
 
                 } else {
                     newFriendList.set(4, newFriendList.get(4).replace("_", " "));
-                    Conversation.add(newFriendList.get(3) + " " + newFriendList.get(2) + "               " + newFriendList.get(4) + "                :" + newFriendList.get(0) + " ");
-                    System.out.println(newFriendList.get(3) + " " + newFriendList.get(2) + "               " + newFriendList.get(4) + "                :" + newFriendList.get(0) + " ");
+                    Conversation.add(newFriendList.get(3) + " " + newFriendList.get(2) + "               " + newFriendList.get(0) + ":                " + newFriendList.get(4) + " ");
+                    System.out.println(newFriendList.get(3) + " " + newFriendList.get(2) + "               " + newFriendList.get(0) + ":                " + newFriendList.get(4) + " ");
                     newFriendList.remove(0);
                     newFriendList.remove(0);
                     newFriendList.remove(0);

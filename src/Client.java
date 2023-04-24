@@ -345,6 +345,7 @@ public class Client extends JFrame {
                         JButton buttonSeeLog = new JButton();
 
                         messageArea.setBackground(Color.getHSBColor(0.6f,0.3f,1f));
+                        messageArea.setFont(new Font("Conversation",Font.PLAIN,15));
                         messageArea.setBounds(10,80,580,550);
                         messageArea.setEditable(false);
                         messageArea.setLineWrap(true);
@@ -702,38 +703,6 @@ public class Client extends JFrame {
 
                                     b1 += 40;
                                 }
-
-                                /*for (boucle = 0; boucle < buttonFriend.size(); boucle++) {
-                                    final JButton currentButton = buttonFriend.get(boucle);
-                                    currentButton.addMouseListener(new MouseAdapter() {
-                                        public void mouseClicked(MouseEvent a) {
-
-                                            Point buttonLocationOnScreen = currentButton.getLocationOnScreen();
-                                            int mousex = buttonLocationOnScreen.x + a.getX();
-                                            int mousey = buttonLocationOnScreen.y + a.getY();
-                                            //k = (mousey - 263) / 40;
-                                            //z = (mousex - 889) / 40;
-
-                                            System.out.println("Mouse clicked at x=" + mousex + ", y=" + mousey);
-                                            //System.out.println(mousey);
-                                            //System.out.println(mousex);
-                                            //System.out.println(" K=" + k + ", Z=" + z);
-                                            if(mousex>600 && mousex<700){
-                                                System.out.println("c'est good");
-
-                                            }
-
-                                            //panelRequest.removeAll();
-                                            panelRequest.add(buttonAccepted);
-                                            panelRequest.add(buttonRejected);
-                                            panelRequest.add(labelFriend);
-                                            //panelRequest.add(panelListFriend);
-                                            panelRequest.revalidate();
-                                            panelRequest.repaint();
-
-                                        }
-                                    });
-                                }*/
 
 
                                 JPanel panelAdd = new JPanel();
