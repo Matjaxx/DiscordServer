@@ -70,8 +70,6 @@ public class Client extends JFrame {
     private Thread affichageThread = null;
     private String idText;
     private List<JButton> buttonTest1 = new ArrayList<JButton>();
-
-    private List<JButton> buttonFriend = new ArrayList<JButton>();
     private List<JButton> buttonListA = new ArrayList<JButton>();
     private List<JButton> buttonListR = new ArrayList<JButton>();
     private List<JLabel> labelFriendss = new ArrayList<JLabel>();
@@ -83,15 +81,11 @@ public class Client extends JFrame {
     private int mousey = 0;
     private int y = 120;
     private int y2 = 152;
-    private int j = 120;
-    private int j2 = 152;
     private int a1 = 400;
     private int a2 = 410;
     private int b = 50;
     private int b1 = 50;
     private int i = 0;
-
-
     private boolean iconConnected = true;
     private int boucle = 0;
 
@@ -353,9 +347,6 @@ public class Client extends JFrame {
                         messageArea.setLineWrap(true);
                         messageArea.setMargin(new Insets(5,5,5,5));
 
-                        //JScrollPane scrollPane = new JScrollPane(messageArea);
-                        //scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
                         buttonCamembert.setIcon(new ImageIcon("Images/diagramme.png"));
                         buttonCamembert.setBounds(630,170,64,64);
                         buttonCamembert.setContentAreaFilled(false);
@@ -464,8 +455,6 @@ public class Client extends JFrame {
                         }
 
                         for(i=0; i<customer.getUserinConversation().size(); i++) {
-
-                            //System.out.println(customer.getUserinConversation().get(i));
                             JButton buttonTest = new JButton();
                             buttonTest.setIcon(new ImageIcon("Images/profil.png"));
                             buttonTest.setBounds(15, y, 40, 40);
@@ -616,7 +605,6 @@ public class Client extends JFrame {
                                     JLabel labelFriend1 = new JLabel(customer.getListFriends().get(i));
                                     labelFriend1.setBounds(20,b,200,30);
                                     labelFriend1.setFont(new Font("Lilly", Font.PLAIN,20));
-                                    //labelFriend1.setFont(new Font("Serif", Font.BOLD,30));
                                     panelListFriend.add(labelFriend1);
                                     panelListFriend.add(panelRequest);
                                     panelListFriend.revalidate();
@@ -631,7 +619,6 @@ public class Client extends JFrame {
                                     JLabel labelFriend = new JLabel(customer.getListRequest().get(i));
                                     labelFriend.setBounds(80,b1,200,30);
                                     labelFriend.setFont(new Font("Lilly", Font.PLAIN,20));
-                                    //labelFriend.setFont(new Font("Serif", Font.BOLD,30));
 
                                     JButton buttonAccepted = new JButton();
                                     JButton buttonRejected = new JButton();
@@ -697,7 +684,6 @@ public class Client extends JFrame {
                                         }
                                     });
 
-                                    //panelRequest.add(panelListFriend);
                                     panelRequest.revalidate();
                                     panelRequest.repaint();
                                     panelRequest.add(panel1);
@@ -1108,12 +1094,6 @@ public class Client extends JFrame {
                                     panelFree.add(labelFree);
                                     panelFree.add(labelFree1);
 
-                                    /*panelBan.setVisible(true);
-                                    buttonBAN.setVisible(true);
-                                    buttonFREE.setVisible(true);
-                                    buttonB.setVisible(true);
-                                    buttonF.setVisible(true);*/
-
                                     panelFree.add(textFieldFree);
                                     panelBan.add(textFieldBan);
                                     banPage.add(panelBan);
@@ -1376,60 +1356,13 @@ public class Client extends JFrame {
                         messagePage.add(panel1);
                         messagePage.add(panel2);
                         messagePage.add(panel3);
-                        //messagePage.add(panel4);
                         messagePage.add(panel5);
                         messagePage.setLocationRelativeTo(null);
                         messagePage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         messagePage.setLocation(240,0);
                         messagePage.setVisible(true);
 
-                        /*
-                    String serverResponse = null;
-                    try {
-                        serverResponse = in.readLine();
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                    if (serverResponse != null) {
-                        System.out.println("Received message from server: " + serverResponse);
-                        ServerContent = separateWords(serverResponse);
-                        if (Objects.equals(ServerContent.get(0), "connected")) {
-                            customer.setInfoCustomer(ServerContent);
-                            customer.displayInfoCustomer();
-                        }
-                        if (Objects.equals(ServerContent.get(0), "friendRequest")) {
-                            customer.setInfoFriendlist(ServerContent);
-                            customer.displayInfoCustomer();
-                        }
-                        if (Objects.equals(ServerContent.get(0), "requestlist")) {
-                            customer.setInfoCustomer(ServerContent);
-                            customer.displayInfoCustomer();
-                        }
-                        if (Objects.equals(ServerContent.get(0), "friendListUpdate")) {
-                            customer.setInfoFriend(ServerContent);
-                            System.out.println("friendListUpdated");
-                        }
-                        if (Objects.equals(ServerContent.get(0), "conversation")) {
-                            String ForServ = customer.YourConv(ServerContent);
-                            out.println(ForServ);
-                        }
-                        if (Objects.equals(ServerContent.get(0), "banUser")) {
-                            customer.setInfoFriend(ServerContent);
-                            System.out.println("banUser");
-                        }
-                        if (Objects.equals(ServerContent.get(0), "freeUser")) {
-                            customer.setInfoFriend(ServerContent);
-                            System.out.println("freeUser");
-                        }
-                        if (Objects.equals(ServerContent.get(0), "beOnline")) {
-                            customer.setInfoFriend(ServerContent);
-                            System.out.println("beOnline");
-                        }
-                        if (Objects.equals(ServerContent.get(0), "beDisconnect")) {
-                            customer.setInfoFriend(ServerContent);
-                            System.out.println("beDisconnect");
-                        }
-                    }*/
+
                     }
                 }
             }
