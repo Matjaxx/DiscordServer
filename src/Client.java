@@ -1262,15 +1262,21 @@ public class Client extends JFrame {
                         statutButton.addActionListener(new ActionListener() {
                             public void actionPerformed(ActionEvent e) {
                                 if (connexion==0){
+                                    String message = customer.tryToBeDisconnect();
+                                    out.println(message);
                                     labelConnect.setText("Disconnect");
                                     statutButton.setIcon(new ImageIcon("Images/profilDisconnected.png"));
                                     connexion=1;
                                 }
                                 else if(connexion==1){
+                                    String message = customer.tryToBeAway();
+                                    out.println(message);
                                     labelConnect.setText("Away");
                                     statutButton.setIcon(new ImageIcon("Images/away.png"));
                                     connexion=2;
                                 }else{
+                                    String message = customer.tryToBeOnline();
+                                    out.println(message);
                                     labelConnect.setText("Connected");
                                     statutButton.setIcon(new ImageIcon("Images/profilConnected.png"));
                                     connexion=0;
@@ -1306,7 +1312,7 @@ public class Client extends JFrame {
                                         labelTest.setBounds(65,y,150,30);
                                         JLabel labelConnectTest = new JLabel();
                                         labelConnectTest.setFont(new Font("Serif", Font.ITALIC,15));
-                                        labelConnectTest.setBounds(65,y2,100,15);
+                                        labelConnectTest.setBounds(65,y2,500,20);
                                         panel2.add(buttonTest);
                                         panel2.add(labelTest);
                                         panel2.add(labelConnectTest);

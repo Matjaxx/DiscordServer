@@ -379,6 +379,11 @@ public class CustomersMVC {
         return "beDisconnect" + " " + Username;
     }
 
+    public String tryToBeAway() {
+        return "beAway" + " " + Username;
+    }
+
+
     //creer une methode qui affiche dans la console tout les private string
     public void displayInfoCustomer(){
         System.out.println("Username : " + Username);

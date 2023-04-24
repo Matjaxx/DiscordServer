@@ -144,11 +144,9 @@ public class SocketServer {
                     }
                     else if (inputLine.equals("beOnline")) {
                         customersDAO.ServerJBDCConnection(listOrder);
-                        out.println("You are going to be online");
                     }
                     else if (inputLine.equals("beDisconnect")) {
                         customersDAO.ServerJBDCConnection(listOrder);
-                        out.println("You are going to be disconnect");
                     }
                     else if (inputLine.equals("seeMyFriendsOnline")) {
                         customersDAO.ServerJBDCConnection(listOrder);
@@ -189,6 +187,9 @@ public class SocketServer {
                     else if (inputLine.equals("admin")) {
                         customersDAO.ServerJBDCConnection(listOrder);
                         out.println(customersDAO.getAnswerServer());
+                    }
+                    else if (inputLine.equals("beAway")) {
+                        customersDAO.ServerJBDCConnection(listOrder);
                     }
                     else if (inputLine.equals("quit()")) {
                         break;

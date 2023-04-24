@@ -96,6 +96,9 @@ public class CustomersDAO {
             else if (Objects.equals(getListCustomer.get(0), "beDisconnect")){
                 beDisconnectRequest(conn,st,rs,getListCustomer);
             }
+            else if (Objects.equals(getListCustomer.get(0), "beAway")){
+                beAwayRequest(conn,st,rs,getListCustomer);
+            }
             else if (Objects.equals(getListCustomer.get(0), "seeMyFriendsOnline")){
                 seeMyFriendsOnlineDAO(conn,st,rs,getListCustomer);
             }
@@ -509,7 +512,7 @@ public class CustomersDAO {
                 }
 
                 int ID = Integer.parseInt(IDString);
-                newLogDAO(conn,st,rs,"banUserRequest",ID);
+                newLogDAO(conn,st,rs,"adminUserRequest",ID);
                 AnswerServer = "You are admin";
             }
             else {AnswerServer = "You are not admin";}
@@ -533,7 +536,7 @@ public class CustomersDAO {
                 }
 
                 int ID = Integer.parseInt(IDString);
-                newLogDAO(conn,st,rs,"banUserRequest",ID);
+                newLogDAO(conn,st,rs,"modoUserRequest",ID);
                 AnswerServer = "You are admin";
             }
             else {AnswerServer = "You are not admin";}
@@ -576,6 +579,24 @@ public class CustomersDAO {
         newLogDAO(conn,st,rs,"beDisconnectRequest",ID);
     }
 
+
+    public void beAwayRequest(Connection conn, Statement st,ResultSet rs, List<String> getListCustomer)throws ClassNotFoundException, SQLException{
+        st = conn.createStatement();
+        String sql3 = "UPDATE Customer SET STATE = 'AWAY' WHERE USERNAME = '" + getListCustomer.get(1) + "'";
+        st.executeUpdate(sql3);
+        sql3 = "UPDATE Customer SET Last_Connection = GETDATE() WHERE USERNAME = '" + getListCustomer.get(1) + "'";
+        st.executeUpdate(sql3);
+        System.out.println("OFFLINE");
+        sql3 = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(1) + "'";
+        String IDString = "";
+        rs = st.executeQuery(sql3);
+        while (rs.next()){
+            IDString = rs.getString("ID");
+        }
+
+        int ID = Integer.parseInt(IDString);
+        newLogDAO(conn,st,rs,"beAwayRequest",ID);
+    }
 
     public void addCustomer(Connection conn, Statement st, ResultSet rs, List<String> getListCustomer) throws ClassNotFoundException, SQLException {
         st = conn.createStatement();
