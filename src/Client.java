@@ -191,8 +191,8 @@ public class Client extends JFrame {
             homePage.setTitle("Home Page");
 
             JPanel panel = new JPanel();
-            panel.setLayout(new GridBagLayout());
-            GridBagConstraints c = new GridBagConstraints();
+            panel.setLayout(null);
+            panel.setBackground(Color.getHSBColor(0.6f,0.3f,0.9f));
 
             ImageIcon logo = new ImageIcon("Images/Logo.JPG");
             JLabel logoLabel = new JLabel(logo);
@@ -200,50 +200,52 @@ public class Client extends JFrame {
             Image image2 = image.getScaledInstance(100,100,java.awt.Image.SCALE_SMOOTH);
             ImageIcon logoFinal = new ImageIcon(image2);
             logoLabel.setIcon(logoFinal);
+            logoLabel.setBounds(200,40,100,100);
 
             JLabel pseudo = new JLabel("Enter your pseudo :");
+            pseudo.setBounds(60,170,200,30);
+            pseudo.setFont(new Font("Conversation", Font.PLAIN,20));
+
             JTextField pseudoInput = new JTextField(12);
+            pseudoInput.setBounds(260,170,200,30);
+
             JLabel password = new JLabel("Enter your password :");
+            password.setBounds(40,220,250,30);
+            password.setFont(new Font("Conversation", Font.PLAIN,20));
+
             JPasswordField passwordInput = new JPasswordField(12);
-            JButton buttonConnexion = new JButton("Connect");
-            JLabel space = new JLabel("-----------------");
+            passwordInput.setBounds(260,220,200,30);
+
+            JButton buttonConnexion = new JButton("CONNECT");
+            buttonConnexion.setBounds(200,280,100,40);
+            buttonConnexion.setBackground(Color.BLACK);
+            buttonConnexion.setForeground(Color.getHSBColor(0f,0.7f,0.8f));
+            buttonConnexion.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            buttonConnexion.setFont(new Font("Conversation",Font.BOLD,15));
+
+            JLabel space = new JLabel("--------------------------");
+            space.setBounds(150,330,250,40);
+
             JLabel textAccount = new JLabel("Don't have an account ?");
-            JButton buttonCreateAccount = new JButton("Create an account");
+            textAccount.setBounds(50,390,250,20);
+            textAccount.setFont(new Font("Conversation", Font.PLAIN,20));
 
-            c.insets = new Insets(5,5,5,5);
-            c.gridx=0;
-            c.gridy=0;
-            c.gridwidth = 2;
-            c.anchor=GridBagConstraints.CENTER;
-            panel.add(logoLabel,c);
+            JButton buttonCreateAccount = new JButton("CREATE AN ACCOUNT");
+            buttonCreateAccount.setBounds(280,380,190,40);
+            buttonCreateAccount.setBackground(Color.BLACK);
+            buttonCreateAccount.setForeground(Color.getHSBColor(0f,0.7f,0.8f));
+            buttonCreateAccount.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            buttonCreateAccount.setFont(new Font("Conversation",Font.BOLD,15));
 
-            c.gridwidth = 1;
-            c.gridheight = 1;
-            c.gridx=0; c.gridy=1;
-            panel.add(pseudo,c);
-            c.gridx=1; c.gridy=1;
-            panel.add(pseudoInput,c);
-
-            c.gridx=0; c.gridy=2;
-            panel.add(password,c);
-            c.gridx=1; c.gridy=2;
-            panel.add(passwordInput,c);
-
-            c.gridwidth = 2;
-            c.gridx=0; c.gridy=3;
-            panel.add(buttonConnexion,c);
-
-            c.gridx=0; c.gridy=4;
-            panel.add(space,c);
-
-            c.insets = new Insets(1,1,1,1);
-            c.gridwidth = 1;
-            c.gridx=0; c.gridy=5;
-            c.anchor=GridBagConstraints.EAST;
-            panel.add(textAccount,c);
-            c.gridx=1; c.gridy=5;
-            c.anchor=GridBagConstraints.WEST;
-            panel.add(buttonCreateAccount,c);
+            panel.add(logoLabel);
+            panel.add(pseudo);
+            panel.add(pseudoInput);
+            panel.add(password);
+            panel.add(passwordInput);
+            panel.add(buttonConnexion);
+            panel.add(space);
+            panel.add(textAccount);
+            panel.add(buttonCreateAccount);
 
             buttonConnexion.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent a){
@@ -1439,62 +1441,70 @@ public class Client extends JFrame {
                     createAccountPage.setTitle("Create an account");
 
                     JPanel panel = new JPanel();
-                    panel.setLayout(new GridBagLayout());
-                    GridBagConstraints c = new GridBagConstraints();
+                    panel.setLayout(null);
+
                     JLabel id = new JLabel("ID :");
+                    id.setBounds(185,75,200,20);
+                    id.setFont(new Font("Conversation", Font.PLAIN,15));
+
                     JTextField idInput = new JTextField(12);
-                    JLabel pseudo = new JLabel("Pseudo :");
-                    JTextField pseudoInput = new JTextField(12);
+                    idInput.setBounds(220,70,180,30);
+
+                    JLabel pseudo1 = new JLabel("Pseudo :");
+                    pseudo1.setBounds(150,125,200,20);
+                    pseudo1.setFont(new Font("Conversation", Font.PLAIN,15));
+
+                    JTextField pseudoInput1 = new JTextField(12);
+                    pseudoInput1.setBounds(220,120,180,30);
+
                     JLabel firstname = new JLabel("Firstname :");
+                    firstname.setBounds(132,175,200,20);
+                    firstname.setFont(new Font("Conversation", Font.PLAIN,15));
+
                     JTextField firstnameInput = new JTextField(12);
+                    firstnameInput.setBounds(220,170,180,30);
+
                     JLabel name = new JLabel("Name :");
+                    name.setBounds(160,225,200,20);
+                    name.setFont(new Font("Conversation", Font.PLAIN,15));
+
                     JTextField nameInput = new JTextField(12);
+                    nameInput.setBounds(220,220,180,30);
+
                     JLabel email = new JLabel("Email :");
+                    email.setBounds(160,275,200,20);
+                    email.setFont(new Font("Conversation", Font.PLAIN,15));
+
                     JTextField emailInput = new JTextField(12);
-                    JLabel password = new JLabel("Password :");
-                    JPasswordField passwordInput = new JPasswordField(12);
-                    JButton buttonCreateAccount1 = new JButton("Create an account");
+                    emailInput.setBounds(220,270,180,30);
 
-                    c.insets = new Insets(5,5,5,5);
-                    c.gridx=0; c.gridy=0;
-                    c.gridwidth = 2;
-                    c.anchor=GridBagConstraints.CENTER;
-                    panel.add(logoLabel,c);
+                    JLabel password1 = new JLabel("Password :");
+                    password1.setBounds(135,325,200,20);
+                    password1.setFont(new Font("Conversation", Font.PLAIN,15));
 
-                    c.gridwidth = 1;
-                    c.gridx=0; c.gridy=1;
-                    panel.add(id,c);
-                    c.gridx=1; c.gridy=1;
-                    panel.add(idInput,c);
+                    JPasswordField passwordInput1 = new JPasswordField(12);
+                    passwordInput1.setBounds(220,320,180,30);
 
-                    c.gridx=0; c.gridy=2;
-                    panel.add(pseudo,c);
-                    c.gridx=1; c.gridy=2;
-                    panel.add(pseudoInput,c);
+                    JButton buttonCreateAccount1 = new JButton("CREATE AN ACCOUNT");
+                    buttonCreateAccount1.setBounds(160,390,220,40);
+                    buttonCreateAccount1.setBackground(Color.BLACK);
+                    buttonCreateAccount1.setForeground(Color.getHSBColor(0f,0.7f,0.8f));
+                    buttonCreateAccount1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                    buttonCreateAccount1.setFont(new Font("Conversation",Font.BOLD,15));
 
-                    c.gridx=0; c.gridy=3;
-                    panel.add(firstname,c);
-                    c.gridx=1; c.gridy=3;
-                    panel.add(firstnameInput,c);
-
-                    c.gridx=0; c.gridy=4;
-                    panel.add(name,c);
-                    c.gridx=1; c.gridy=4;
-                    panel.add(nameInput,c);
-
-                    c.gridx=0; c.gridy=5;
-                    panel.add(email,c);
-                    c.gridx=1; c.gridy=5;
-                    panel.add(emailInput,c);
-
-                    c.gridx=0; c.gridy=6;
-                    panel.add(password,c);
-                    c.gridx=1; c.gridy=6;
-                    panel.add(passwordInput,c);
-
-                    c.gridwidth = 2;
-                    c.gridx=0; c.gridy=7;
-                    panel.add(buttonCreateAccount1,c);
+                    panel.add(id);
+                    panel.add(idInput);
+                    panel.add(pseudo1);
+                    panel.add(pseudoInput1);
+                    panel.add(firstname);
+                    panel.add(firstnameInput);
+                    panel.add(name);
+                    panel.add(nameInput);
+                    panel.add(email);
+                    panel.add(emailInput);
+                    panel.add(password1);
+                    panel.add(passwordInput1);
+                    panel.add(buttonCreateAccount1);
 
                     buttonCreateAccount1.addActionListener(new ActionListener() {
                                                                public void actionPerformed(ActionEvent a) {
@@ -1534,15 +1544,11 @@ public class Client extends JFrame {
                     createAccountPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     createAccountPage.setVisible(true);
 
-
-
                 }
             }
             );
 
-            panel.setBackground(Color.getHSBColor(0.6f,0.3f,0.9f));
             homePage.add(panel);
-            homePage.pack();
             homePage.setSize(500, 500);
             homePage.setLocationRelativeTo(null);
             homePage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
