@@ -822,17 +822,20 @@ public class Client extends JFrame {
                                     text3.setBounds(300,360,400,30);
                                     statPage.setSize(1000,700);
 
+                                    JLabel text4 = new JLabel("Enter the name : ");
+                                    text4.setFont(new Font("Serif", Font.BOLD,30));
+                                    text4.setBounds(390,470,400,30);
+
                                     JButton addModo = new JButton("ADD MODO");
-                                    addModo.setBounds(200, 600, 200, 50);
+                                    addModo.setBounds(350, 550, 150, 50);
                                     JButton addAdmin = new JButton("ADD ADMIN");
-                                    addAdmin.setBounds(700, 600, 200, 50);
+                                    addAdmin.setBounds(500, 550, 150, 50);
 
                                     addModo.setVisible(true);
                                     addAdmin.setVisible(true);
 
                                     JTextField textField = new JTextField();
-                                    textField.setBounds(450,500,200,50);
-
+                                    textField.setBounds(350,500,300,50);
 
                                     JPanel panelStat = new JPanel();
                                     panelStat.setLayout(null);
@@ -847,6 +850,7 @@ public class Client extends JFrame {
                                     panelStat.add(text1);
                                     panelStat.add(text2);
                                     panelStat.add(text3);
+                                    panelStat.add(text4);
                                     panelStat.setVisible(true);
                                     buttonCamembert.setVisible(true);
                                     buttonSeeStat.setVisible(true);
@@ -1023,6 +1027,7 @@ public class Client extends JFrame {
                                     addAdmin.addActionListener(new ActionListener() {
                                         public void actionPerformed(ActionEvent e) {
                                             String peopleModo = textField.getText();
+                                            textField.setText("");
                                             System.out.println("admin " + customer.getUsername() + " " + peopleModo);
                                             out.println("admin " + customer.getUsername() + " " + peopleModo);
                                             String serverResponse = "";
@@ -1037,6 +1042,7 @@ public class Client extends JFrame {
                                     addModo.addActionListener(new ActionListener() {
                                         public void actionPerformed(ActionEvent e) {
                                             String peopleAdmin = textField.getText();
+                                            textField.setText("");
                                             System.out.println("modo " + customer.getUsername() + " " + peopleAdmin);
                                             out.println("modo " + customer.getUsername() + " " + peopleAdmin);
                                             String serverResponse = "";
@@ -1081,37 +1087,66 @@ public class Client extends JFrame {
 
                                 if (serverResponse.equals("ADMIN") || serverResponse.equals("MODO")){
                                     banPage.setTitle("Ban & Free");
-                                    JButton buttonBAN = new JButton("SEE BAN");
-                                    buttonBAN.setBounds(200, 100, 200, 50);
-                                    JButton buttonB = new JButton("BAN");
-                                    buttonB.setBounds(200, 300, 200, 50);
-                                    JButton buttonFREE = new JButton("SEE FREE");
-                                    buttonFREE.setBounds(700, 100, 200, 50);
-                                    JButton buttonF = new JButton("FREE");
-                                    buttonF.setBounds(700, 300, 200, 50);
-                                    banPage.setSize(1000,700);
+
                                     JPanel panelBan = new JPanel();
                                     panelBan.setLayout(null);
-                                    panelBan.setBackground(Color.ORANGE);
-                                    panelBan.setBounds(60,0,940,700);
+                                    panelBan.setBounds(60,0,440,700);
+                                    panelBan.setBackground(Color.PINK);
+                                    JPanel panelFree = new JPanel();
+                                    panelFree.setLayout(null);
+                                    panelFree.setBounds(500,0,500,700);
+                                    panelFree.setBackground(Color.getHSBColor(0.6f,0.3f,1f));
+
+                                    JLabel labelBan = new JLabel("Enter the person you want to ban :");
+                                    labelBan.setBounds(35,150,400,30);
+                                    labelBan.setFont(new Font("Serif", Font.BOLD,25));
+                                    JLabel labelBan1 = new JLabel("All the person ban :");
+                                    labelBan1.setBounds(110,300,300,30);
+                                    labelBan1.setFont(new Font("Serif", Font.BOLD,25));
+                                    JLabel labelFree = new JLabel("Enter the person you want to free :");
+                                    labelFree.setBounds(65,150,400,30);
+                                    labelFree.setFont(new Font("Serif", Font.BOLD,25));
+                                    JLabel labelFree1 = new JLabel("All the person free :");
+                                    labelFree1.setBounds(140,300,300,30);
+                                    labelFree1.setFont(new Font("Serif", Font.BOLD,25));
+
+                                    JButton buttonBAN = new JButton("SEE BAN");
+                                    buttonBAN.setBounds(110, 350, 200, 50);
+                                    JButton buttonB = new JButton("BAN");
+                                    buttonB.setBounds(270, 200, 100, 40);
+                                    JButton buttonFREE = new JButton("SEE FREE");
+                                    buttonFREE.setBounds(140, 350, 200, 50);
+                                    JButton buttonF = new JButton("FREE");
+                                    buttonF.setBounds(300, 200, 100, 40);
+                                    JTextField textFieldBan = new JTextField();
+                                    textFieldBan.setBounds(60,200,200,40);
+                                    JTextField textFieldFree = new JTextField();
+                                    textFieldFree.setBounds(90,200,200,40);
+
+                                    banPage.setSize(1000,700);
+
                                     panelBan.add(buttonBAN);
-                                    panelBan.add(buttonFREE);
                                     panelBan.add(buttonB);
-                                    panelBan.add(buttonF);
-                                    panelBan.setVisible(true);
+                                    panelBan.add(textFieldBan);
+                                    panelBan.add(labelBan);
+                                    panelBan.add(labelBan1);
+
+                                    panelFree.add(buttonFREE);
+                                    panelFree.add(buttonF);
+                                    panelFree.add(textFieldFree);
+                                    panelFree.add(labelFree);
+                                    panelFree.add(labelFree1);
+
+                                    /*panelBan.setVisible(true);
                                     buttonBAN.setVisible(true);
                                     buttonFREE.setVisible(true);
                                     buttonB.setVisible(true);
-                                    buttonF.setVisible(true);
-                                    JTextField textField = new JTextField();
-                                    textField.setBounds(450,400,200,50);
-                                    panelBan.add(textField);
+                                    buttonF.setVisible(true);*/
 
-
-
-
-
+                                    panelFree.add(textFieldFree);
+                                    panelBan.add(textFieldBan);
                                     banPage.add(panelBan);
+                                    banPage.add(panelFree);
                                     banPage.add(panel1);
                                     banPage.setLocationRelativeTo(null);
                                     banPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -1153,6 +1188,7 @@ public class Client extends JFrame {
                                             seeBan.add(scrollPaneF);
                                             seeBan.pack();
                                             seeBan.setVisible(true);
+
                                         }
                                     });
 
@@ -1201,7 +1237,7 @@ public class Client extends JFrame {
 
                                     buttonB.addActionListener(new ActionListener() {
                                         public void actionPerformed(ActionEvent e) {
-                                            String peopleBan = textField.getText();
+                                            String peopleBan = textFieldBan.getText();
                                             System.out.println("banUser " + customer.getUsername() + " " + peopleBan);
                                             out.println("banUser " + customer.getUsername() + " " + peopleBan);
                                             String serverResponse = "";
@@ -1210,12 +1246,13 @@ public class Client extends JFrame {
                                             }
                                             catch (IOException ioException){}
                                             System.out.println(serverResponse);
+                                            textFieldBan.setText("");
                                         }
                                     });
 
                                     buttonF.addActionListener(new ActionListener() {
                                         public void actionPerformed(ActionEvent e) {
-                                            String peopleFree = textField.getText();
+                                            String peopleFree = textFieldFree.getText();
                                             System.out.println("freeUser " + customer.getUsername() + " " + peopleFree);
                                             out.println("freeUser " + customer.getUsername() + " " + peopleFree);
                                             String serverResponse = "";
@@ -1224,15 +1261,25 @@ public class Client extends JFrame {
                                             }
                                             catch (IOException ioException){}
                                             System.out.println(serverResponse);
+                                            textFieldFree.setText("");
                                         }
                                     });
                                 }
                                 else {
                                     System.out.println("You are not ADMIN or MODO");
+                                    JDialog dialogStat = new JDialog(homePage,"STATISTIQUE",true);
+                                    dialogStat.setLayout(new BorderLayout());
+                                    dialogStat.setPreferredSize(new Dimension(350,100));
+                                    JLabel stati = new JLabel("You are not ADMIN or MODO !");
+                                    stati.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+                                    stati.setFont(new Font("Serif", Font.BOLD,30));
+                                    dialogStat.add(stati,BorderLayout.CENTER);
+                                    dialogStat.pack();
+                                    dialogStat.setLocationRelativeTo(homePage);
+                                    dialogStat.setVisible(true);
                                 }
 
                             }
-
 
                         });
 
