@@ -891,6 +891,9 @@ public class Client extends JFrame {
                                             dataset.setValue("Friend Update(" + nbLog.get(2) + ")", nbLog.get(2));
                                             dataset.setValue("Be Online(" + nbLog.get(7) + ")", nbLog.get(7));
                                             dataset.setValue("Be Disconnect(" + nbLog.get(6) + ")", nbLog.get(6));
+                                            dataset.setValue("Be Away(" + nbLog.get(8) + ")", nbLog.get(8));
+                                            dataset.setValue("ModoUserRequest(" + nbLog.get(9) + ")", nbLog.get(9));
+                                            dataset.setValue("AdminUserRequest(" + nbLog.get(10) + ")", nbLog.get(10));
 
                                             JFreeChart chart = ChartFactory.createPieChart("Requests", dataset, true, true, false);
 
@@ -1146,7 +1149,6 @@ public class Client extends JFrame {
                                             JList<String> jListB = new JList<>(listModelB);
                                             JScrollPane scrollPaneF = new JScrollPane(jListB);
                                             seeBan = new JFrame("BAN");
-                                            seeBan.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                                             seeBan.setBackground(Color.getHSBColor(0.6f,0.3f,1f));
                                             seeBan.add(scrollPaneF);
                                             seeBan.pack();
@@ -1188,7 +1190,6 @@ public class Client extends JFrame {
                                             JList<String> jListF = new JList<>(listModelF);
                                             JScrollPane scrollPaneF = new JScrollPane(jListF);
                                             seeFree = new JFrame("FREE");
-                                            seeFree.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                                             seeFree.setBackground(Color.getHSBColor(0.6f,0.3f,1f));
                                             seeFree.add(scrollPaneF);
                                             seeFree.pack();

@@ -851,6 +851,9 @@ public class CustomersDAO {
         int FriendUpdate = 0;
         int beDisconnectRequest = 0;
         int beOnlineRequest = 0;
+        int beAwayRequest = 0;
+        int modoUserRequest = 0;
+        int adminUserRequest = 0;
 
 
         while (rs.next()){
@@ -880,6 +883,15 @@ public class CustomersDAO {
                 case "beOnlineRequest":
                     beOnlineRequest++;
                     break;
+                case "beAwayRequest":
+                    freeUserRequest++;
+                    break;
+                case "modoUserRequest":
+                    modoUserRequest++;
+                    break;
+                case "adminUserRequest":
+                    adminUserRequest++;
+                    break;
             }
         }
         nbLog.add(connectionCustomer);
@@ -890,6 +902,9 @@ public class CustomersDAO {
         nbLog.add(freeUserRequest);
         nbLog.add(beDisconnectRequest);
         nbLog.add(beOnlineRequest);
+        nbLog.add(beAwayRequest);
+        nbLog.add(modoUserRequest);
+        nbLog.add(adminUserRequest);
 
         AnswerServer = "";
 
