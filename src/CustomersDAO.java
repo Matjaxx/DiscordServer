@@ -120,6 +120,12 @@ public class CustomersDAO {
             else if (Objects.equals(getListCustomer.get(0), "viewlistFree")){
                 viewlistFree(conn,st,rs);
             }
+            else if (Objects.equals(getListCustomer.get(0), "modo")){
+                modoUserRequest(conn,st,rs,getListCustomer);
+            }
+            else if (Objects.equals(getListCustomer.get(0), "admin")){
+                adminUserRequest(conn,st,rs,getListCustomer);
+            }
 
 
         } catch (SQLException e) {
@@ -485,7 +491,54 @@ public class CustomersDAO {
             else {System.out.println("You are not admin");}
         }
     }
+    public void adminUserRequest(Connection conn, Statement st,ResultSet rs, List<String> getListCustomer)throws ClassNotFoundException, SQLException{
+        st = conn.createStatement();
+        String s = "SELECT USERLVL FROM Customer WHERE USERNAME = '" + getListCustomer.get(1)+ "'";
+        rs = st.executeQuery(s);
 
+        while (rs.next()){
+            String admin = rs.getString("USERLVL");
+            if (admin.equals("ADMIN")){
+                String sql3 = "UPDATE Customer SET USERLVL = 'ADMIN' WHERE USERNAME = '" + getListCustomer.get(2) + "'";
+                st.executeUpdate(sql3);
+                sql3 = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(2) + "'";
+                String IDString = "";
+                rs = st.executeQuery(sql3);
+                while (rs.next()){
+                    IDString = rs.getString("ID");
+                }
+
+                int ID = Integer.parseInt(IDString);
+                newLogDAO(conn,st,rs,"banUserRequest",ID);
+                AnswerServer = "You are admin";
+            }
+            else {AnswerServer = "You are not admin";}
+        }
+    }
+    public void modoUserRequest(Connection conn, Statement st,ResultSet rs, List<String> getListCustomer)throws ClassNotFoundException, SQLException{
+        st = conn.createStatement();
+        String s = "SELECT USERLVL FROM Customer WHERE USERNAME = '" + getListCustomer.get(1)+ "'";
+        rs = st.executeQuery(s);
+
+        while (rs.next()){
+            String admin = rs.getString("USERLVL");
+            if (admin.equals("ADMIN")){
+                String sql3 = "UPDATE Customer SET USERLVL = 'MODO' WHERE USERNAME = '" + getListCustomer.get(2) + "'";
+                st.executeUpdate(sql3);
+                sql3 = "SELECT ID FROM Customer WHERE USERNAME = '"+ getListCustomer.get(2) + "'";
+                String IDString = "";
+                rs = st.executeQuery(sql3);
+                while (rs.next()){
+                    IDString = rs.getString("ID");
+                }
+
+                int ID = Integer.parseInt(IDString);
+                newLogDAO(conn,st,rs,"banUserRequest",ID);
+                AnswerServer = "You are admin";
+            }
+            else {AnswerServer = "You are not admin";}
+        }
+    }
     public void beOnlineRequest(Connection conn, Statement st,ResultSet rs, List<String> getListCustomer)throws ClassNotFoundException, SQLException{
         st = conn.createStatement();
         String sql3 = "UPDATE Customer SET STATE = 'ONLINE' WHERE USERNAME = '" + getListCustomer.get(1) + "'";

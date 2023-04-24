@@ -375,7 +375,7 @@ public class Client extends JFrame {
                         statutButton.setFocusPainted(false);
 
                         banButton.setIcon(new ImageIcon("Images/ban.png"));
-                        banButton.setBounds(10,170,40,40);
+                        banButton.setBounds(10,165,40,40);
                         banButton.setContentAreaFilled(false);
                         banButton.setBorderPainted(false);
                         banButton.setFocusPainted(false);
@@ -768,6 +768,19 @@ public class Client extends JFrame {
                                     text3.setFont(new Font("Serif", Font.BOLD,30));
                                     text3.setBounds(300,360,400,30);
                                     statPage.setSize(1000,700);
+
+                                    JButton addModo = new JButton("ADD MODO");
+                                    addModo.setBounds(200, 600, 200, 50);
+                                    JButton addAdmin = new JButton("ADD ADMIN");
+                                    addAdmin.setBounds(700, 600, 200, 50);
+
+                                    addModo.setVisible(true);
+                                    addAdmin.setVisible(true);
+
+                                    JTextField textField = new JTextField();
+                                    textField.setBounds(450,500,200,50);
+
+
                                     JPanel panelStat = new JPanel();
                                     panelStat.setLayout(null);
                                     panelStat.setBackground(Color.getHSBColor(0.6f,0.3f,1f));
@@ -775,6 +788,9 @@ public class Client extends JFrame {
                                     panelStat.add(buttonCamembert);
                                     panelStat.add(buttonSeeStat);
                                     panelStat.add(buttonSeeLog);
+                                    panelStat.add(addModo);
+                                    panelStat.add(addAdmin);
+                                    panelStat.add(textField);
                                     panelStat.add(text1);
                                     panelStat.add(text2);
                                     panelStat.add(text3);
@@ -897,7 +913,6 @@ public class Client extends JFrame {
                                             }
                                             JScrollPane scrollPane = new JScrollPane(textArea);
                                             JFrame frame = new JFrame("Liste");
-                                            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                                             frame.setBackground(Color.getHSBColor(0.6f,0.3f,1f));
                                             frame.add(scrollPane);
                                             frame.pack();
@@ -941,16 +956,43 @@ public class Client extends JFrame {
 
                                             JScrollPane scrollPane = new JScrollPane(textArea);
                                             JFrame frame = new JFrame("Liste");
-                                            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                                             frame.setBackground(Color.getHSBColor(0.6f,0.3f,1f));
                                             frame.add(scrollPane);
                                             frame.pack();
                                             frame.setVisible(true);
                                         }
                                     });
+
+                                    addAdmin.addActionListener(new ActionListener() {
+                                        public void actionPerformed(ActionEvent e) {
+                                            String peopleModo = textField.getText();
+                                            System.out.println("admin " + customer.getUsername() + " " + peopleModo);
+                                            out.println("admin " + customer.getUsername() + " " + peopleModo);
+                                            String serverResponse = "";
+                                            try {
+                                                serverResponse = in.readLine();
+                                            }
+                                            catch (IOException ioException){}
+                                            System.out.println(serverResponse);
+                                        }
+                                    });
+
+                                    addModo.addActionListener(new ActionListener() {
+                                        public void actionPerformed(ActionEvent e) {
+                                            String peopleAdmin = textField.getText();
+                                            System.out.println("modo " + customer.getUsername() + " " + peopleAdmin);
+                                            out.println("modo " + customer.getUsername() + " " + peopleAdmin);
+                                            String serverResponse = "";
+                                            try {
+                                                serverResponse = in.readLine();
+                                            }
+                                            catch (IOException ioException){}
+                                            System.out.println(serverResponse);
+                                        }
+                                    });
                                 }
                                 else {
-                                    System.out.println("Vous n'êtes pas admin");
+                                    System.out.println("You are not ADMIN");
                                     JDialog dialogStat = new JDialog(homePage,"STATISTIQUE",true);
                                     dialogStat.setLayout(new BorderLayout());
                                     dialogStat.setPreferredSize(new Dimension(320,100));
@@ -981,7 +1023,7 @@ public class Client extends JFrame {
                                 System.out.println(serverResponse);
 
                                 if (serverResponse.equals("ADMIN") || serverResponse.equals("MODO")){
-                                    banPage.setTitle("Stat");
+                                    banPage.setTitle("Ban & Free");
                                     JButton buttonBAN = new JButton("SEE BAN");
                                     buttonBAN.setBounds(200, 100, 200, 50);
                                     JButton buttonB = new JButton("BAN");
@@ -1131,7 +1173,7 @@ public class Client extends JFrame {
                                     });
                                 }
                                 else {
-                                    System.out.println("Vous n'êtes pas admin ni modo");
+                                    System.out.println("You are not ADMIN or MODO");
                                 }
 
                             }

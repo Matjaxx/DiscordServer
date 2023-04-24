@@ -14,7 +14,7 @@ public class SocketServer {
     private boolean friendManger = false;
 
     public SocketServer() throws IOException {
-        serverSocket = new ServerSocket(1823);
+        serverSocket = new ServerSocket(1997);
     }
 
     public void execute() throws IOException {
@@ -179,6 +179,14 @@ public class SocketServer {
                         out.println(customersDAO.getAnswerServer());
                     }
                     else if (inputLine.equals("viewlistBan")) {
+                        customersDAO.ServerJBDCConnection(listOrder);
+                        out.println(customersDAO.getAnswerServer());
+                    }
+                    else if (inputLine.equals("modo")) {
+                        customersDAO.ServerJBDCConnection(listOrder);
+                        out.println(customersDAO.getAnswerServer());
+                    }
+                    else if (inputLine.equals("admin")) {
                         customersDAO.ServerJBDCConnection(listOrder);
                         out.println(customersDAO.getAnswerServer());
                     }

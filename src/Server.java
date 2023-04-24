@@ -26,6 +26,25 @@ public class Server {
             System.out.println("Connexion réussie à la base de données.");
 
 
+            List<String> listBan = new ArrayList<>();
+
+            String sql = "SELECT USERNAME FROM Customer WHERE USERLVL = 'ADMIN'";
+            rs = st.executeQuery(sql);
+            while (rs.next()){
+                String USERNAME = rs.getString("USERNAME");
+                listBan.add(USERNAME);
+            }
+            System.out.println(listBan);
+
+            List<String> listBan2 = new ArrayList<>();
+
+            sql = "SELECT USERNAME FROM Customer WHERE USERLVL = 'MODO'";
+            rs = st.executeQuery(sql);
+            while (rs.next()){
+                String USERNAME = rs.getString("USERNAME");
+                listBan2.add(USERNAME);
+            }
+            System.out.println(listBan2);
 
             /*String sql = "SELECT USERNAME FROM MESSAGES WHERE USERNAME2 = 'JEREMIE'";
             rs = st.executeQuery(sql);
