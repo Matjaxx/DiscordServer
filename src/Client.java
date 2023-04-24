@@ -72,6 +72,10 @@ public class Client extends JFrame {
     private List<JButton> buttonTest1 = new ArrayList<JButton>();
 
     private List<JButton> buttonFriend = new ArrayList<JButton>();
+    private List<JButton> buttonListA = new ArrayList<JButton>();
+    private List<JButton> buttonListR = new ArrayList<JButton>();
+    private List<JLabel> labelFriendss = new ArrayList<JLabel>();
+
     private JPanel panel3 = new JPanel();
     private JPanel panel4 = new JPanel();
     private JTextArea messageArea = new JTextArea();
@@ -243,8 +247,7 @@ public class Client extends JFrame {
 
             buttonConnexion.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent a){
-                    //visualMessagePage();
-                    //homePage.dispose();
+
                     pseudoTextt = pseudoInput.getText();
                     passwordTextt = new String(passwordInput.getPassword());
                     System.out.println(pseudoTextt+ "///" + passwordTextt);
@@ -276,8 +279,8 @@ public class Client extends JFrame {
                     }
 
 
-                    //pseudoInput.setText("");
-                    //passwordInput.setText("");
+                    pseudoInput.setText("");
+                    passwordInput.setText("");
 
                     if(customer.getIsBanned()){
                         JDialog dialog = new JDialog(homePage,"BAN",true);
@@ -645,17 +648,62 @@ public class Client extends JFrame {
                                     panelRequest.add(buttonAccepted);
                                     panelRequest.add(buttonRejected);
                                     panelRequest.add(labelFriend);
+
+                                    labelFriendss.add(labelFriend);
+                                    buttonListA.add(buttonAccepted);
+                                    buttonListR.add(buttonRejected);
+
+                                    int k = i;
+
+                                    buttonAccepted.addActionListener(new ActionListener() {
+                                        public void actionPerformed(ActionEvent e) {
+                                            out.println("acceptfriendrequest " + customer.getListRequest().get(k) + " " + customer.getUsername());
+                                            String serverResponse = "";
+                                            try {
+                                                serverResponse = in.readLine();
+                                            }
+                                            catch (IOException ioException){}
+
+                                            System.out.println(serverResponse);
+                                            panelRequest.remove(buttonListA.get(k));
+                                            panelRequest.remove(buttonListR.get(k));
+                                            panelRequest.remove(labelFriendss.get(k));
+                                            panelRequest.revalidate();
+                                            panelRequest.repaint();
+                                            customer.getListFriends();
+                                            panelListFriend.revalidate();
+                                            panelListFriend.repaint();
+                                        }
+                                    });
+
+                                    buttonRejected.addActionListener(new ActionListener() {
+                                        public void actionPerformed(ActionEvent e) {
+                                            out.println("denyfriendrequest " + customer.getListRequest().get(k) + " " + customer.getUsername());
+                                            String serverResponse = "";
+                                            try {
+                                                serverResponse = in.readLine();
+                                            }
+                                            catch (IOException ioException){}
+
+                                            System.out.println(serverResponse);
+                                            panelRequest.remove(buttonListA.get(k));
+                                            panelRequest.remove(buttonListR.get(k));
+                                            panelRequest.remove(labelFriendss.get(k));
+                                            panelRequest.revalidate();
+                                            panelRequest.repaint();
+                                        }
+                                    });
+
                                     //panelRequest.add(panelListFriend);
                                     panelRequest.revalidate();
                                     panelRequest.repaint();
                                     panelRequest.add(panel1);
-                                    buttonFriend.add(buttonAccepted);
-                                    buttonFriend.add(buttonRejected);
+
 
                                     b1 += 40;
                                 }
 
-                                for (boucle = 0; boucle < buttonFriend.size(); boucle++) {
+                                /*for (boucle = 0; boucle < buttonFriend.size(); boucle++) {
                                     final JButton currentButton = buttonFriend.get(boucle);
                                     currentButton.addMouseListener(new MouseAdapter() {
                                         public void mouseClicked(MouseEvent a) {
@@ -663,15 +711,19 @@ public class Client extends JFrame {
                                             Point buttonLocationOnScreen = currentButton.getLocationOnScreen();
                                             int mousex = buttonLocationOnScreen.x + a.getX();
                                             int mousey = buttonLocationOnScreen.y + a.getY();
-                                            k = (mousey - 263) / 40;
-                                            z = (mousex - 889) / 40;
+                                            //k = (mousey - 263) / 40;
+                                            //z = (mousex - 889) / 40;
 
                                             System.out.println("Mouse clicked at x=" + mousex + ", y=" + mousey);
-                                            System.out.println(mousey);
-                                            System.out.println(mousex);
-                                            System.out.println(" K=" + k + ", Z=" + z);
+                                            //System.out.println(mousey);
+                                            //System.out.println(mousex);
+                                            //System.out.println(" K=" + k + ", Z=" + z);
+                                            if(mousex>600 && mousex<700){
+                                                System.out.println("c'est good");
 
-                                            panelRequest.removeAll();
+                                            }
+
+                                            //panelRequest.removeAll();
                                             panelRequest.add(buttonAccepted);
                                             panelRequest.add(buttonRejected);
                                             panelRequest.add(labelFriend);
@@ -681,7 +733,7 @@ public class Client extends JFrame {
 
                                         }
                                     });
-                                }
+                                }*/
 
 
                                 JPanel panelAdd = new JPanel();
@@ -728,9 +780,10 @@ public class Client extends JFrame {
                                 friendPage.add(panelListFriend);
                                 friendPage.add(panelRequest);
                                 friendPage.add(panelAdd);
-                                friendPage.setVisible(true);
                                 friendPage.setLocationRelativeTo(null);
                                 friendPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                                friendPage.setLocation(240,0);
+                                friendPage.setVisible(true);
                             }
                         });
 
@@ -800,9 +853,10 @@ public class Client extends JFrame {
                                     buttonSeeLog.setVisible(true);
                                     statPage.add(panel1);
                                     statPage.add(panelStat);
-                                    statPage.setVisible(true);
                                     statPage.setLocationRelativeTo(null);
                                     statPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                                    statPage.setLocation(240,0);
+                                    statPage.setVisible(true);
                                     buttonCamembert.addActionListener(new ActionListener() {
                                         public void actionPerformed(ActionEvent e) {
                                             out.println("countLog ");
@@ -1033,7 +1087,6 @@ public class Client extends JFrame {
                                     JButton buttonF = new JButton("FREE");
                                     buttonF.setBounds(700, 300, 200, 50);
                                     banPage.setSize(1000,700);
-                                    banPage.setLocation(0,0);
                                     JPanel panelBan = new JPanel();
                                     panelBan.setLayout(null);
                                     panelBan.setBackground(Color.ORANGE);
@@ -1057,9 +1110,10 @@ public class Client extends JFrame {
 
                                     banPage.add(panelBan);
                                     banPage.add(panel1);
-                                    banPage.setVisible(true);
                                     banPage.setLocationRelativeTo(null);
                                     banPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                                    banPage.setLocation(240,0);
+                                    banPage.setVisible(true);
                                     buttonBAN.addActionListener(new ActionListener() {
                                         public void actionPerformed(ActionEvent e) {
                                             seeBan.dispose();
@@ -1301,7 +1355,7 @@ public class Client extends JFrame {
                         messagePage.add(panel5);
                         messagePage.setLocationRelativeTo(null);
                         messagePage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        messagePage.setLocation(0,0);
+                        messagePage.setLocation(240,0);
                         messagePage.setVisible(true);
 
                         /*
